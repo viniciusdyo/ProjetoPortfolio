@@ -1,0 +1,39 @@
+﻿$primary-pure: #51ACC5;
+$info-pure: #66D7EB;
+$cor-principal-media: #3d8194;
+$cor-principal-escura: #0E1E2B;
+
+$secondary-pure: #2C5F78;
+$cor-segundaria-clara: $info-pure;
+$cor-segundaria-media: $cor-principal-media;
+$cor-segundaria-escura: #004161;
+
+$highlight-pure: #fabed3;
+$cor-destaque-clara: #fadce7;
+$cor-destaque-media: #fa9fbf;
+$cor-destaque-escura: #fa85af;
+
+$low-pure: #13171B;
+$cor-neutra-clara: #93a3b8;
+$cor-neutra-media: #5e6979;
+$cor-neutra-escura: #0E1E2B;
+
+$high-pure: #FFFFFF;
+$cor-cinza-clara: #F5F5F5;
+$cor-cinza-media: #E0E0E0;
+$cor-cinza-escura: #CCCCCC;
+
+$error-pure: #EA1F1F;
+$cor-erro-clara: #FDC4C4;
+$cor-erro-media: #F05656;
+$cor-erro-escura: #710A0A;
+
+$success-pure: #3AA141;
+$cor-sucesso-clara: #D2EFD4;
+$cor-sucesso-media: #78CE7E;
+$cor-sucesso-escura: #205A24;
+
+$cor-cinza-clara-2: #F9FAFB;
+$cor-cinza-media-2: #F2F5FB;
+
+$hover-info: mix($info-pure, $high-pure);
