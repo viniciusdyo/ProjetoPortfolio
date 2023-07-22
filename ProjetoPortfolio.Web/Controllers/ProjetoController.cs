@@ -30,8 +30,6 @@ namespace ProjetoPortfolio.Web.Controllers
             {
                 throw new Exception(ex.Message, ex);
             }
-
-
         }
     }
 }

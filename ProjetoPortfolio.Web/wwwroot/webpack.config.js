@@ -1,4 +1,4 @@
-﻿const {glob, globSync, globStream, globStreamSync, Glob } = require('glob')
+﻿const { glob, globSync, globStream, globStreamSync, Glob } = require('glob')
 
 const path = require('path');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -11,7 +11,7 @@ const entry = {};
 const jsEntry = {};
 const cssEntry = {};
 
-globSync('./js/*.js', {posix: true, dotRelative: true}).forEach(path => {
+globSync('./js/*.js', { posix: true, dotRelative: true }).forEach(path => {
     const chunk = path.split('./js/')[1].split('.js')[0];
     jsEntry[chunk] = path;
 });

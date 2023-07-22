@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark mb-3">
             <div class="container">
                 <a class="navbar-brand text-primary fs-1" asp-area="" asp-controller="Home" asp-action="Index">VD</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -37,17 +37,17 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-primary bg-dark">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+
+
+    <footer class="border-top  text-primary bg-dark container-fluid">
         <div class="container">
-            <div class="row ">
+            <div class="row">
                 <p class="text-center">
-            &copy; 2023 - ViniDyo Portfólio - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    &copy; 2023 - ViniDyo Portfólio - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                 </p>
 
             </div>
@@ -55,7 +55,8 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/build/site.min.js" asp-append-version="true"></script>
+    <script src="~/js/build/shared.min.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

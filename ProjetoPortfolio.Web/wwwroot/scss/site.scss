@@ -1,1 +1,10 @@
 ﻿@import './modules/_bootStrapConfig.scss';
+
+body {
+    background: $low-pure;
+}
+
+footer {
+    position: relative;
+    bottom: 0;
+}

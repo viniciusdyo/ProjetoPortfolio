@@ -2,7 +2,137 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<link rel="stylesheet" href="~/css/home.min.css">
+
+<section id="home-carousel-bemvindo" class="splide container d-flex py-5">
+    <div class="splide__track">
+        <ul class="splide__list">
+            <li class="splide__slide">
+                <div class="col-9">
+                    <h3 class="display-5 text-light">Olá, sou um desenvolvedor FullStack e esse é o meu portfólio</h3>
+                    <p class="text-secondary">Desenvolvo sistemas web para diversos tipos de soluções. Acesse a página de projetos para ver alguns dos projetos que estão no ar.</p>
+                    <a class="btn btn-primary">Acessar</a>
+                </div>
+            </li>
+            <li class="splide__slide">
+                <div class="col-9">
+                    <h3 class="display-5 text-light">Olá, sou um desenvolvedor FullStack e esse é o meu portfólio</h3>
+                    <p class="text-secondary">Desenvolvo sistemas web para diversos tipos de soluções. Acesse a página de projetos para ver alguns dos projetos que estão no ar.</p>
+                    <a class="btn btn-primary">Acessar</a>
+                </div>
+            </li>
+            <li class="splide__slide">
+                <div class="col-9">
+                    <h3 class="display-5 text-light">Olá, sou um desenvolvedor FullStack e esse é o meu portfólio</h3>
+                    <p class="text-secondary">Desenvolvo sistemas web para diversos tipos de soluções. Acesse a página de projetos para ver alguns dos projetos que estão no ar.</p>
+                    <a class="btn btn-primary">Acessar</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="bv-carousel-progress">
+        <div class="bv-carousel-progress-bar"></div>
+    </div>
+</section>
+
+<section id="home-sobre-mim" class="container-fluid">
+    <article class="container  py-5 d-flex justify-content-center align-content-center flex-column flex-md-row flex-wrap">
+
+        <div id="home-foto" class="col-md-4 col-12 ">
+            <div class="home-foto-perfil rounded-2 mx-md-0 mb-md-0 mb-5 mx-auto">
+            </div>
+        </div>
+
+        <div class="col-12 col-md-8 d-flex flex-column">
+            <h3 class="display-5 text-light pb-2 mb-3 border-bottom border-1 border-secondary">
+                Sobre Mim
+            </h3>
+            <p class="text-light mb-3 col-10">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris augue elit, dictum venenatis velit non, pulvinar luctus enim.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris augue elit, dictum venenatis velit non, pulvinar luctus enim.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris augue elit, dictum venenatis velit non, pulvinar luctus enim.
+            </p>
+            <div class="p-5 w-100 border border-1 border-primary rounded-2">
+                <ul class="d-flex flex-column flex-md-row flex-wrap justify-content-start align-content-center align-items-center list-unstyled ">
+                    <li class="d-flex flex-column justify-content-center col-md-4 col-12 mb-3 px-3">
+                        <p class="text-light">C#, .NET</p>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="d-flex flex-column justify-content-center col-md-4 col-12 mb-3 px-3">
+                        <p class="text-light">C#, .NET</p>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="d-flex flex-column justify-content-center col-md-4 col-12 mb-3 px-3">
+                        <p class="text-light">C#, .NET</p>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar">
+                            </div>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </article>
+</section>
+<section class="container py-5">
+    <h3 class="display-5 pb-3 mb-5 text-light border-bottom border-1 border-secondary">
+        Serviços
+    </h3>
+    <article class="row row-cols-1 row-cols-md-3">
+         <div class="col">
+            <div class="card bg-transparent p-3 border-primary mb-3 card-justify-height">
+                <div class="card-header bg-transparent border-0 d-flex flex-column justify-content-center align-items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5602/5602732.png" width="100" height="100" />
+                    <p class="text-white fs-3">Sistemas Web</p>
+                </div>
+                <div class="card-body text-white text-center">
+                    <p class="card-text">Desenvolvimento de sistemas Web utilizando .NET</p>
+                </div>
+                <div class="card-footer d-flex justify-content-end bg-transparent border-0">
+
+                    <a class="btn btn-primary text-light">Saber mais</a>
+                </div>
+            </div>
+         </div>
+         <div class="col">
+            <div class="card bg-transparent p-3 border-primary mb-3 card-justify-height">
+                <div class="card-header bg-transparent border-0 d-flex flex-column justify-content-center align-items-center">
+                    <img src="https://primedepartamentos.com/images/icons/design-icon.png" width="100" height="100" />
+                    <p class="text-white fs-3">Logos</p>
+                </div>
+                <div class="card-body text-white text-center">
+                    <p class="card-text">Criação e planejamento de logotipos </p>
+                </div>
+                <div class="card-footer d-flex justify-content-end bg-transparent border-0">
+
+                    <a class="btn btn-primary text-light">Saber mais</a>
+                </div>
+            </div>
+         </div>
+         <div class="col">
+            <div class="card bg-transparent p-3 border-primary mb-3 card-justify-height">
+                <div class="card-header bg-transparent border-0 d-flex flex-column justify-content-center align-items-center">
+                    <img src="https://logos-world.net/wp-content/uploads/2021/03/FiveM-Emblem.png" width="100" height="100" />
+                    <p class="text-white fs-3">GTA RP</p>
+                </div>
+                <div class="card-body text-white text-center">
+                    <p class="card-text">Desenvolvimento de servidores e scripts para GTA RP FiveM utilizando o vRP Framework.</p>
+                </div>
+                <div class="card-footer d-flex justify-content-end bg-transparent border-0">
+
+                    <a class="btn btn-primary text-light">Saber mais</a>
+                </div>
+            </div>
+         </div>
+        
+    </article>
+</section>
+
+<script src="~/js/build/home.min.js"></script>
