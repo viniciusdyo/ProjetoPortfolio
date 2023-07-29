@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ProjetoPortfolio.API.Models;
 
 namespace ProjetoPortfolio.API.Data
 {
-    public class PortfolioDbContext : DbContext
+    public class PortfolioDbContext : IdentityDbContext
     {
         public PortfolioDbContext(DbContextOptions<PortfolioDbContext> options) : base(options) 
         {

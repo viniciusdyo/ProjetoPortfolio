@@ -1,0 +1,47 @@
+﻿@model ProjetoPortfolio.Web.Models.RegistroViewModel
+
+@{
+    ViewData["Title"] = "Registrar";
+}
+
+<section class="container">
+    <h1 class="text-light">Registrar</h1>
+
+    <h4 class="text-light">RegistroViewModel</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Criar" class="row row-cols-1 g-3">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="col form-group">
+                    <label asp-for="UserName" class="label text-white  control-label mb-1">Nome de Usuário</label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="Email" class="form label text-white control-label mb-1"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="Password" class="label text-white  control-label mb-1">Senha</label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="colform-group">
+                    <input type="submit" value="Registrar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-controller="Home" asp-action="Index">Back to List</a>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
