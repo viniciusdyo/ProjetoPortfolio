@@ -36,8 +36,8 @@ namespace ProjetoPortfolio.API.Controllers
                 }
                 return BadRequest(new AutenticacaoResult()
                 {
-                    Result= false,
-                    Errors = new List<string>() { "Erro no servidor"}
+                    Result = false,
+                    Errors = new List<string>() { "Erro no servidor" }
                 });
             }
             catch (Exception e)
@@ -50,7 +50,33 @@ namespace ProjetoPortfolio.API.Controllers
             }
 
         }
+        [HttpPost]
 
-        
+        public async Task<IActionResult> Login([FromBody] UsuarioLoginRequestDto request)
+        {
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    AutenticacaoResult result = await _loginRepository.Login(request);
+                    if (result.Result)
+                        return Ok(result);
+
+                    return BadRequest(result);
+                }
+                throw new Exception("Erro de servidor");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new AutenticacaoResult()
+                {
+                    Result = false,
+                    Errors = new List<string> 
+                    {
+                        e.Message
+                    }
+                });
+            }
+        }
     }
 }

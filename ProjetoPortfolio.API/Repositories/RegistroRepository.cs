@@ -21,8 +21,9 @@ namespace ProjetoPortfolio.API.Repositories
             if(request == null) throw new ArgumentNullException(nameof(request));
 
             var usuario = await _userManager.FindByEmailAsync(request.Email);
+            var userName = await _userManager.FindByNameAsync(request.UserName);
 
-            if(usuario != null)
+            if(usuario != null && userName != null)
             {
                 return new AutenticacaoResult()
                 { 

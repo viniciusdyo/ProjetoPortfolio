@@ -7,26 +7,40 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Projetos</h1>
+<section class="container">
 
-<p>
-    Adicionar novo Projeto
-</p>
+    <h1 class="text-white py-5">Projetos</h1>
 
-<div class="row">
-    @foreach (var item in Model)
-    {
-        <div>
-            <h3>@Html.DisplayFor(projetos => item.Titulo)</h3>
-        </div>
-        <div>
-            <h3>@Html.DisplayFor(projetos => item.Descricao)</h3>
-        </div>
-        <div>
-            <h3>@Html.DisplayFor(projetos => item.Status)</h3>
-        </div>
-        <div>
-            <h3>@Html.DisplayFor(projetos => item.Excluido)</h3>
-        </div>
-    }
-</div>
+    <div class="col-12 w-100 mb-3">
+        <nav aria-label="breadcrumb">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Projetos</li>
+            </ul>
+        </nav>
+    </div>
+
+    <hr class="border-secondary mb-3" />
+
+    <div class="row row-cols-md-4 row-cols-1 g-3">
+
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card bg-dark-darker">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h3 class="card-title text-primary">@Html.DisplayFor(projetos => item.Titulo)</h3>
+                        <p class="card-text text-white">@Html.DisplayFor(projetos => item.Descricao)</p>
+                        @*<p class="card-text text-white">@Html.DisplayFor(projetos => item.Status)</p>*@
+                        <a href="#" class="btn btn-primary text-white">Acessar</a>
+                    </div>
+                </div>
+            </div>
+            @*<div>
+        <h3>@Html.DisplayFor(projetos => item.Excluido)</h3>
+        </div>*@
+        }
+
+    </div>
+</section>

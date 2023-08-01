@@ -58,3 +58,23 @@ $dark: $low-pure;
 @import "../../node_modules/bootstrap/scss/alert";
 
 @import "../../node_modules/bootstrap/scss/utilities/api";
+
+
+[data-bs-theme="portfolio-dark"] {
+    --bs-body-color: $low-pure;
+    --bs-body-color-rgb: #{to-rgb($low-pure)};
+    --bs-body-bg: $low-pure ;
+    --bs-body-bg-rgb: #{to-rgb($low-pure)};
+    --bs-tertiary-bg: #{$low-pure};
+
+    $input-color: var(--bs-body-color) !default;
+    $input-border-color: var(--bs-border-color) !default;
+    $input-box-shadow: $box-shadow-inset !default;
+    $input-focus-bg: $input-bg !default;
+    $input-focus-border-color: tint-color($low-pure, 50%) !default;
+    $input-focus-color: $low-pure !default;
+
+    input:-internal-autofill-selected {
+        background-color: $low-pure;
+    }
+}

@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using ProjetoPortfolio.API.Data;
 using ProjetoPortfolio.API.Repositories;
 using ProjetoPortfolio.API.Repositories.Interfaces;
+using ProjetoPortfolio.API.Services;
+using ProjetoPortfolio.API.Services.Interfaces;
 using System;
 using System.Text;
 
@@ -52,7 +54,7 @@ namespace ProjetoPortfolio.API
             builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
             builder.Services.AddScoped<ILoginRepository, LoginRepository>();
             builder.Services.AddScoped<IRegistroRepository, RegistroRepository>();
-
+            builder.Services.AddTransient<ITokenService, TokenService>();
 
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<PortfolioDbContext>();
