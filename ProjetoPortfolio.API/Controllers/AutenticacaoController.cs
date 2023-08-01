@@ -40,12 +40,12 @@ namespace ProjetoPortfolio.API.Controllers
                     Errors = new List<string>() { "Erro no servidor" }
                 });
             }
-            catch (Exception e)
+            catch (Exception err)
             {
                 return BadRequest(new AutenticacaoResult()
                 {
                     Result = false,
-                    Errors = new List<string> { e.Message }
+                    Errors = new List<string> { err.Message }
                 });
             }
 
@@ -60,7 +60,7 @@ namespace ProjetoPortfolio.API.Controllers
                 {
                     AutenticacaoResult result = await _loginRepository.Login(request);
                     if (result.Result)
-                        return Ok(result);
+                        return Created("",result);
 
                     return BadRequest(result);
                 }

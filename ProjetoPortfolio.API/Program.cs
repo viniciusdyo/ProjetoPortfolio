@@ -51,6 +51,7 @@ namespace ProjetoPortfolio.API
                     ValidateIssuerSigningKey = true,
                 };
             });
+
             builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
             builder.Services.AddScoped<ILoginRepository, LoginRepository>();
             builder.Services.AddScoped<IRegistroRepository, RegistroRepository>();

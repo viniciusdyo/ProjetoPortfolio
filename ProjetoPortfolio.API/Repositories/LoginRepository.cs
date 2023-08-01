@@ -45,12 +45,13 @@ namespace ProjetoPortfolio.API.Repositories
                 };
             }
 
-            var jwtToken = _tokenService.GenerateToken(user);
+            var result = _tokenService.GenerateToken(user);
 
             return new AutenticacaoResult()
             {
                 Result = true,
-                Token = jwtToken,
+                Token = result.Token,
+                ExpireDate = result.ExpireDate
             };
         }
     }

@@ -1,6 +1,6 @@
-﻿namespace ProjetoPortfolio.API.Models
+﻿namespace ProjetoPortfolio.Web.Models
 {
-    public class AutenticacaoResult
+    public class AutenticacaoResponseModel
     {
         public string Token { get; set; }
         public string RefreshToken { get; set; }

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 namespace ProjetoPortfolio.Web
 {
     public class Program
@@ -8,6 +10,19 @@ namespace ProjetoPortfolio.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCookie(JwtBearerDefaults.AuthenticationScheme, option =>
+            {
+                option.LoginPath = "/Autenticacao/Registrar";
+                option.LogoutPath= "/Autenticacao/Logout";
+                option.AccessDeniedPath= "/Autenticacao/AcessoNegado";
+                option.Cookie.SameSite = SameSiteMode.Strict;
+                option.Cookie.HttpOnly= true;
+                option.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                option.Cookie.Name = "VinidyJwtApp";
+            });
+
+
 
             var app = builder.Build();
 
@@ -24,6 +39,8 @@ namespace ProjetoPortfolio.Web
 
             app.UseRouting();
 
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

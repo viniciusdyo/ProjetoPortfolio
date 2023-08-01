@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using ProjetoPortfolio.API.Models;
+using ProjetoPortfolio.API.Models.DTOs;
 using ProjetoPortfolio.API.Services.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -15,11 +17,13 @@ namespace ProjetoPortfolio.API.Services
         {
             _configuration= configuration;
         }
-        public string GenerateToken(IdentityUser user)
+        public AutenticacaoResult GenerateToken(IdentityUser user)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
 
             var key = Encoding.UTF8.GetBytes(_configuration.GetSection("JwtConfigs:Key").Value);
+
+            var expireDate = DateTime.UtcNow.AddHours(1);
 
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
@@ -31,7 +35,7 @@ namespace ProjetoPortfolio.API.Services
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = expireDate,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
             };
 
@@ -39,7 +43,11 @@ namespace ProjetoPortfolio.API.Services
 
             var jwtToken = jwtTokenHandler.WriteToken(token);
 
-            return jwtToken;
+            return new AutenticacaoResult()
+            {
+                Token= jwtToken,
+                ExpireDate= expireDate,
+            };
         }
     }
 }

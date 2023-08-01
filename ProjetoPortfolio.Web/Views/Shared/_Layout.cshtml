@@ -32,7 +32,14 @@
                             <a class="nav-link  text-light" asp-area="" asp-controller="Home" asp-action="Privacy">SOBRE MIM</a>
                         </li>
                     </ul>
-                    <a asp-area="" asp-controller="Autenticacao" asp-action="Registrar" class="text-primary text-decoration-none">Logar/Registrar</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @await Html.PartialAsync("_LogoutPartial");
+                    }
+                    else
+                    {
+                        <a asp-controller="Autenticacao" asp-action="Registrar">Logar/Registrar</a>
+                    }
                 </div>
             </div>
         </nav>

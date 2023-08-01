@@ -1,0 +1,32 @@
+﻿@model ProjetoPortfolio.Web.Models.LoginViewModel
+
+<h1 class="text-light mb-3">Já tem uma conta ? Preenchas os campos para logar-se</h1>
+<hr class="border-primary" />
+<form asp-controller="Autenticacao" asp-action="Login" data-bs-theme="portfolio-dark" class="row row-cols-1 g-3" autocomplete="off">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col">
+        <div class="form-floating">
+            <input asp-for="UserName" placeholder="Nome de usuário" class="form-control" />
+            <label asp-for="UserName" class="control-label">Nome de Usuário</label>
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-floating">
+            <input asp-for="Password" placeholder="Senha" class="form-control" />
+            <label asp-for="Password" class="control-label">Senha</label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <input type="submit" value="Enviar" class="btn btn-primary text-white" />
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
