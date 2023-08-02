@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ProjetoPortfolio.Web.Models.ProjetoViewModel>
+
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<section class="container-fluid bg-dark-darker">
+    <div class="container">
+        <div class="row g-3">
+
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+
+                        <th scope="col">Id</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Descricao</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Excluido</th>
+                        <th scope="col"></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.Id</th>
+                            <td>@item.Titulo</td>
+                            <td>@item.Descricao</td>
+                            <td>@item.Status</td>
+                            <td>@item.Excluido</td>
+                            <td><button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#@item.Titulo.ToLower()">Editar</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="@item.Titulo.ToLower()" tabindex="-1" aria-labelledby="@item.Id+Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="@item.Id+Modal">@item.Titulo</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary">Salvar alterações</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}

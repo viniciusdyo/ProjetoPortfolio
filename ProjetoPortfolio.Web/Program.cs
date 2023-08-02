@@ -43,9 +43,21 @@ namespace ProjetoPortfolio.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapControllerRoute(
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                  name: "Admin",
+                  pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}"
+                );
+
+                
+
+                endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+            
 
             app.Run();
         }

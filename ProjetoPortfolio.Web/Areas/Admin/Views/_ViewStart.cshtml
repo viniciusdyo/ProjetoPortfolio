@@ -1,0 +1,8 @@
+﻿@if(User.Identity.IsAuthenticated)
+{
+    Layout = "_Layout";
+
+} else {
+    Context.Response.Redirect("/");
+}
+

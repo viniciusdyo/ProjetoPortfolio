@@ -71,7 +71,6 @@ namespace ProjetoPortfolio.Web.Controllers
                         JwtSecurityTokenHandler tokenHandler = new();
 
                         var token = tokenHandler.ReadJwtToken(tokenModel!.Token);
-
                         var claims = token.Claims.ToList();
                         claims.Add(new Claim("accessToken", tokenModel.Token));
 
@@ -82,8 +81,8 @@ namespace ProjetoPortfolio.Web.Controllers
                             ExpiresUtc = tokenModel.ExpireDate,
                             IsPersistent = true,
                         };
-
                         await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProps);
+                        
 
                         return RedirectToAction("Index", "Home");
                     }
@@ -96,6 +95,12 @@ namespace ProjetoPortfolio.Web.Controllers
 
                 throw;
             }
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+
+           return RedirectToAction("Index", "Home");
         }
     }
 }

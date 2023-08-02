@@ -8,6 +8,9 @@
 
     .bv-carousel-progress-bar {
         background: $primary;
+        -webkit-box-shadow: 0px 0px 22px 0px rgba($primary,0.75);
+        -moz-box-shadow: 0px 0px 22px 0px rgba($primary,0.75);
+        box-shadow: 0px 0px 22px 0px rgba($primary,0.75);
         width: 2px;
         transition: all 400ms ease;
         height: 33.3333%;

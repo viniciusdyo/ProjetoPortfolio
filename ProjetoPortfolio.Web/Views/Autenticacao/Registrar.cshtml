@@ -2,46 +2,55 @@
 
 @{
     ViewData["Title"] = "Registrar";
+    
 }
+@if(!User.Identity.IsAuthenticated)
+{
+    
 
 <section class="container-fluid bg-dark-darker">
     <div class="container">
-        <div class="row row-cols-2 g-3">
-            <div class="col-4">
+        <div class="row row-cols-md-2 row-cols-1 g-5">
+            <div class="col-md-5 col-12 py-5 h-100">
+                <h1 class="text-light mb-3">Já tem uma conta ?</h1>
+                <h5 class="text-info mb-3">Preencha os campos para logar </h5>
+                <hr class="border-primary" />
                 @await Html.PartialAsync("_LoginPartial");
+                
             </div>
-            <div class="col-8 py-5">
-                <h1 class="text-light mb-3">Registrar-se</h1>
+            <div class="col-md-7 col-12 py-5">
+                <h1 class="text-light mb-3 text-end">Ainda não tem uma conta ? </h1>
+                <h5 class="text-info mb-3 text-end">Registre-se e gerencie seus pedidos</h5>
 
                 <hr class="border-primary" />
-                <div class="row">
-                    <div class="col-md-4">
+                <div class="row justify-content-end">
+                    <div class="col-md-8 col-12">
                         <form asp-action="Criar" data-bs-theme="portfolio-dark" class="row row-cols-1 g-3" autocomplete="off">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="col">
                                 <div class="form-floating">
-                                    <input asp-for="UserName" class="form-control" placeholder="Nome de usuário" autocomplete="false" />
+                                    <input asp-for="UserName" class="form-control text-white" placeholder="Nome de usuário" autocomplete="false" />
                                     <label asp-for="UserName" class="text-white">Nome de Usuário</label>
                                     <span asp-validation-for="UserName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-floating">
-                                    <input asp-for="Email" class="form-control" placeholder="nome@examplo.com" autocomplete="false" />
+                                    <input asp-for="Email" class="form-control text-white" placeholder="nome@examplo.com" autocomplete="false" />
                                     <label asp-for="Email" class="text-white"></label>
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-floating">
-                                    <input asp-for="Password" class="form-control" placeholder="Senha" autocomplete="false" />
+                                    <input asp-for="Password" class="form-control text-white" placeholder="Senha" autocomplete="false" />
                                     <label asp-for="Password" class="text-white">Senha</label>
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-floating">
-                                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Senha" autocomplete="false" />
+                                    <input asp-for="ConfirmPassword" class="form-control text-white" placeholder="Senha" autocomplete="false" />
                                     <label asp-for="ConfirmPassword" class="text-white">Confirmar Senha</label>
                                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                 </div>
@@ -53,9 +62,11 @@
                     </div>
                 </div>
 
-                <div>
-                    <a asp-controller="Home" asp-action="Index">Voltar para o início</a>
-                </div>
+                
+            </div>
+
+            <div class="w-100 pb-5">
+                <a asp-controller="Home" asp-action="Index" class="mb-3">Voltar para o início</a>
             </div>
 
         </div>
@@ -66,4 +77,7 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    }
+} else {
+    Context.Response.Redirect("/");
 }
