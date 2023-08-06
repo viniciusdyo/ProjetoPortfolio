@@ -1,6 +1,7 @@
 ﻿@import "../../node_modules/bootstrap/scss/functions";
 
 @import "./colors";
+@import "./temas";
 
 
 
@@ -78,3 +79,6 @@ $dark: $low-pure;
         background-color: $low-pure;
     }
 }
+
+
+

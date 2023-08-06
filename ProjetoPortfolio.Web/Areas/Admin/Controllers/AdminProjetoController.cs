@@ -27,11 +27,32 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                 projetos = JsonConvert.DeserializeObject<List<ProjetoViewModel>>(readTask);
                 return View(projetos);
             }
-
             return View(projetos);
 
         }
 
 
+        public async Task<IActionResult> Editar(ProjetoViewModel projeto)
+        {
+            ProjetoViewModel p = new ProjetoViewModel()
+            {
+                Id = projeto.Id,
+                Titulo= projeto.Titulo,
+                Descricao=projeto.Descricao,
+                Status= projeto.Status,
+                Excluido = projeto.Excluido,
+                TituloNormalizado = projeto.TituloNormalizado,
+            };
+            var responseTask = await httpClient.PutAsJsonAsync($"{ENDPOINT}/Projeto/Atualizar", p);
+            if (responseTask.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+
+            } else
+            {
+                return RedirectToAction("Index");
+            }
+        }
     }
+
 }

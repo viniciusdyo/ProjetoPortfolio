@@ -1,0 +1,50 @@
+﻿@model ProjetoPortfolio.Web.Models.ProjetoViewModel
+<div class="modal fade" id="@Model.TituloNormalizado" tabindex="-1" aria-labelledby="@Model.Id-Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="@Model.Id-Modal">Titulo</h1>
+                <button type="button" class="btn-fechar" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="@Model.TituloNormalizado-form" asp-area="Admin" asp-controller="AdminProjeto" asp-action="Editar" data-bs-theme="portfolio-dark" class="row row-cols-1 g-3" autocomplete="off">
+                    <input asp-for="Id" type="hidden">
+                    <div class="col">
+                        <div class="form-floating">
+                            <input asp-for="Titulo" placeholder="Título" class="form-control text-white" />
+                            <label asp-for="Titulo" class="control-label text-white">Título</label>
+                            <span asp-validation-for="Titulo" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input asp-for="Descricao" placeholder="Descrição" class="form-control text-white" />
+                            <label asp-for="Descricao" class="control-label text-white">Descrição</label>
+                            <span asp-validation-for="Descricao" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input asp-for="Status" placeholder="Título do Projeto" class="form-control text-white" />
+                            <label asp-for="Status" class="control-label text-white">Status</label>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input asp-for="Excluido" placeholder="Título do Projeto" class="form-control text-white" />
+                            <label asp-for="Excluido" class="control-label text-white">Excluído</label>
+                            <span asp-validation-for="Excluido" class="text-danger"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="submit" form="@Model.TituloNormalizado-form" class="btn btn-primary">Salvar alterações</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+

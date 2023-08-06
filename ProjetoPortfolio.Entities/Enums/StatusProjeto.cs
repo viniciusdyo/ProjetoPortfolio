@@ -1,4 +1,4 @@
-﻿namespace ProjetoPortfolio.API.Enums
+﻿namespace ProjetoPortfolio.Entities.Enums
 {
     public enum StatusProjeto
     {

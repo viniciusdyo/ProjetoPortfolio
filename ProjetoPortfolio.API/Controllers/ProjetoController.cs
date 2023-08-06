@@ -56,15 +56,21 @@ namespace ProjetoPortfolio.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPut]
 
-        public async Task<ActionResult<ProjetoModel>> Atualizar([FromBody] ProjetoModel projetoModel, Guid id)
+
+        [HttpPut("Atualizar")]
+
+        public async Task<ActionResult<ProjetoModel>> Atualizar([FromBody] ProjetoModel projetoModel)
         {
             try
             {
-                projetoModel.Id = id;
-                ProjetoModel projeto = await _projetoRepository.Atualizar(projetoModel, id);
+                if(projetoModel != null && projetoModel.Id != Guid.Empty)
+                {
+
+                ProjetoModel projeto = await _projetoRepository.Atualizar(projetoModel, projetoModel.Id);
                 return Ok(projeto);
+                }
+                throw new Exception("Erro no servidor");
             }
             catch (Exception ex)
             {

@@ -6,8 +6,9 @@
 *@
 @{
 }
+<link href="~/css/adminProjeto.min.css" type="text/css" rel="stylesheet" />
 
-<section class="container-fluid bg-dark-darker">
+<section class="container-fluid">
     <div class="container">
         <div class="row g-3">
 
@@ -20,6 +21,7 @@
                         <th scope="col">Descricao</th>
                         <th scope="col">Status</th>
                         <th scope="col">Excluido</th>
+                        <th scope="col">Normalizado</th>
                         <th scope="col"></th>
 
                     </tr>
@@ -33,7 +35,8 @@
                             <td>@item.Descricao</td>
                             <td>@item.Status</td>
                             <td>@item.Excluido</td>
-                            <td><button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#@item.Titulo.ToLower()">Editar</button></td>
+                            <td>@item.TituloNormalizado</td>
+                            <td><button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado.ToLower()">Editar</button></td>
                         </tr>
                     }
                 </tbody>
@@ -44,22 +47,6 @@
 
 @foreach (var item in Model)
 {
-    <div class="modal fade" id="@item.Titulo.ToLower()" tabindex="-1" aria-labelledby="@item.Id+Modal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="@item.Id+Modal">@item.Titulo</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary">Salvar alterações</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
+    @await Html.PartialAsync("_EditarProjetoModal", item)
+    ;
 }
