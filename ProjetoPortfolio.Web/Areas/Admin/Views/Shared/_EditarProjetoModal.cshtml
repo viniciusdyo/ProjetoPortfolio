@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="@Model.Id-Modal">Titulo</h1>
+                <h1 class="modal-title fs-5" id="@Model.Id-Modal">@Model.Titulo</h1>
                 <button type="button" class="btn-fechar" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -47,4 +47,29 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="@Model.TituloNormalizado-modal-excluir" tabindex="-1" aria-labelledby="@Model.TituloNormalizado-modal-excluir" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="@Model.TituloNormalizado-modal-excluir">@Model.Titulo</h1>
+                <button type="button" class="btn-fechar" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-white fs-4">
+                    Deseja mesmo excluir esse projeto ?
+                </p>
+                <form id="@Model.TituloNormalizado-form-excluir" asp-area="Admin" asp-controller="AdminProjeto" asp-action="Excluir">
+                    <input asp-for="Id" type="hidden">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success text-white" data-bs-dismiss="modal">Fechar</button>
+                <button type="submit" form="@Model.TituloNormalizado-form-excluir" class="btn btn-danger text-white">Salvar alterações</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 

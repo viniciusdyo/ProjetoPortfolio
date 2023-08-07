@@ -37,21 +37,52 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
             ProjetoViewModel p = new ProjetoViewModel()
             {
                 Id = projeto.Id,
-                Titulo= projeto.Titulo,
-                Descricao=projeto.Descricao,
-                Status= projeto.Status,
+                Titulo = projeto.Titulo,
+                Descricao = projeto.Descricao,
+                Status = projeto.Status,
                 Excluido = projeto.Excluido,
                 TituloNormalizado = projeto.TituloNormalizado,
             };
+
             var responseTask = await httpClient.PutAsJsonAsync($"{ENDPOINT}/Projeto/Atualizar", p);
+
             if (responseTask.IsSuccessStatusCode)
-            {
                 return RedirectToAction("Index");
 
-            } else
-            {
+
+            return RedirectToAction("Index");
+        }
+
+
+        public async Task<IActionResult> Excluir(ProjetoViewModel projeto)
+        {
+            var responseTask = await httpClient.PutAsJsonAsync($"{ENDPOINT}/Projeto/Apagar", projeto.Id);
+
+            if (responseTask.IsSuccessStatusCode)
                 return RedirectToAction("Index");
-            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Adicionar(ProjetoViewModel projeto)
+        {
+            ProjetoViewModel p = new ProjetoViewModel()
+            {
+                Titulo = projeto.Titulo,
+                Descricao = projeto.Descricao,
+                UrlImagem = projeto.UrlImagem,
+                UrlRedirecionar = projeto.UrlRedirecionar,
+                Excluido = projeto.Excluido,
+                Status = projeto.Status
+            };
+
+            var responseTask = await httpClient.PostAsJsonAsync($"{ENDPOINT}/Projeto/Cadastrar", p);
+
+            if(responseTask.IsSuccessStatusCode)
+                if (responseTask.IsSuccessStatusCode)
+                    return RedirectToAction("Index");
+
+            return RedirectToAction("Index");
         }
     }
 

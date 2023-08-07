@@ -1,0 +1,64 @@
+﻿@model ProjetoPortfolio.Web.Models.ProjetoViewModel
+
+<div class="modal fade" id="modal-adicionar-projeto" tabindex="-1" aria-labelledby="adicionar-projeto" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="adicionar-projeto">Criar novo projeto</h1>
+                <button type="button" class="btn-fechar" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-criar-projeto" asp-area="Admin" asp-controller="AdminProjeto" asp-action="Adicionar" data-bs-theme="portfolio-dark" class="row row-cols-1 g-3" autocomplete="off">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="Id" type="hidden">
+                    <div class="col">
+                        <div class="form-floating">
+                            <input asp-for="Titulo" placeholder="Título" class="form-control text-white" />
+                            <label asp-for="Titulo" class="control-label text-white">Título</label>
+                            <span asp-validation-for="Titulo" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input asp-for="Descricao" placeholder="Descrição" class="form-control text-white" />
+                            <label asp-for="Descricao" class="control-label text-white">Descrição</label>
+                            <span asp-validation-for="Descricao" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input asp-for="Status" placeholder="Status" class="form-control text-white" />
+                            <label asp-for="Status" class="control-label text-white">Status</label>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input asp-for="UrlImagem" placeholder="Url da Imagem" class="form-control text-white" />
+                            <label asp-for="UrlImagem" class="control-label text-white">Url da Imagem</label>
+                            <span asp-validation-for="UrlImagem" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input asp-for="UrlRedirecionar" placeholder="Url do Projeto" class="form-control text-white" />
+                            <label asp-for="UrlRedirecionar" class="control-label">Url do Projeto</label>
+                            <span asp-validation-for="UrlRedirecionar" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Excluido" /> @Html.DisplayNameFor(model => model.Excluido)
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="submit" form="form-criar-projeto" class="btn btn-primary">Adicionar</button>
+            </div>
+        </div>
+    </div>
+</div>

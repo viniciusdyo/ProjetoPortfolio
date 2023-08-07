@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProjetoPortfolio.Web.Models.ProjetoViewModel>
+﻿@using ProjetoPortfolio.Web.Models
+@model IEnumerable<ProjetoPortfolio.Web.Models.ProjetoViewModel>
 
 
 @*
@@ -11,7 +12,7 @@
 <section class="container-fluid">
     <div class="container">
         <div class="row g-3">
-
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-adicionar-projeto">Adicionar novo projeto</button>
             <table class="table table-dark">
                 <thead>
                     <tr>
@@ -22,6 +23,7 @@
                         <th scope="col">Status</th>
                         <th scope="col">Excluido</th>
                         <th scope="col">Normalizado</th>
+                        <th scope="col"></th>
                         <th scope="col"></th>
 
                     </tr>
@@ -37,6 +39,7 @@
                             <td>@item.Excluido</td>
                             <td>@item.TituloNormalizado</td>
                             <td><button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado.ToLower()">Editar</button></td>
+                            <td><button class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado-modal-excluir">Excluir</button></td>
                         </tr>
                     }
                 </tbody>
@@ -47,6 +50,7 @@
 
 @foreach (var item in Model)
 {
-    @await Html.PartialAsync("_EditarProjetoModal", item)
-    ;
+    @await Html.PartialAsync("_EditarProjetoModal", item);
 }
+
+@await Html.PartialAsync("_AdicionarProjetoModal", new ProjetoViewModel())

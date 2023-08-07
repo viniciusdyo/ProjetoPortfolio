@@ -41,7 +41,7 @@ namespace ProjetoPortfolio.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost]
+        [HttpPost("Cadastrar")]
         public async Task<ActionResult<ProjetoModel>> Cadastrar([FromBody] ProjetoModel projeto)
         {
             try
@@ -78,9 +78,9 @@ namespace ProjetoPortfolio.API.Controllers
             }
         }
 
-        [HttpPut("Apagar/")]
+        [HttpPut("Apagar")]
 
-        public async Task<ActionResult<ProjetoModel>> Apagar([FromBody] ProjetoModel projetoModel, Guid id)
+        public async Task<ActionResult<ProjetoModel>> Apagar([FromBody] Guid id)
         {
             try
             {
