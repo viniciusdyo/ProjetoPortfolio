@@ -29,7 +29,6 @@ namespace ProjetoPortfolio.API.Data
             modelBuilder.Entity<CategoriaConteudoModel>().Property(x => x.Nome).IsRequired().HasMaxLength(255);
 
             modelBuilder.Entity<ConteudoModel>().HasKey(x => x.Id);
-            modelBuilder.Entity<ConteudoModel>().HasMany<CategoriaConteudoModel>();
             modelBuilder.Entity<ConteudoModel>().Property(x => x.Titulo).HasMaxLength(255);
             modelBuilder.Entity<ConteudoModel>().Property(x => x.Nome).IsRequired().HasMaxLength(255);
             modelBuilder.Entity<ConteudoModel>().Property(x => x.Conteudo).HasMaxLength(5000);

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProjetoPortfolio.Web.Models.ViewModels.ConteudoViewModel>
+﻿@using ProjetoPortfolio.Web.Models.ViewModels;
+@model IEnumerable<ProjetoPortfolio.Web.Models.ViewModels.ConteudoViewModel>
 
 @{
     var classeCard = "col";
@@ -9,6 +10,7 @@
 
 <section class="container">
     <div class="row">
+        <a class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#modal-adicionar-conteudo">Adicionar Conteúdo</a>
         <article id="conteudo">
             <h1 class="h1 text-white">Conteúdo</h1>
             <hr class="border-primary" />
@@ -18,7 +20,7 @@
                 classeCard = "col-4";
                 colClasse = "";
             }
-            <div class="row @colClasse">
+            <div class="row @colClasse g-3">
 
                 @foreach (var item in Model)
                 {
@@ -46,13 +48,22 @@
 
                             </div>
                             <div class="card-footer border-primary">
-                                <a class="btn btn-secondary text-white">Editar</a>
+                                <a class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#@item.Conteudo.NomeNormalizado-modal">Editar</a>
                                 <a class="btn btn-danger text-white">Excluir</a>
                             </div>
                         </div>
                     </div>
+                    @await Html.PartialAsync("_EditarConteudoModal", item)
+
                 }
             </div>
         </article>
     </div>
 </section>
+
+@await Html.PartialAsync("_AdicionarConteudoModal", new ConteudoViewModel(){
+    Conteudo = new ConteudoModel(),
+    CategoriaConteudo = new CategoriaConteudoModel(),
+    Categorias = ViewBag.Categorias,
+})
+

@@ -1,4 +1,6 @@
-﻿namespace ProjetoPortfolio.API.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ProjetoPortfolio.API.Models
 {
     public class ConteudoModel
     {
@@ -7,6 +9,7 @@
         public string Titulo { get; set; }
         public string Nome { get; set; }
         public Guid CategoriaConteudoId { get; set; }
+        [NotMapped]
         public CategoriaConteudoModel CategoriaConteudoModel { get; set; }
     }
 }

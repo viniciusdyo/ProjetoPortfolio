@@ -23,7 +23,6 @@ namespace ProjetoPortfolio.Web.Controllers
                 var result = responseTask.Result;
                 var readTask = await result.Content.ReadAsStringAsync();
                 projetos = JsonConvert.DeserializeObject<List<ProjetoViewModel>>(readTask);
-                Console.WriteLine(projetos);
                 return View(projetos);
             }
             catch (Exception ex)

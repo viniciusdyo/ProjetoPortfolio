@@ -27,15 +27,15 @@ namespace ProjetoPortfolio.API.Controllers
                 if (conteudos.Count == 0 || conteudos == null)
                     throw new Exception("Não há conteudos a serem listados");
 
-                foreach(var item in conteudos)
+                foreach (var item in conteudos)
                 {
                     item.CategoriaConteudoModel = await _categoriaRepository.BuscarPorId(item.CategoriaConteudoId);
 
-                    if(item.CategoriaConteudoModel == null)
+                    if (item.CategoriaConteudoModel == null)
                         throw new Exception("Não há categoria");
                 }
 
-                
+
 
                 return Ok(conteudos);
             }
@@ -47,7 +47,7 @@ namespace ProjetoPortfolio.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ConteudoModel>> BuscarPorId(Guid id)
+        public async Task<ActionResult> BuscarPorId(Guid id)
         {
             try
             {
@@ -63,8 +63,8 @@ namespace ProjetoPortfolio.API.Controllers
             }
         }
 
-        [HttpPost("Adicionar")]
-        public async Task<ActionResult<ConteudoModel>> Adicionar(ConteudoModel conteudo)
+        [HttpPost("CadastrarConteudo")]
+        public async Task<ActionResult<ConteudoModel>> Cadastrar([FromBody] ConteudoModel conteudo)
         {
             try
             {
@@ -75,12 +75,11 @@ namespace ProjetoPortfolio.API.Controllers
                 CategoriaConteudoModel categoria = await _categoriaRepository.BuscarPorId(conteudo.CategoriaConteudoId);
                 ConteudoModel conteudoRequest = new ConteudoModel()
                 {
-                    Id = Guid.NewGuid(),
-                    CategoriaConteudoId = conteudo.CategoriaConteudoId,
-                    CategoriaConteudoModel = categoria,
+                    Id = Guid.NewGuid(),  
                     Nome = conteudo.Nome,
                     Conteudo = conteudo.Conteudo,
-                    Titulo= conteudo.Titulo,
+                    Titulo = conteudo.Titulo,
+                    CategoriaConteudoId = conteudo.CategoriaConteudoId,
                 };
 
                 ConteudoModel conteudoResponse = await _conteudoRepository.Adicionar(conteudoRequest);
@@ -96,7 +95,7 @@ namespace ProjetoPortfolio.API.Controllers
         }
 
         [HttpPut("Editar")]
-        public async Task<ActionResult<ConteudoModel>> Editar(ConteudoModel conteudo)
+        public async Task<ActionResult<ConteudoModel>> Editar([FromBody] ConteudoModel conteudo)
         {
             try
             {
@@ -116,7 +115,7 @@ namespace ProjetoPortfolio.API.Controllers
         }
 
         [HttpDelete("Remover")]
-        public async Task<ActionResult<ConteudoModel>> Remover(Guid id)
+        public async Task<ActionResult<ConteudoModel>> Remover([FromBody] Guid id)
         {
             try
             {

@@ -33,7 +33,7 @@ namespace ProjetoPortfolio.API.Controllers
             }
         }
 
-        [HttpPut("Adicionar")]
+        [HttpPost("Adicionar")]
 
         public async Task<ActionResult<CategoriaConteudoModel>> Adicionar(CategoriaConteudoModel categoria)
         {

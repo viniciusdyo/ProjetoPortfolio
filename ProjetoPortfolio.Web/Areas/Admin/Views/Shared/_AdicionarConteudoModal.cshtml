@@ -1,0 +1,52 @@
+﻿@model ProjetoPortfolio.Web.Models.ViewModels.ConteudoViewModel
+
+<div class="modal fade" id="modal-adicionar-conteudo" tabindex="-1" aria-labelledby="adicionar-conteudo" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="adicionar-conteudo">Adicionar novo conteúdo</h1>
+                <button type="button" class="btn-fechar" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-criar-conteudo" asp-area="Admin" asp-controller="AdminConteudo" asp-action="Adicionar" data-bs-theme="portfolio-dark" class="row row-cols-1 g-3" autocomplete="off">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input asp-for="Conteudo.Titulo" placeholder="Título" class="form-control text-white" />
+                            <label asp-for="Conteudo.Titulo" class="control-label text-white">Título</label>
+                            <span asp-validation-for="Conteudo.Titulo" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input asp-for="Conteudo.Nome" placeholder="Nome" class="form-control text-white" />
+                            <label asp-for="Conteudo.Nome" class="control-label text-white">Nome</label>
+                            <span asp-validation-for="Conteudo.Nome" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <textarea asp-for="Conteudo.Conteudo" maxlength="2500" placeholder="Conteúdo" class="form-control text-white"></textarea>
+                            <label asp-for="Conteudo.Conteudo" class="control-label text-white">Conteúdo</label>
+                            <span asp-validation-for="Conteudo.Conteudo" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+
+                        <select asp-for="Conteudo.CategoriaConteudoId" class="form-select form-select-lg mb-3">
+                            @foreach (var item in Model.Categorias)
+                            {
+                                <option value="@item.CategoriaConteudoId">@item.Nome</option>
+                            }
+                        </select>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="submit" form="form-criar-conteudo" class="btn btn-primary">Adicionar</button>
+            </div>
+        </div>
+    </div>
+</div>

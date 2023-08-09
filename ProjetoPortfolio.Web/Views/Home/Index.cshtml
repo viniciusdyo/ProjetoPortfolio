@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<ConteudoModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -7,41 +9,20 @@
 <section id="home-carousel-bemvindo" class="splide container d-flex py-5 my-5">
     <div class="splide__track">
         <ul class="splide__list">
-            <li class="splide__slide">
-                <div class="col-9">
-                    <h3 class="display-5 text-white mb-3">Olá, sou um desenvolvedor FullStack e esse é o meu portfólio</h3>
-                    <hr class="border border-primary border-1 opacity-25  mb-3" />
-                    <p class="text-white opacity-75 col-9 mb-4">Desenvolvo sistemas web para diversos tipos de soluções. Acesse a página de projetos para ver alguns dos projetos que estão no ar.</p>
-                    <a class="btn btn-primary text-white">Acessar</a>
-                </div>
-            </li>
-            <li class="splide__slide">
-                <div class="col-9">
-                    <h3 class="display-5 text-white mb-3">Olá, sou um desenvolvedor FullStack e esse é o meu portfólio</h3>
-                    <hr class="border border-primary border-1 opacity-25  mb-3" />
-                    <p class="text-white opacity-75 col-9 mb-4">Desenvolvo sistemas web para diversos tipos de soluções. Acesse a página de projetos para ver alguns dos projetos que estão no ar.</p>
-                    <a class="btn btn-primary text-white">Acessar</a>
-                </div>
-            </li>
-            <li class="splide__slide">
-                <div class="col-9">
-                    <h3 class="display-5 text-white mb-3">Olá, sou um desenvolvedor FullStack e esse é o meu portfólio</h3>
-                    <hr class="border border-primary border-1 opacity-25  mb-3" />
-                    <p class="text-white opacity-75 col-9 mb-4">Desenvolvo sistemas web para diversos tipos de soluções. Acesse a página de projetos para ver alguns dos projetos que estão no ar.</p>
-                    <a class="btn btn-primary text-white">Acessar</a>
-                </div>
-            </li>
-            <li class="splide__slide">
-                <div class="col-9">
-                    <h3 class="display-5 text-white mb-3">Olá, sou um desenvolvedor FullStack e esse é o meu portfólio</h3>
-                    <hr class="border border-primary border-1 opacity-25  mb-3" />
-                    <p class="text-white opacity-75 col-9 mb-4">Desenvolvo sistemas web para diversos tipos de soluções. Acesse a página de projetos para ver alguns dos projetos que estão no ar.</p>
-                    <a class="btn btn-primary text-white">Acessar</a>
-                </div>
-            </li>
-            
-            
-            
+            @foreach (var item in Model)
+            {
+                if (item.Nome == "Slide")
+                {
+                    <li class="splide__slide">
+                        <div class="col-9">
+                            <h3 class="display-5 text-white mb-3">@item.Titulo</h3>
+                            <hr class="border border-primary border-1 opacity-25  mb-3" />
+                            <p class="text-white opacity-75 col-9 mb-4">@item.Conteudo</p>
+                            <a class="btn btn-primary text-white">Acessar</a>
+                        </div>
+                    </li>
+                }
+            }
         </ul>
     </div>
     <div class="bv-carousel-progress">
@@ -89,7 +70,7 @@
                             </div>
                         </div>
                     </li>
-                    
+
                 </ul>
             </div>
         </div>
@@ -100,7 +81,7 @@
         Serviços
     </h3>
     <article class="row row-cols-1 row-cols-md-3">
-         <div class="col">
+        <div class="col">
             <div class="card bg-transparent p-3 border-primary mb-3 card-justify-height">
                 <div class="card-header bg-transparent border-0 d-flex flex-column justify-content-center align-items-center">
                     <img src="https://cdn-icons-png.flaticon.com/512/5602/5602732.png" width="100" height="100" />
@@ -114,8 +95,8 @@
                     <a class="btn btn-primary text-light">Saber mais</a>
                 </div>
             </div>
-         </div>
-         <div class="col">
+        </div>
+        <div class="col">
             <div class="card bg-transparent p-3 border-primary mb-3 card-justify-height">
                 <div class="card-header bg-transparent border-0 d-flex flex-column justify-content-center align-items-center">
                     <img src="https://primedepartamentos.com/images/icons/design-icon.png" width="100" height="100" />
@@ -129,8 +110,8 @@
                     <a class="btn btn-primary text-light">Saber mais</a>
                 </div>
             </div>
-         </div>
-         <div class="col">
+        </div>
+        <div class="col">
             <div class="card bg-transparent p-3 border-primary mb-3 card-justify-height">
                 <div class="card-header bg-transparent border-0 d-flex flex-column justify-content-center align-items-center">
                     <img src="https://logos-world.net/wp-content/uploads/2021/03/FiveM-Emblem.png" width="100" height="100" />
@@ -144,8 +125,8 @@
                     <a class="btn btn-primary text-light">Saber mais</a>
                 </div>
             </div>
-         </div>
-        
+        </div>
+
     </article>
 </section>
 

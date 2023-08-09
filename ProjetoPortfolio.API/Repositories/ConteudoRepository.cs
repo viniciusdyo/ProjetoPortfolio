@@ -40,8 +40,14 @@ namespace ProjetoPortfolio.API.Repositories
                 return null;
 
             await _dbContext.Conteudo.AddAsync(conteudo);
-            await _dbContext.SaveChangesAsync();
+           var save = await _dbContext.SaveChangesAsync();
+            if(save > 0)
+            {
+
             return conteudo;
+            }
+
+            throw new Exception();
         }
 
         public async Task<ConteudoModel> Atualizar(ConteudoModel conteudo)
@@ -56,7 +62,7 @@ namespace ProjetoPortfolio.API.Repositories
             conteudoRequest.CategoriaConteudoId = conteudo.CategoriaConteudoId;
             conteudoRequest.Nome = conteudo.Nome;
 
-            _dbContext.Update(conteudoRequest);
+            _dbContext.Conteudo.Update(conteudoRequest);
             await _dbContext.SaveChangesAsync();
 
             return conteudoRequest;
