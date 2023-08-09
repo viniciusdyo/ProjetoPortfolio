@@ -25,6 +25,20 @@
                     </div>
                     <div class="col">
                         <div class="form-floating">
+                            <input asp-for="UrlImagem" placeholder="Url Imagem" class="form-control text-white" />
+                            <label asp-for="UrlImagem" class="control-label text-white">Url Imagem</label>
+                            <span asp-validation-for="UrlImagem" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input asp-for="UrlRedirecionar" placeholder="Url Redirecionar" class="form-control text-white" />
+                            <label asp-for="UrlRedirecionar" class="control-label text-white">Url Redirecionar</label>
+                            <span asp-validation-for="UrlRedirecionar" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
                             <input asp-for="Status" placeholder="Título do Projeto" class="form-control text-white" />
                             <label asp-for="Status" class="control-label text-white">Status</label>
                             <span asp-validation-for="Status" class="text-danger"></span>

@@ -25,6 +25,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                 var result = responseTask.Result;
                 var readTask = await result.Content.ReadAsStringAsync();
                 projetos = JsonConvert.DeserializeObject<List<ProjetoViewModel>>(readTask);
+
                 return View(projetos);
             }
             return View(projetos);
@@ -42,6 +43,8 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                 Status = projeto.Status,
                 Excluido = projeto.Excluido,
                 TituloNormalizado = projeto.TituloNormalizado,
+                UrlImagem = projeto.UrlImagem,
+                UrlRedirecionar= projeto.UrlRedirecionar,
             };
 
             var responseTask = await httpClient.PutAsJsonAsync($"{ENDPOINT}/Projeto/Atualizar", p);

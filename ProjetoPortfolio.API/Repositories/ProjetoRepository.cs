@@ -26,7 +26,13 @@ namespace ProjetoPortfolio.API.Repositories
 
         public async Task<List<ProjetoModel>> BuscarTodosProjetos()
         {
-            return await _dbContext.Projetos.Where(x => !x.Excluido).ToListAsync();
+
+            List<ProjetoModel> projetos = await _dbContext.Projetos.Where(x => !x.Excluido).ToListAsync();
+
+            if (projetos.Count == 0 || projetos == null)
+                return null;
+
+            return projetos;
         }
 
         public async Task<ProjetoModel> Adicionar(ProjetoModel projeto)

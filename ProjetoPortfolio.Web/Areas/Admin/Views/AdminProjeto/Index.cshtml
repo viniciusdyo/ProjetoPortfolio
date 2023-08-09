@@ -12,12 +12,10 @@
 <section class="container-fluid">
     <div class="container">
         <div class="row g-3">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-adicionar-projeto">Adicionar novo projeto</button>
+            <a class="btn btn-primary text-white col-4" data-bs-toggle="modal" data-bs-target="#modal-adicionar-projeto">Adicionar novo projeto</a>
             <table class="table table-dark">
                 <thead>
                     <tr>
-
-                        <th scope="col">Id</th>
                         <th scope="col">Titulo</th>
                         <th scope="col">Descricao</th>
                         <th scope="col">Status</th>
@@ -32,14 +30,13 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <th scope="row">@item.Id</th>
-                            <td>@item.Titulo</td>
+                            <td scope="row">@item.Titulo</td>
                             <td>@item.Descricao</td>
                             <td>@item.Status</td>
                             <td>@item.Excluido</td>
                             <td>@item.TituloNormalizado</td>
-                            <td><button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado.ToLower()">Editar</button></td>
-                            <td><button class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado-modal-excluir">Excluir</button></td>
+                            <td><a class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado.ToLower()">Editar</a></td>
+                            <td><a class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado-modal-excluir">Excluir</a></td>
                         </tr>
                     }
                 </tbody>

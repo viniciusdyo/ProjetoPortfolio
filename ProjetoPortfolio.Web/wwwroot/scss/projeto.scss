@@ -1,0 +1,7 @@
+@import 'site';
+
+.card-custom_bshadow {
+    -webkit-box-shadow: 0px 0px 4px 0px rgba($primary, 0.75);
+    -moz-box-shadow: 0px 0px 4px 0px rgba($primary, 0.75);
+    box-shadow: 0px 0px 4px 0px rgba($primary, 0.75);
+}

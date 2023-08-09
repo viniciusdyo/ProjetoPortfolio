@@ -52,6 +52,8 @@ namespace ProjetoPortfolio.API
                 };
             });
 
+            builder.Services.AddScoped<ICategoriaConteudoRepository, CategoriaConteudoRepository>();
+            builder.Services.AddScoped<IConteudoRepository, ConteudoRepository>();
             builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
             builder.Services.AddScoped<ILoginRepository, LoginRepository>();
             builder.Services.AddScoped<IRegistroRepository, RegistroRepository>();
