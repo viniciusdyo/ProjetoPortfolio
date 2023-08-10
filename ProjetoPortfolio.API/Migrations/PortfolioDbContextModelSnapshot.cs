@@ -224,9 +224,43 @@ namespace ProjetoPortfolio.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ProjetoPortfolio.API.Models.AtivoConteudoModel", b =>
+                {
+                    b.Property<Guid>("AtivoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ConteudoModelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("TipoAtivo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Valor")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.HasKey("AtivoId");
+
+                    b.HasIndex("ConteudoModelId");
+
+                    b.ToTable("Ativos");
+                });
+
             modelBuilder.Entity("ProjetoPortfolio.API.Models.CategoriaConteudoModel", b =>
                 {
-                    b.Property<Guid>("CategoriaConteudoId")
+                    b.Property<Guid>("CategoriaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -240,7 +274,7 @@ namespace ProjetoPortfolio.API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("CategoriaConteudoId");
+                    b.HasKey("CategoriaId");
 
                     b.ToTable("CategoriaConteudo");
                 });
@@ -251,10 +285,7 @@ namespace ProjetoPortfolio.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CategoriaConteudoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CategoriaConteudoModelCategoriaConteudoId")
+                    b.Property<Guid>("CategoriaId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Conteudo")
@@ -274,9 +305,7 @@ namespace ProjetoPortfolio.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriaConteudoId");
-
-                    b.HasIndex("CategoriaConteudoModelCategoriaConteudoId");
+                    b.HasIndex("CategoriaId");
 
                     b.ToTable("Conteudo");
                 });
@@ -365,17 +394,22 @@ namespace ProjetoPortfolio.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjetoPortfolio.API.Models.ConteudoModel", b =>
+            modelBuilder.Entity("ProjetoPortfolio.API.Models.AtivoConteudoModel", b =>
                 {
-                    b.HasOne("ProjetoPortfolio.API.Models.CategoriaConteudoModel", null)
-                        .WithMany("ConteudoModels")
-                        .HasForeignKey("CategoriaConteudoId")
+                    b.HasOne("ProjetoPortfolio.API.Models.ConteudoModel", "ConteudoModel")
+                        .WithMany("AtivoConteudoModels")
+                        .HasForeignKey("ConteudoModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ConteudoModel");
+                });
+
+            modelBuilder.Entity("ProjetoPortfolio.API.Models.ConteudoModel", b =>
+                {
                     b.HasOne("ProjetoPortfolio.API.Models.CategoriaConteudoModel", "CategoriaConteudoModel")
-                        .WithMany()
-                        .HasForeignKey("CategoriaConteudoModelCategoriaConteudoId")
+                        .WithMany("ConteudoModels")
+                        .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -385,6 +419,11 @@ namespace ProjetoPortfolio.API.Migrations
             modelBuilder.Entity("ProjetoPortfolio.API.Models.CategoriaConteudoModel", b =>
                 {
                     b.Navigation("ConteudoModels");
+                });
+
+            modelBuilder.Entity("ProjetoPortfolio.API.Models.ConteudoModel", b =>
+                {
+                    b.Navigation("AtivoConteudoModels");
                 });
 #pragma warning restore 612, 618
         }

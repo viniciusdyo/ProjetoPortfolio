@@ -1,4 +1,5 @@
 ﻿using ProjetoPortfolio.API.Models;
+using ProjetoPortfolio.API.Models.DTOs;
 
 namespace ProjetoPortfolio.API.Repositories.Interfaces;
 
@@ -6,8 +7,8 @@ namespace ProjetoPortfolio.API.Repositories.Interfaces;
     {
     Task<ConteudoModel> BuscarPorId(Guid id);
     Task<List<ConteudoModel>> Listar();
-    Task<ConteudoModel> Adicionar(ConteudoModel conteudo);
-    Task<ConteudoModel> Atualizar(ConteudoModel conteudo);
+    Task<bool> Adicionar(ConteudoDto conteudo, List<AtivoConteudoDto> ativos);
+    Task<ConteudoModel> Atualizar(ConteudoDto conteudo, List<AtivoConteudoDto> ativos);
     Task<ConteudoModel> Excluir(Guid id);
 }
 

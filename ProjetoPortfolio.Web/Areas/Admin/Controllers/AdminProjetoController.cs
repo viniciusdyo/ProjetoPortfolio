@@ -18,18 +18,20 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            List<ProjetoViewModel> projetos = null;
+             
             var responseTask = httpClient.GetAsync($"{ENDPOINT}/Projeto");
             if (responseTask.Result.IsSuccessStatusCode)
             {
                 var result = responseTask.Result;
                 var readTask = await result.Content.ReadAsStringAsync();
-                projetos = JsonConvert.DeserializeObject<List<ProjetoViewModel>>(readTask);
-
-                return View(projetos);
+                List<ProjetoViewModel> projetos = JsonConvert.DeserializeObject<List<ProjetoViewModel>>(readTask);
+                if (projetos != null)
+                {
+                    return View(projetos);
+                }
             }
-            return View(projetos);
 
+            return View(new List<ProjetoViewModel>());
         }
 
 
@@ -44,7 +46,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                 Excluido = projeto.Excluido,
                 TituloNormalizado = projeto.TituloNormalizado,
                 UrlImagem = projeto.UrlImagem,
-                UrlRedirecionar= projeto.UrlRedirecionar,
+                UrlRedirecionar = projeto.UrlRedirecionar,
             };
 
             var responseTask = await httpClient.PutAsJsonAsync($"{ENDPOINT}/Projeto/Atualizar", p);
@@ -81,7 +83,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
 
             var responseTask = await httpClient.PostAsJsonAsync($"{ENDPOINT}/Projeto/Cadastrar", p);
 
-            if(responseTask.IsSuccessStatusCode)
+            if (responseTask.IsSuccessStatusCode)
                 if (responseTask.IsSuccessStatusCode)
                     return RedirectToAction("Index");
 

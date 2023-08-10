@@ -26,10 +26,10 @@ namespace ProjetoPortfolio.Web.Controllers
                 if(conteudoResponse.IsSuccessStatusCode)
                 {
                     var readConteudoTask = await conteudoResponse.Content.ReadAsStringAsync();
-                    var conteudos = JsonConvert.DeserializeObject<List<ConteudoModel>>(readConteudoTask).Where(x => x.CategoriaConteudoModel.Nome == "Home");
+                    var conteudos = JsonConvert.DeserializeObject<List<Conteudo>>(readConteudoTask).Where(x => x.CategoriaConteudoModel.Nome == "Home");
                     return View(conteudos);
                 }
-                return View(new List<ConteudoModel>());
+                return View(new List<Conteudo>());
 
             }
             catch (Exception ex)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjetoPortfolio.API.Models;
+using ProjetoPortfolio.API.Models.DTOs;
 using ProjetoPortfolio.API.Repositories.Interfaces;
 
 namespace ProjetoPortfolio.API.Controllers
@@ -35,13 +36,13 @@ namespace ProjetoPortfolio.API.Controllers
 
         [HttpPost("Adicionar")]
 
-        public async Task<ActionResult<CategoriaConteudoModel>> Adicionar(CategoriaConteudoModel categoria)
+        public async Task<ActionResult<CategoriaConteudoModel>> Adicionar(CategoriaConteudoDto categoria)
         {
             try
             {
                 if (categoria == null) throw new Exception("Valor de categoria inválido");
 
-                categoria.CategoriaConteudoId = Guid.NewGuid();
+                categoria.CategoriaId = Guid.NewGuid();
                 CategoriaConteudoModel categoriaResponse = await _categoriaConteudoRepository.Adicionar(categoria);
 
                 if (categoriaResponse == null) throw new Exception("Falha ao cadastrar.");
@@ -56,7 +57,7 @@ namespace ProjetoPortfolio.API.Controllers
         }
 
         [HttpPut("Editar")]
-        public async Task<ActionResult<CategoriaConteudoModel>> Editar(CategoriaConteudoModel categoria)
+        public async Task<ActionResult<CategoriaConteudoModel>> Editar(CategoriaConteudoDto categoria)
         {
             try
             {

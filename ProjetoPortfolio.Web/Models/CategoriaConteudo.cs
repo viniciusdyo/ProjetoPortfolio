@@ -1,6 +1,6 @@
 ﻿namespace ProjetoPortfolio.Web.Models
 {
-    public class CategoriaConteudoModel
+    public class CategoriaConteudo
     {
         public Guid CategoriaConteudoId { get; set; }
         public string Nome { get; set; }

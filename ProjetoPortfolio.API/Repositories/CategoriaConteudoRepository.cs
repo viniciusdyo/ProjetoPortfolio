@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjetoPortfolio.API.Data;
 using ProjetoPortfolio.API.Models;
+using ProjetoPortfolio.API.Models.DTOs;
 using ProjetoPortfolio.API.Repositories.Interfaces;
 
 namespace ProjetoPortfolio.API.Repositories
@@ -8,9 +9,11 @@ namespace ProjetoPortfolio.API.Repositories
     public class CategoriaConteudoRepository : ICategoriaConteudoRepository
     {
         private readonly PortfolioDbContext _dbContext;
-        public CategoriaConteudoRepository(PortfolioDbContext dbContext)
+        private readonly IConteudoRepository _conteudoRepository;
+        public CategoriaConteudoRepository(PortfolioDbContext dbContext, IConteudoRepository conteudoRepository)
         {
             _dbContext = dbContext;
+            _conteudoRepository = conteudoRepository;
         }
         public async Task<List<CategoriaConteudoModel>> Listar()
         {
@@ -25,23 +28,36 @@ namespace ProjetoPortfolio.API.Repositories
             if (Guid.Empty == id || id == null)
                 return null;
 
-            CategoriaConteudoModel categoria = await _dbContext.CategoriaConteudo.FirstOrDefaultAsync(x => x.CategoriaConteudoId == id);
+            var categoriaResponse = await _dbContext.CategoriaConteudo.Include(x => x.ConteudoModels).FirstOrDefaultAsync(x => x.CategoriaId == id);
+
+            if (categoriaResponse == null)
+                return null;
+
+            CategoriaConteudoModel categoria = new()
+            {
+                CategoriaId = categoriaResponse.CategoriaId,
+                Nome = categoriaResponse.Nome,
+                Descricao= categoriaResponse.Descricao,
+                ConteudoModels= categoriaResponse.ConteudoModels,
+            };
 
             if (categoria == null)
                 return null;
 
             return categoria;
         }
-        public async Task<CategoriaConteudoModel> Adicionar(CategoriaConteudoModel categoria)
+        public async Task<CategoriaConteudoModel> Adicionar(CategoriaConteudoDto categoria)
         {
             if (categoria == null)
                 return null;
-            CategoriaConteudoModel categoriaModel = new CategoriaConteudoModel()
+
+            CategoriaConteudoModel categoriaModel = new()
             {
-                CategoriaConteudoId = categoria.CategoriaConteudoId,
-                Nome= categoria.Nome,
-                Descricao= categoria.Descricao,
+                CategoriaId = categoria.CategoriaId,
+                Nome = categoria.Nome,
+                Descricao = categoria.Descricao
             };
+
             await _dbContext.CategoriaConteudo.AddAsync(categoriaModel);
             await _dbContext.SaveChangesAsync();
 
@@ -63,24 +79,23 @@ namespace ProjetoPortfolio.API.Repositories
             return categoria;
         }
 
-        public async Task<CategoriaConteudoModel> Atualizar(CategoriaConteudoModel categoria)
+        public async Task<CategoriaConteudoModel> Atualizar(CategoriaConteudoDto categoria)
         {
             if (categoria == null)
                 return null;
 
-            CategoriaConteudoModel categoriaRequest = await BuscarPorId(categoria.CategoriaConteudoId);
+            CategoriaConteudoModel categoriaResponse = await BuscarPorId(categoria.CategoriaId);
 
-            if (categoriaRequest == null)
+            if (categoriaResponse == null)
                 return null;
 
-            categoriaRequest.Nome = categoria.Nome;
-            categoriaRequest.Descricao= categoria.Descricao;
+            categoriaResponse.Nome = categoria.Nome;
+            categoriaResponse.Descricao= categoria.Descricao;
 
-            _dbContext.CategoriaConteudo.Update(categoriaRequest);
-
+            _dbContext.CategoriaConteudo.Update(categoriaResponse);
             await _dbContext.SaveChangesAsync();
 
-            return categoriaRequest;
+            return categoriaResponse;
         }
     }
 }

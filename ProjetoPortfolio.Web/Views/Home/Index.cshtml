@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ConteudoModel>
+﻿@model IEnumerable<Conteudo>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -19,7 +19,7 @@
                             <div class="col-9">
                                 <h3 class="display-5 text-white mb-3">@item.Titulo</h3>
                                 <hr class="border border-primary border-1 opacity-25  mb-3" />
-                                <p class="text-white opacity-75 col-9 mb-4">@item.Conteudo</p>
+                                <p class="text-white opacity-75 col-9 mb-4">@item.ConteudoValor</p>
                                 <a class="btn btn-primary text-white">Acessar</a>
                             </div>
                         </li>
@@ -133,4 +133,4 @@
     </article>
 </section>
 
-<script src="~/js/build/home.min.js"></script>
+<script src="~/js/home.min.js"></script>

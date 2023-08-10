@@ -13,41 +13,50 @@
     <div class="container">
         <div class="row g-3">
             <a class="btn btn-primary text-white col-4" data-bs-toggle="modal" data-bs-target="#modal-adicionar-projeto">Adicionar novo projeto</a>
-            <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">Titulo</th>
-                        <th scope="col">Descricao</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Excluido</th>
-                        <th scope="col">Normalizado</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+            <article>
+                @if (Model.Any())
+                {
 
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td scope="row">@item.Titulo</td>
-                            <td>@item.Descricao</td>
-                            <td>@item.Status</td>
-                            <td>@item.Excluido</td>
-                            <td>@item.TituloNormalizado</td>
-                            <td><a class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado.ToLower()">Editar</a></td>
-                            <td><a class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado-modal-excluir">Excluir</a></td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Titulo</th>
+                                <th scope="col">Descricao</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Excluido</th>
+                                <th scope="col">Normalizado</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td scope="row">@item.Titulo</td>
+                                    <td>@item.Descricao</td>
+                                    <td>@item.Status</td>
+                                    <td>@item.Excluido</td>
+                                    <td>@item.TituloNormalizado</td>
+                                    <td><a class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado.ToLower()">Editar</a></td>
+                                    <td><a class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado-modal-excluir">Excluir</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                <hr class="border-primary" />
+                <h1 class="h1 text-white">Nenhum projeto encontrado</h1>
+            </article>
         </div>
     </div>
 </section>
 
 @foreach (var item in Model)
 {
-    @await Html.PartialAsync("_EditarProjetoModal", item);
+    @await Html.PartialAsync("_EditarProjetoModal", item)
+    ;
 }
 
 @await Html.PartialAsync("_AdicionarProjetoModal", new ProjetoViewModel())

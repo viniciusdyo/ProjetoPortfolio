@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjetoPortfolio.API.Models;
+using ProjetoPortfolio.API.Models.DTOs;
+using ProjetoPortfolio.API.Models.DTOs.Response;
+using ProjetoPortfolio.API.Models.ViewModels;
 using ProjetoPortfolio.API.Repositories.Interfaces;
+using System.Collections;
 
 namespace ProjetoPortfolio.API.Controllers
 {
@@ -29,7 +33,7 @@ namespace ProjetoPortfolio.API.Controllers
 
                 foreach (var item in conteudos)
                 {
-                    item.CategoriaConteudoModel = await _categoriaRepository.BuscarPorId(item.CategoriaConteudoId);
+                    item.CategoriaConteudoModel = await _categoriaRepository.BuscarPorId(item.CategoriaId);
 
                     if (item.CategoriaConteudoModel == null)
                         throw new Exception("Não há categoria");
@@ -64,29 +68,45 @@ namespace ProjetoPortfolio.API.Controllers
         }
 
         [HttpPost("CadastrarConteudo")]
-        public async Task<ActionResult<ConteudoModel>> Cadastrar([FromBody] ConteudoModel conteudo)
+        public async Task<ActionResult> Cadastrar([FromBody] ConteudoAtivosViewModel conteudo)
         {
             try
             {
-                if (conteudo == null) throw new Exception("Conteudo inválido");
+                if (conteudo == null) throw new Exception("Valores inválidos");
 
-                if (conteudo.CategoriaConteudoId == null) throw new Exception("Categoria não encontrada");
-
-                CategoriaConteudoModel categoria = await _categoriaRepository.BuscarPorId(conteudo.CategoriaConteudoId);
-                ConteudoModel conteudoRequest = new ConteudoModel()
+                ConteudoDto conteudoRequest = new()
                 {
                     Id = Guid.NewGuid(),
-                    Nome = conteudo.Nome,
-                    Conteudo = conteudo.Conteudo,
-                    Titulo = conteudo.Titulo,
-                    CategoriaConteudoId = conteudo.CategoriaConteudoId,
+                    Nome = conteudo.Conteudo.Nome,
+                    Conteudo = conteudo.Conteudo.Conteudo,
+                    Titulo = conteudo.Conteudo.Titulo,
+                    CategoriaId = conteudo.Conteudo.CategoriaId
                 };
 
-                ConteudoModel conteudoResponse = await _conteudoRepository.Adicionar(conteudoRequest);
+                List<AtivoConteudoDto> ativosRequest = new();
 
-                if (conteudoResponse == null) throw new Exception("Erro no servidor");
+                if (conteudo.Ativos != null && conteudo.Ativos.Count > 0)
+                {
+                    foreach (var item in conteudo.Ativos)
+                    {
+                        var ativo = new AtivoConteudoDto()
+                        {
+                            AtivoId = Guid.NewGuid(),
+                            Nome = item.Nome,
+                            Descricao = item.Descricao,
+                            TipoAtivo = item.TipoAtivo,
+                            Valor = item.Valor,
+                            ConteudoModelId = conteudoRequest.Id,
+                        };
+                        ativosRequest.Add(ativo);
+                    }
+                }
 
-                return Ok(conteudoResponse);
+                var conteudoResponse = await _conteudoRepository.Adicionar(conteudoRequest, ativosRequest);
+
+                if (conteudoResponse) throw new Exception("Erro no servidor");
+
+                return Ok();
             }
             catch (Exception e)
             {
@@ -95,7 +115,7 @@ namespace ProjetoPortfolio.API.Controllers
         }
 
         [HttpPut("Editar/{id}")]
-        public async Task<ActionResult<ConteudoModel>> Editar(Guid id, [FromBody] ConteudoModel conteudo)
+        public async Task<ActionResult<ConteudoModel>> Editar(Guid id, [FromBody] ConteudoAtivosViewModel conteudo)
         {
             try
             {
@@ -103,7 +123,7 @@ namespace ProjetoPortfolio.API.Controllers
 
                 if (Guid.Empty == id) throw new Exception("Id inválido");
 
-                ConteudoModel conteudoResponse = await _conteudoRepository.Atualizar(conteudo);
+                ConteudoModel conteudoResponse = await _conteudoRepository.Atualizar(conteudo.Conteudo, conteudo.Ativos);
 
                 if (conteudoResponse == null) throw new Exception("Erro ao atualizar");
 

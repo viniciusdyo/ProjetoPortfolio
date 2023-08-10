@@ -24,42 +24,43 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
             try
             {
                 var responseTask = await _httpClient.GetAsync($"{ENDPOINT}/Conteudo/Conteudos");
-                if (responseTask.IsSuccessStatusCode)
+                var categoriasResponse = await _httpClient.GetAsync($"{ENDPOINT}/CategoriaConteudo/Categorias");
+
+                if (categoriasResponse.IsSuccessStatusCode)
                 {
-                    var result = responseTask.Content;
-                    var readResult = await result.ReadAsStringAsync();
-                    var conteudos = JsonConvert.DeserializeObject<List<ConteudoModel>>(readResult);
+                    var readCategoriasResult = await categoriasResponse.Content.ReadAsStringAsync();
 
+                    var categorias = JsonConvert.DeserializeObject<List<CategoriaConteudo>>(readCategoriasResult);
 
-                    if (conteudos == null || conteudos.Count == 0)
-                        throw new Exception("Nenhum conteudo encontrado.");
+                    if (categorias == null || categorias.Count == 0)
+                        throw new Exception("Categorias não encontradas");
 
-                    List<ConteudoViewModel> conteudoView = new List<ConteudoViewModel>();
+                    ViewBag.Categorias = categorias;
 
-                    var categoriasResponse = await _httpClient.GetAsync($"{ENDPOINT}/CategoriaConteudo/Categorias");
-                    if (categoriasResponse.IsSuccessStatusCode)
+                    if (responseTask.IsSuccessStatusCode)
                     {
-                        var readCategoriasResult = await categoriasResponse.Content.ReadAsStringAsync();
+                        var result = responseTask.Content;
+                        var readResult = await result.ReadAsStringAsync();
+                        var conteudos = JsonConvert.DeserializeObject<List<Conteudo>>(readResult);
 
-                        var categorias = JsonConvert.DeserializeObject<List<CategoriaConteudoModel>>(readCategoriasResult);
 
-                        if (categorias == null || categorias.Count == 0)
-                            throw new Exception("Categorias não encontradas");
+                        if (conteudos == null || conteudos.Count == 0)
+                            throw new Exception("Nenhum conteudo encontrado.");
 
-                        ViewBag.Categorias = categorias;
+                        List<ConteudoViewModel> conteudoView = new();
 
                         foreach (var item in conteudos)
                         {
-                            CategoriaConteudoModel categoria = item.CategoriaConteudoModel;
+                            CategoriaConteudo categoria = item.CategoriaConteudoModel;
 
                             var i = new ConteudoViewModel()
                             {
-                                Conteudo = new ConteudoModel()
+                                Conteudo = new Conteudo()
                                 {
                                     Id = item.Id,
                                     Nome = item.Nome,
                                     Titulo = item.Titulo,
-                                    Conteudo = item.Conteudo,
+                                    ConteudoValor = item.ConteudoValor,
                                     CategoriaConteudoId = item.CategoriaConteudoId
                                 },
                                 CategoriaConteudo = categoria,
@@ -67,22 +68,15 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                             };
                             conteudoView.Add(i);
                         }
+                        return View(conteudoView);
                     }
-
-
-
-
-                    if (conteudoView == null || conteudoView.Count == 0)
-                        throw new Exception("Nenhum conteudo encontrado.");
-
-                    return View(conteudoView);
                 }
-                throw new Exception("Nenhum conteudo encontrado.");
+                return View(new List<ConteudoViewModel>());
             }
             catch (Exception e)
             {
                 ViewData["Erro"] = e;
-                return View();
+                return RedirectToAction("Index", "Admin");
             }
         }
 
@@ -93,14 +87,14 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                 if (conteudoView.Conteudo == null)
                     throw new Exception("Conteúdo inválido");
 
-                ConteudoModel conteudoModel = new ConteudoModel()
+                Conteudo conteudoModel = new()
                 {
                     Id = Guid.Empty,
                     Nome = conteudoView.Conteudo.Nome,
                     Titulo = conteudoView.Conteudo.Titulo,
-                    Conteudo = conteudoView.Conteudo.Conteudo,
+                    ConteudoValor = conteudoView.Conteudo.ConteudoValor,
                     CategoriaConteudoId = conteudoView.Conteudo.CategoriaConteudoId,
-                    CategoriaConteudoModel = new CategoriaConteudoModel()
+                    CategoriaConteudoModel = new CategoriaConteudo()
                     {
                         CategoriaConteudoId = conteudoView.Conteudo.CategoriaConteudoId,
                         Descricao = string.Empty,
@@ -130,16 +124,16 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
         {
             try
             {
-                
+
                 if (conteudoView.Conteudo == null) throw new Exception("Conteúdo inválido");
-                ConteudoModel conteudoModel = new ConteudoModel()
+                Conteudo conteudoModel = new()
                 {
                     Id = conteudoView.Conteudo.Id,
                     Nome = conteudoView.Conteudo.Nome,
                     Titulo = conteudoView.Conteudo.Titulo,
-                    Conteudo = conteudoView.Conteudo.Conteudo,
+                    ConteudoValor = conteudoView.Conteudo.ConteudoValor,
                     CategoriaConteudoId = conteudoView.Conteudo.CategoriaConteudoId,
-                    CategoriaConteudoModel = new CategoriaConteudoModel()
+                    CategoriaConteudoModel = new CategoriaConteudo()
                     {
                         CategoriaConteudoId = conteudoView.Conteudo.CategoriaConteudoId,
                         Descricao = string.Empty,
