@@ -8,12 +8,12 @@
 
     .bv-carousel-progress-bar {
         background: $primary;
-        -webkit-box-shadow: 0px 0px 22px 0px rgba($primary,0.75);
-        -moz-box-shadow: 0px 0px 22px 0px rgba($primary,0.75);
-        box-shadow: 0px 0px 22px 0px rgba($primary,0.75);
-        width: 2px;
+        -webkit-box-shadow: 0px 0px 22px 0px rgba($primary, 0.75);
+        -moz-box-shadow: 0px 0px 22px 0px rgba($primary, 0.75);
+        box-shadow: 0px 0px 22px 0px rgba($primary, 0.75);
         transition: all 400ms ease;
-        height: 33.3333%;
+        width: 2px;
+        height: 0;
         top: 0;
         position: absolute;
     }
@@ -26,8 +26,8 @@
         height: 25em;
         max-width: 95%;
         background-image: url('https://media.licdn.com/dms/image/C4E03AQFVtkQ-vR2fyg/profile-displayphoto-shrink_800_800/0/1613086347813?e=1695254400&v=beta&t=BUCnkjCIdT6bjTZnRjMj6V8qCmSisQ0m2JdNCYi_za0');
-        background-size:cover;
-        background-position:center;
+        background-size: cover;
+        background-position: center;
         -webkit-box-shadow: -13px 13px 0px 0px $secondary;
         -moz-box-shadow: -13px 13px 0px 0px $secondary;
         box-shadow: -13px 13px 0px 0px $secondary;

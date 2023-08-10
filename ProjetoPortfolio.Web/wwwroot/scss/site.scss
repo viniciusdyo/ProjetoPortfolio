@@ -13,3 +13,19 @@ footer {
 .bg-dark-darker {
     background-color: $cor-principal-escura !important;
 }
+
+
+.animacao-pagina {
+    animation-name: blur-in;
+    animation-duration: 1.2s;
+}
+
+@keyframes blur-in {
+    from {
+        opacity: 0%;
+    }
+
+    to {
+        opacity: 100%;
+    }
+}

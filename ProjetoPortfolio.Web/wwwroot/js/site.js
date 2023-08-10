@@ -3,3 +3,10 @@
 
 // Write your JavaScript code.
 
+var mainContent = document.querySelector('#mainContent');
+
+var pathName = window.location.pathname;
+
+mainContent.addEventListener('change', () => {
+    mainContent.classList.add('animacao-pagina')
+})
