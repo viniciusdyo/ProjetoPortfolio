@@ -7,7 +7,7 @@ namespace ProjetoPortfolio.API.Data
 {
     public class PortfolioDbContext : IdentityDbContext
     {
-        public PortfolioDbContext(DbContextOptions<PortfolioDbContext> options) : base(options) 
+        public PortfolioDbContext(DbContextOptions<PortfolioDbContext> options) : base(options)
         {
 
         }

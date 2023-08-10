@@ -24,7 +24,7 @@ namespace ProjetoPortfolio.API.Controllers
             try
             {
                 List<ConteudoModel> conteudos = await _conteudoRepository.Listar();
-                if (conteudos.Count == 0 || conteudos == null)
+                if (conteudos == null || conteudos.Count == 0)
                     throw new Exception("Não há conteudos a serem listados");
 
                 foreach (var item in conteudos)
@@ -75,7 +75,7 @@ namespace ProjetoPortfolio.API.Controllers
                 CategoriaConteudoModel categoria = await _categoriaRepository.BuscarPorId(conteudo.CategoriaConteudoId);
                 ConteudoModel conteudoRequest = new ConteudoModel()
                 {
-                    Id = Guid.NewGuid(),  
+                    Id = Guid.NewGuid(),
                     Nome = conteudo.Nome,
                     Conteudo = conteudo.Conteudo,
                     Titulo = conteudo.Titulo,
@@ -94,18 +94,22 @@ namespace ProjetoPortfolio.API.Controllers
             }
         }
 
-        [HttpPut("Editar")]
-        public async Task<ActionResult<ConteudoModel>> Editar([FromBody] ConteudoModel conteudo)
+        [HttpPut("Editar/{id}")]
+        public async Task<ActionResult<ConteudoModel>> Editar(Guid id, [FromBody] ConteudoModel conteudo)
         {
             try
             {
                 if (conteudo == null) throw new Exception("Conteúdo inválido");
+
+                if (Guid.Empty == id) throw new Exception("Id inválido");
 
                 ConteudoModel conteudoResponse = await _conteudoRepository.Atualizar(conteudo);
 
                 if (conteudoResponse == null) throw new Exception("Erro ao atualizar");
 
                 return Ok(conteudoResponse);
+
+
             }
             catch (Exception e)
             {

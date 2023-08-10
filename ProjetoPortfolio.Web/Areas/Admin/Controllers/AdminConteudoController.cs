@@ -59,7 +59,8 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                                     Id = item.Id,
                                     Nome = item.Nome,
                                     Titulo = item.Titulo,
-                                    Conteudo = item.Conteudo
+                                    Conteudo = item.Conteudo,
+                                    CategoriaConteudoId = item.CategoriaConteudoId
                                 },
                                 CategoriaConteudo = categoria,
                                 Categorias = categorias
@@ -145,7 +146,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                         Nome = string.Empty
                     },
                 };
-                var conteudoResponse = await _httpClient.PutAsJsonAsync($"{ENDPOINT}/Conteudo/Editar", conteudoModel);
+                var conteudoResponse = await _httpClient.PutAsJsonAsync($"{ENDPOINT}/Conteudo/Editar/{conteudoModel.Id}", conteudoModel);
 
                 if (conteudoResponse.IsSuccessStatusCode)
                     RedirectToAction("Index");

@@ -10,6 +10,6 @@ namespace ProjetoPortfolio.API.Models
         public string Nome { get; set; }
         public Guid CategoriaConteudoId { get; set; }
         [NotMapped]
-        public CategoriaConteudoModel CategoriaConteudoModel { get; set; }
+        public virtual CategoriaConteudoModel CategoriaConteudoModel { get; set; }
     }
 }

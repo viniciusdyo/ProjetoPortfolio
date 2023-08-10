@@ -5,7 +5,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editar-conteudo">Editar Conteudo.Titulo</h1>
+                <h1 class="modal-title fs-5" id="editar-conteudo">Editar @Model.Conteudo.Titulo</h1>
                 <button type="button" class="btn-fechar" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -41,7 +41,6 @@
                                 if (item.CategoriaConteudoId == Model.Conteudo.CategoriaConteudoId)
                                 {
                                     <option value="@item.CategoriaConteudoId" selected>@item.Nome</option>
-
                                 }
                                 else
                                 {

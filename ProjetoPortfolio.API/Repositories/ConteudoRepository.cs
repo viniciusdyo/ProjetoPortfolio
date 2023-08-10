@@ -9,9 +9,11 @@ namespace ProjetoPortfolio.API.Repositories
     public class ConteudoRepository : IConteudoRepository
     {
         private readonly PortfolioDbContext _dbContext;
-        public ConteudoRepository(PortfolioDbContext dbContext)
+        private readonly ICategoriaConteudoRepository _categoriaConteudoRepository;
+        public ConteudoRepository(PortfolioDbContext dbContext, ICategoriaConteudoRepository categoriaConteudoRepository)
         {
             _dbContext = dbContext;
+            _categoriaConteudoRepository = categoriaConteudoRepository;
         }
 
         public async Task<ConteudoModel> BuscarPorId(Guid id)
@@ -39,33 +41,42 @@ namespace ProjetoPortfolio.API.Repositories
             if (conteudo == null)
                 return null;
 
+            ConteudoModel conteudoRequest = new ConteudoModel();
+            conteudoRequest.Titulo = conteudo.Titulo;
+            conteudoRequest.Nome = conteudo.Nome;
+            conteudoRequest.Conteudo = conteudo.Conteudo;
+            conteudoRequest.CategoriaConteudoId = conteudo.CategoriaConteudoId;
             await _dbContext.Conteudo.AddAsync(conteudo);
-           var save = await _dbContext.SaveChangesAsync();
-            if(save > 0)
-            {
+            await _dbContext.SaveChangesAsync();
+
 
             return conteudo;
-            }
+
 
             throw new Exception();
         }
 
-        public async Task<ConteudoModel> Atualizar(ConteudoModel conteudo)
+        public async Task<ConteudoModel> Atualizar(ConteudoModel conteudoRequest)
         {
-            if (conteudo == null)
+            if (conteudoRequest == null)
                 return null;
 
-            ConteudoModel conteudoRequest = await BuscarPorId(conteudo.Id);
-            conteudoRequest.Titulo = conteudo.Titulo;
-            conteudoRequest.Conteudo = conteudo.Conteudo;
-            conteudoRequest.CategoriaConteudoModel = conteudo.CategoriaConteudoModel;
-            conteudoRequest.CategoriaConteudoId = conteudo.CategoriaConteudoId;
-            conteudoRequest.Nome = conteudo.Nome;
+            var conteudo = await BuscarPorId(conteudoRequest.Id);
+            conteudo.Titulo = conteudoRequest.Titulo;
+            conteudo.Nome= conteudoRequest.Nome;
+            conteudo.Conteudo = conteudoRequest.Conteudo;
+            conteudo.CategoriaConteudoId = conteudoRequest.CategoriaConteudoId;
 
-            _dbContext.Conteudo.Update(conteudoRequest);
-            await _dbContext.SaveChangesAsync();
 
-            return conteudoRequest;
+
+            if (conteudo != null)
+            {
+                _dbContext.Conteudo.Update(conteudo);
+                await _dbContext.SaveChangesAsync();
+                return conteudo;
+            }
+
+            return null;
         }
 
         public async Task<ConteudoModel> Excluir(Guid id)

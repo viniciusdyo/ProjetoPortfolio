@@ -9,18 +9,21 @@
 <section id="home-carousel-bemvindo" class="splide container d-flex py-5 my-5">
     <div class="splide__track">
         <ul class="splide__list">
-            @foreach (var item in Model)
+            @if (Model.Any())
             {
-                if (item.Nome == "Slide")
+                foreach (var item in Model)
                 {
-                    <li class="splide__slide">
-                        <div class="col-9">
-                            <h3 class="display-5 text-white mb-3">@item.Titulo</h3>
-                            <hr class="border border-primary border-1 opacity-25  mb-3" />
-                            <p class="text-white opacity-75 col-9 mb-4">@item.Conteudo</p>
-                            <a class="btn btn-primary text-white">Acessar</a>
-                        </div>
-                    </li>
+                    if (item.Nome == "Slide")
+                    {
+                        <li class="splide__slide">
+                            <div class="col-9">
+                                <h3 class="display-5 text-white mb-3">@item.Titulo</h3>
+                                <hr class="border border-primary border-1 opacity-25  mb-3" />
+                                <p class="text-white opacity-75 col-9 mb-4">@item.Conteudo</p>
+                                <a class="btn btn-primary text-white">Acessar</a>
+                            </div>
+                        </li>
+                    }
                 }
             }
         </ul>

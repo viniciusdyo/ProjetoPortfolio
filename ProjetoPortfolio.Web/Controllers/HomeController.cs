@@ -29,7 +29,7 @@ namespace ProjetoPortfolio.Web.Controllers
                     var conteudos = JsonConvert.DeserializeObject<List<ConteudoModel>>(readConteudoTask).Where(x => x.CategoriaConteudoModel.Nome == "Home");
                     return View(conteudos);
                 }
-                return View();
+                return View(new List<ConteudoModel>());
 
             }
             catch (Exception ex)

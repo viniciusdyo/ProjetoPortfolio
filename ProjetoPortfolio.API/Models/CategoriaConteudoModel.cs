@@ -1,4 +1,6 @@
-﻿namespace ProjetoPortfolio.API.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ProjetoPortfolio.API.Models
 {
     public class CategoriaConteudoModel
     {
@@ -6,5 +8,6 @@
         public string Nome { get; set; }
         public string Descricao { get; set; }
 
+       
     }
 }

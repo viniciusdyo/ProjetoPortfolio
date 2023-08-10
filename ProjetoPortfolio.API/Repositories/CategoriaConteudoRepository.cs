@@ -36,11 +36,16 @@ namespace ProjetoPortfolio.API.Repositories
         {
             if (categoria == null)
                 return null;
-
-            await _dbContext.CategoriaConteudo.AddAsync(categoria);
+            CategoriaConteudoModel categoriaModel = new CategoriaConteudoModel()
+            {
+                CategoriaConteudoId = categoria.CategoriaConteudoId,
+                Nome= categoria.Nome,
+                Descricao= categoria.Descricao,
+            };
+            await _dbContext.CategoriaConteudo.AddAsync(categoriaModel);
             await _dbContext.SaveChangesAsync();
 
-            return categoria;
+            return categoriaModel;
         }
 
 

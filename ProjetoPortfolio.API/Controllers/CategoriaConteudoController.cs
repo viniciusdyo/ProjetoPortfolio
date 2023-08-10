@@ -22,7 +22,7 @@ namespace ProjetoPortfolio.API.Controllers
             {
                 List<CategoriaConteudoModel> categorias = await _categoriaConteudoRepository.Listar();
 
-                if (categorias.Count == 0 || categorias == null) throw new Exception("Nenhuma categoria encontrada.");
+                if (categorias == null || categorias.Count == 0) throw new Exception("Nenhuma categoria encontrada.");
 
                 return Ok(categorias);
             }
