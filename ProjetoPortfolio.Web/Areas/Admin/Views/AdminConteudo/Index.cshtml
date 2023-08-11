@@ -18,7 +18,7 @@
                 <h1 class="h1 text-white">Conteúdo</h1>
                 <hr class="border-primary" />
 
-                @if (!Model.Any() || Model.Count() == 0)
+                @if (Model.Any() || Model.Count() > 0)
                 {
                     classeCard = "col-4";
                     colClasse = "";
@@ -31,7 +31,7 @@
                             <h5 class="card-header border-primary text-primary"> @item.Conteudo.Titulo</h5>
                             <div class="card-body">
                                 <h5 class="card-title">@item.Conteudo.Nome</h5>
-                                <p class="card-text">@item.Conteudo.ConteudoValor</p>
+                                <p class="card-text">@item.Conteudo.Conteudo</p>
                                 <div class="d-flex align-content-center">
 
                                     <p class="card-text me-2">
@@ -69,7 +69,7 @@
 </section>
 
 @await Html.PartialAsync("_AdicionarConteudoModal", new ConteudoViewModel(){
-    Conteudo = new Conteudo(),
+    Conteudo = new ConteudoModel(),
     CategoriaConteudo = new CategoriaConteudo(),
     Categorias = ViewBag.Categorias,
 })

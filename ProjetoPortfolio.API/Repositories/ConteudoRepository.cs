@@ -2,6 +2,7 @@
 using ProjetoPortfolio.API.Data;
 using ProjetoPortfolio.API.Models;
 using ProjetoPortfolio.API.Models.DTOs;
+using ProjetoPortfolio.API.Models.DTOs.Response;
 using ProjetoPortfolio.API.Repositories.Interfaces;
 
 namespace ProjetoPortfolio.API.Repositories
@@ -15,137 +16,305 @@ namespace ProjetoPortfolio.API.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<ConteudoModel> BuscarPorId(Guid id)
+        public async Task<PorfolioResponse<ConteudoResponse>> BuscarPorId(Guid id)
         {
-            var conteudo = await _dbContext.Conteudo.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (conteudo == null)
-                return null;
-
-            var ativos = new List<AtivoConteudoModel>();
-            var categoria = await _dbContext.CategoriaConteudo.FirstOrDefaultAsync(x => x.CategoriaId == conteudo.CategoriaId);
-
-            if (categoria == null)
-                categoria = new CategoriaConteudoModel();
-
-            foreach (var item in conteudo.AtivoConteudoModels)
+            var erros = new PorfolioResponse<ConteudoResponse>();
+            if (Guid.Empty == id)
             {
-                var ativo = await _dbContext.Ativos.FirstOrDefaultAsync(x => x.AtivoId == item.AtivoId);
-                if (ativo != null)
-                    ativos.Add(ativo);
-            }
-            var conteudoResponse = new ConteudoModel()
-            {
-                Id = conteudo.Id,
-                Nome = conteudo.Nome,
-                Titulo = conteudo.Titulo,
-                Conteudo = conteudo.Conteudo,
-                CategoriaId = conteudo.CategoriaId,
-                CategoriaConteudoModel = categoria,
-                AtivoConteudoModels = ativos,
-
-            };
-
-            if (conteudoResponse == null)
-                return null;
-
-            return conteudoResponse;
-
-        }
-
-        public async Task<List<ConteudoModel>> Listar()
-        {
-            List<ConteudoModel> conteudosResponse = await _dbContext.Conteudo.ToListAsync();
-            if (conteudosResponse.Count == 0 || conteudosResponse == null)
-                return null;
-
-            return conteudosResponse;
-        }
-
-        public async Task<bool> Adicionar(ConteudoDto conteudo, List<AtivoConteudoDto> ativos)
-        {
-            if (conteudo == null)
-                return false;
-
-            var categoria = await _dbContext.CategoriaConteudo.FirstOrDefaultAsync(x => x.CategoriaId == conteudo.CategoriaId);
-            if (categoria == null)
-                return false;
-
-            ConteudoModel conteudoResponse = new()
-            {
-                Id = conteudo.Id,
-                Nome = conteudo.Nome,
-                Titulo = conteudo.Titulo,
-                Conteudo = conteudo.Conteudo,
-                CategoriaId = conteudo.CategoriaId,
-            };
-
-            List<AtivoConteudoModel> ativosResponse = new();
-            foreach (var item in ativos)
-            {
-                var ativo = new AtivoConteudoModel
+                erros.Errors = new()
                 {
-                    AtivoId = item.AtivoId,
-                    Nome = item.Nome,
-                    Valor = item.Valor,
-                    Descricao = item.Descricao,
-                    TipoAtivo = item.TipoAtivo,
-                    ConteudoModelId = item.ConteudoModelId,
+                    "Id inválido"
                 };
-                ativosResponse.Add(ativo);
+
+                return erros;
             }
 
-            if (ativosResponse.Count > 0)
-                conteudoResponse.AtivoConteudoModels = ativosResponse;
+            var conteudoResponse = await _dbContext.Conteudo.Select(x => new ConteudoResponse
+            {
+                Id = x.Id,
+                Nome = x.Nome,
+                Titulo = x.Titulo,
+                Conteudo = x.Conteudo,
+                CategoriaConteudoModel = x.CategoriaConteudoModel,
+                CategoriaId = x.CategoriaId,
+                AtivosConteudo = x.AtivoConteudoModels.Select(e => new AtivoResponse
+                {
+                    AtivoId = e.AtivoId,
+                    Descricao = e.Descricao,
+                    ConteudoModelId = e.ConteudoModelId,
+                    Nome = e.Nome,
+                    TipoAtivo = e.TipoAtivo,
+                    Valor = e.Valor,
+                })
+            }).Where(x => x.Id == id).ToListAsync();
 
             if (conteudoResponse == null)
-                return false;
+                return new PorfolioResponse<ConteudoResponse>()
+                {
+                    Errors =
+                    {
+                        "Conteúdo vazio"
+                    }
+                };
+
+            return new PorfolioResponse<ConteudoResponse>(conteudoResponse);
+
+        }
+
+        public async Task<PorfolioResponse<ConteudoResponse>> Listar()
+        {
+            PorfolioResponse<ConteudoResponse> erros = new();
             try
             {
+                var conteudoResponse = await _dbContext.Conteudo.Select(x => new ConteudoResponse
+                {
+                    Id = x.Id,
+                    Nome = x.Nome,
+                    Titulo = x.Titulo,
+                    Conteudo = x.Conteudo,
+                    CategoriaConteudoModel = x.CategoriaConteudoModel,
+                    CategoriaId = x.CategoriaId,
+                    AtivosConteudo = x.AtivoConteudoModels.Select(e => new AtivoResponse
+                    {
+                        AtivoId = e.AtivoId,
+                        Descricao = e.Descricao,
+                        ConteudoModelId = e.ConteudoModelId,
+                        Nome = e.Nome,
+                        TipoAtivo = e.TipoAtivo,
+                        Valor = e.Valor,
+                    })
+                }).ToListAsync();
+
+                if (conteudoResponse == null)
+                {
+                    throw new Exception("Nenhum conteúdo encontrado");
+                }
+
+                return new PorfolioResponse<ConteudoResponse>(conteudoResponse);
+            }
+            catch (Exception ex)
+            {
+                erros.Errors = new() { ex.Message };
+                return erros;
+            }
+        }
+
+        public async Task<PorfolioResponse<ConteudoResponse>> Adicionar(ConteudoDto conteudo, List<AtivoConteudoDto> ativos)
+        {
+            PorfolioResponse<ConteudoResponse> erros = new();
+            try
+            {
+
+                if (conteudo == null)
+                {
+                    throw new Exception("Campo conteúdo inválido");
+                }
+
+                var categoria = await _dbContext.CategoriaConteudo.FirstOrDefaultAsync(x => x.CategoriaId == conteudo.CategoriaId);
+
+                if (categoria == null)
+                {
+                    throw new Exception("Campo categoria inválido");
+                }
+
+
+                ConteudoModel conteudoResponse = new()
+                {
+                    Id = conteudo.Id,
+                    Nome = conteudo.Nome,
+                    Titulo = conteudo.Titulo,
+                    Conteudo = conteudo.Conteudo,
+                    CategoriaId = conteudo.CategoriaId,
+                };
+
+                List<AtivoConteudoModel> ativosResponse = new();
+                foreach (var item in ativos)
+                {
+                    var ativo = new AtivoConteudoModel
+                    {
+                        AtivoId = Guid.NewGuid(),
+                        Nome = item.Nome,
+                        Valor = item.Valor,
+                        Descricao = item.Descricao,
+                        TipoAtivo = item.TipoAtivo,
+                        ConteudoModelId = conteudoResponse.Id,
+                    };
+                    ativosResponse.Add(ativo);
+                }
+
+                if (ativosResponse.Count > 0)
+                    conteudoResponse.AtivoConteudoModels = ativosResponse;
+
+                if (conteudoResponse == null)
+                {
+                    throw new Exception("Categoria não encontrada");
+                }
+
                 await _dbContext.Conteudo.AddAsync(conteudoResponse);
                 await _dbContext.SaveChangesAsync();
+
+                var list = new List<ConteudoResponse>()
+                {
+                    new ConteudoResponse()
+                    {
+                        Id= conteudoResponse.Id,
+                        Nome= conteudoResponse.Nome,
+                    }
+                };
+                var response = new PorfolioResponse<ConteudoResponse>(list);
+                return response;
 
             }
             catch (Exception ex)
             {
-                return false;
+                erros.Errors = new()
+                {
+                    ex.Message
+                };
+                return erros;
             }
-
-            return false;
         }
 
-        public async Task<ConteudoModel> Atualizar(ConteudoDto conteudoRequest, List<AtivoConteudoDto> ativos)
+        public async Task<PorfolioResponse<ConteudoResponse>> Atualizar(ConteudoDto conteudoRequest, List<AtivoConteudoDto> ativos)
         {
-            if (conteudoRequest == null)
-                return null;
-
-            var conteudo = await BuscarPorId(conteudoRequest.Id);
-            conteudo.Titulo = conteudoRequest.Titulo;
-            conteudo.Nome = conteudoRequest.Nome;
-            conteudo.Conteudo = conteudoRequest.Conteudo;
-            conteudo.CategoriaId = conteudoRequest.CategoriaId;
-
-
-
-            if (conteudo != null)
+            PorfolioResponse<ConteudoResponse> erros = new();
+            try
             {
-                _dbContext.Conteudo.Update(conteudo);
-                await _dbContext.SaveChangesAsync();
-                return conteudo;
-            }
+                if (conteudoRequest == null)
+                    throw new Exception("Conteúdo inválido");
 
-            return null;
+                var conteudoPorId = await BuscarPorId(conteudoRequest.Id);
+
+                if (conteudoPorId == null)
+                    throw new Exception("Erro no servidor");
+
+                if (conteudoPorId.Errors.Count == 0)
+                {
+                    var conteudoResponse = conteudoPorId.Results.FirstOrDefault();
+                    if (conteudoResponse != null)
+                    {
+                        if (conteudoResponse.Id == conteudoRequest.Id)
+                        {
+                            List<AtivoConteudoModel> ativosList = new();
+
+                            List<AtivoConteudoModel> ativoResponseList = new();
+
+                            foreach (var i in conteudoResponse.AtivosConteudo)
+                            {
+                                var ativoConsultaResponse = await _dbContext.Ativos.FirstOrDefaultAsync(x => x.AtivoId == i.AtivoId);
+                                if (ativoConsultaResponse != null)
+                                    ativoResponseList.Add(ativoConsultaResponse);
+                            }
+
+                            foreach (var a in ativoResponseList)
+                            {
+                                var ativoConsultaDto = ativos.Select(x => x.AtivoId == a.AtivoId).FirstOrDefault();
+                                if (!ativoConsultaDto)
+                                {
+                                    _dbContext.Ativos.Remove(a);
+                                    await _dbContext.SaveChangesAsync();
+                                }
+                            }
+
+                            foreach (var item in ativos)
+                            {
+                                var ativoModel = _dbContext.Ativos.FirstOrDefault(x => x.AtivoId == item.AtivoId);
+
+                                if (ativoModel != null)
+                                {
+                                    ativoModel.AtivoId = ativoModel.AtivoId;
+                                    ativoModel.Nome = item.Nome;
+                                    ativoModel.TipoAtivo = item.TipoAtivo;
+                                    ativoModel.Valor = item.Valor;
+                                    ativoModel.ConteudoModelId = conteudoResponse.Id;
+                                    ativoModel.Descricao = item.Descricao;
+                                }
+                                else
+                                {
+                                    ativoModel = new AtivoConteudoModel
+                                    {
+                                        AtivoId = Guid.NewGuid(),
+                                        Valor = item.Valor,
+                                        Nome = item.Nome,
+                                        TipoAtivo = item.TipoAtivo,
+                                        ConteudoModelId = conteudoResponse.Id,
+                                        Descricao = item.Descricao
+                                    };
+                                    _dbContext.Ativos.Add(ativoModel);
+                                    await _dbContext.SaveChangesAsync();
+                                }
+                                ativosList.Add(ativoModel);
+                            }
+
+                            ConteudoModel conteudo = new()
+                            {
+                                Id = conteudoRequest.Id,
+                                Nome = conteudoRequest.Nome,
+                                Titulo = conteudoRequest.Titulo,
+                                Conteudo = conteudoRequest.Conteudo,
+                                CategoriaId = conteudoRequest.CategoriaId,
+                                AtivoConteudoModels = ativosList,
+                            };
+
+                            _dbContext.Conteudo.Update(conteudo);
+                            await _dbContext.SaveChangesAsync();
+
+                            var listResponse = new List<ConteudoResponse>()
+                            {
+                                new ConteudoResponse()
+                                {
+                                    Id = conteudo.Id,
+                                    Nome = conteudo.Nome,
+                                }
+                            };
+                            return new PorfolioResponse<ConteudoResponse>(listResponse);
+                        }
+                    }
+                }
+                throw new Exception("Erro no servidor");
+            }
+            catch (Exception ex)
+            {
+                erros.Errors = new() { ex.Message };
+                return erros;
+            }
         }
 
-        public async Task<ConteudoModel> Excluir(Guid id)
+        public async Task<PorfolioResponse<ConteudoResponse>> Excluir(Guid id)
         {
-            if (id == Guid.Empty)
-                return null;
+            PorfolioResponse<ConteudoResponse> erros = new();
+            try
+            {
+                if (id == Guid.Empty)
+                    throw new Exception("Id vazia");
 
-            ConteudoModel conteudo = await BuscarPorId(id);
-            _dbContext.Conteudo.Remove(conteudo);
-            await _dbContext.SaveChangesAsync();
-            return conteudo;
+                var consulta = await BuscarPorId(id);
+
+                if (consulta == null || consulta.Results.Count() == 0 || consulta.Errors.Count() > 0)
+                    throw new Exception("Conteúdo não encontrado");
+
+                var conteudo = consulta.Results.FirstOrDefault();
+                if (conteudo == null) throw new Exception("Erro no servidor");
+
+                _dbContext.Conteudo.Remove(new ConteudoModel()
+                {
+                    Id = conteudo.Id,
+                    Nome= conteudo.Nome,
+                    Conteudo = conteudo.Conteudo,
+                    CategoriaId = conteudo.CategoriaId,
+                    Titulo = conteudo.Titulo
+                });
+                await _dbContext.SaveChangesAsync();
+                return new PorfolioResponse<ConteudoResponse>();
+            }
+            catch (Exception ex)
+            {
+                erros.Errors = new() {
+                    ex.Message,
+                };
+                return erros;
+            }
+
         }
     }
 }

@@ -23,53 +23,52 @@ namespace ProjetoPortfolio.API.Controllers
         }
 
         [HttpGet("Conteudos")]
-        public async Task<ActionResult<List<ConteudoModel>>> Listar()
+        public async Task<ActionResult> Listar()
         {
+            PorfolioResponse<ConteudoResponse> erros = new();
             try
             {
-                List<ConteudoModel> conteudos = await _conteudoRepository.Listar();
-                if (conteudos == null || conteudos.Count == 0)
+                PorfolioResponse<ConteudoResponse> conteudos = await _conteudoRepository.Listar();
+                if (conteudos == null || conteudos.Results.Count() == 0)
                     throw new Exception("Não há conteudos a serem listados");
 
-                foreach (var item in conteudos)
-                {
-                    item.CategoriaConteudoModel = await _categoriaRepository.BuscarPorId(item.CategoriaId);
-
-                    if (item.CategoriaConteudoModel == null)
-                        throw new Exception("Não há categoria");
-                }
-
-
+                if (conteudos.Errors.Any()) throw new Exception(conteudos.Errors.ToString());
 
                 return Ok(conteudos);
             }
             catch (Exception e)
             {
-
-                return BadRequest(e.Message);
+                erros.Errors = new() { e.Message };
+                return BadRequest(erros);
             }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> BuscarPorId(Guid id)
         {
+            PorfolioResponse<ConteudoResponse> erros = new();
             try
             {
-                ConteudoModel conteudo = await _conteudoRepository.BuscarPorId(id);
+                PorfolioResponse<ConteudoResponse> conteudoResponse = await _conteudoRepository.BuscarPorId(id);
 
-                if (conteudo == null) throw new Exception("Conteudo nao encontrado");
-                return Ok(conteudo);
+                if (conteudoResponse.Errors.Any()) throw new Exception(conteudoResponse.Errors.ToString());
+
+                if (conteudoResponse.Results.Count() == 0) throw new Exception("Conteudo nao encontrado");
+
+                return Ok(conteudoResponse);
             }
             catch (Exception e)
             {
 
-                return BadRequest(e.Message);
+                erros.Errors = new() { e.Message };
+                return BadRequest(erros);
             }
         }
 
         [HttpPost("CadastrarConteudo")]
         public async Task<ActionResult> Cadastrar([FromBody] ConteudoAtivosViewModel conteudo)
         {
+            PorfolioResponse<ConteudoResponse> erros = new();
             try
             {
                 if (conteudo == null) throw new Exception("Valores inválidos");
@@ -104,28 +103,34 @@ namespace ProjetoPortfolio.API.Controllers
 
                 var conteudoResponse = await _conteudoRepository.Adicionar(conteudoRequest, ativosRequest);
 
-                if (conteudoResponse) throw new Exception("Erro no servidor");
+                if (conteudoResponse.Errors.Any()) throw new Exception(conteudoResponse.Errors.ToString());
 
                 return Ok();
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                erros.Errors = new() { e.Message };
+                return BadRequest(erros);
             }
         }
 
         [HttpPut("Editar/{id}")]
         public async Task<ActionResult<ConteudoModel>> Editar(Guid id, [FromBody] ConteudoAtivosViewModel conteudo)
         {
+            PorfolioResponse<ConteudoResponse> erros = new();
             try
             {
                 if (conteudo == null) throw new Exception("Conteúdo inválido");
 
                 if (Guid.Empty == id) throw new Exception("Id inválido");
 
-                ConteudoModel conteudoResponse = await _conteudoRepository.Atualizar(conteudo.Conteudo, conteudo.Ativos);
+                PorfolioResponse<ConteudoResponse> conteudoResponse = await _conteudoRepository.Atualizar(conteudo.Conteudo, conteudo.Ativos);
+
+                if (conteudoResponse.Errors.Any()) throw new Exception(conteudoResponse.Errors.ToString());
 
                 if (conteudoResponse == null) throw new Exception("Erro ao atualizar");
+
+                
 
                 return Ok(conteudoResponse);
 
@@ -134,26 +139,31 @@ namespace ProjetoPortfolio.API.Controllers
             catch (Exception e)
             {
 
-                return BadRequest(e.Message);
+                erros.Errors = new() { e.Message };
+                return BadRequest(erros);
             }
         }
 
         [HttpDelete("Remover")]
-        public async Task<ActionResult<ConteudoModel>> Remover([FromBody] Guid id)
+        public async Task<ActionResult<ConteudoModel>> Remover(Guid id)
         {
+            PorfolioResponse<ConteudoResponse> erros = new();
             try
             {
-                if (Guid.Empty == id || id == null) throw new Exception("Id incorreto");
+                if (Guid.Empty == id) throw new Exception("Id incorreto");
 
-                ConteudoModel conteudo = await _conteudoRepository.Excluir(id);
+                PorfolioResponse<ConteudoResponse> conteudoResponse = await _conteudoRepository.Excluir(id);
 
-                if (conteudo == null) throw new Exception("Erro ao excluir");
+                if (conteudoResponse.Errors.Any()) throw new Exception(conteudoResponse.Errors.ToString());
 
-                return Ok(conteudo);
+                if (conteudoResponse == null) throw new Exception("Erro ao excluir");
+
+                return Ok(conteudoResponse);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                erros.Errors = new() { e.Message };
+                return BadRequest(erros);
             }
         }
     }

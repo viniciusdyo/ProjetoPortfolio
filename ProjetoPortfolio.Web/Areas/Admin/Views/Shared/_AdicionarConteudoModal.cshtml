@@ -26,17 +26,17 @@
                     </div>
                     <div class="col">
                         <div class="form-floating">
-                            <textarea asp-for="Conteudo.ConteudoValor" maxlength="2500" placeholder="Conteúdo" class="form-control text-white"></textarea>
-                            <label asp-for="Conteudo.ConteudoValor" class="control-label text-white">Conteúdo</label>
-                            <span asp-validation-for="Conteudo.ConteudoValor" class="text-danger"></span>
+                            <textarea asp-for="Conteudo.Conteudo" maxlength="2500" placeholder="Conteúdo" class="form-control text-white"></textarea>
+                            <label asp-for="Conteudo.Conteudo" class="control-label text-white">Conteúdo</label>
+                            <span asp-validation-for="Conteudo.Conteudo" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col">
 
-                        <select asp-for="Conteudo.CategoriaConteudoId" class="form-select form-select-lg mb-3">
+                        <select asp-for="Conteudo.CategoriaId" class="form-select form-select-lg mb-3">
                             @foreach (var item in Model.Categorias)
                             {
-                                <option value="@item.CategoriaConteudoId">@item.Nome</option>
+                                <option value="@item.CategoriaId">@item.Nome</option>
                             }
                         </select>
 

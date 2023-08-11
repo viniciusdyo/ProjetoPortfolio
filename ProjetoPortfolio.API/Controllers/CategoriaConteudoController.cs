@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoPortfolio.API.Models;
 using ProjetoPortfolio.API.Models.DTOs;
+using ProjetoPortfolio.API.Models.DTOs.Response;
 using ProjetoPortfolio.API.Repositories.Interfaces;
 
 namespace ProjetoPortfolio.API.Controllers
@@ -17,7 +18,7 @@ namespace ProjetoPortfolio.API.Controllers
         }
 
         [HttpGet("Categorias")]
-        public async Task<ActionResult<List<CategoriaConteudoModel>>> Listar()
+        public async Task<ActionResult> Listar()
         {
             try
             {
@@ -25,7 +26,8 @@ namespace ProjetoPortfolio.API.Controllers
 
                 if (categorias == null || categorias.Count == 0) throw new Exception("Nenhuma categoria encontrada.");
 
-                return Ok(categorias);
+                var response = new PorfolioResponse<CategoriaConteudoModel>(categorias);
+                return Ok(response);
             }
             catch (Exception e)
             {

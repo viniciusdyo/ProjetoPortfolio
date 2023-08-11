@@ -2,13 +2,13 @@
 
 namespace ProjetoPortfolio.Web.Models
 {
-    public class Conteudo
+    public class ConteudoModel
     {
         public Guid Id { get; set; }
-        public string ConteudoValor { get; set; }
+        public string Conteudo { get; set; }
         public string Titulo { get; set; }
         public string Nome { get; set; }
-        public Guid CategoriaConteudoId { get; set; }
+        public Guid CategoriaId { get; set; }
         public CategoriaConteudo CategoriaConteudoModel { get; set; }
 
         public string NomeNormalizado { get => NormalizarNome(Nome, Id); set { } }
