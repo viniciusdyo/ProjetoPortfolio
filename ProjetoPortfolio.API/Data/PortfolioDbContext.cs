@@ -16,6 +16,9 @@ namespace ProjetoPortfolio.API.Data
         public DbSet<CategoriaConteudoModel> CategoriaConteudo { get; set; }
         public DbSet<ConteudoModel> Conteudo { get; set; }
         public DbSet<AtivoConteudoModel> Ativos { get; set; }
+
+        public DbSet<PessoaPortfolio> Pessoas { get; set; }
+        public DbSet<Habilidade> Habilidades { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProjetoModel>().HasKey(x => x.Id);
@@ -47,6 +50,17 @@ namespace ProjetoPortfolio.API.Data
             modelBuilder.Entity<AtivoConteudoModel>().HasOne(x => x.ConteudoModel)
                 .WithMany(x => x.AtivoConteudoModels)
                 .HasForeignKey(x => x.ConteudoModelId).IsRequired();
+
+            modelBuilder.Entity<PessoaPortfolio>().HasKey(x => x.Id);
+            modelBuilder.Entity<PessoaPortfolio>().Property(x => x.Nome).IsRequired().HasMaxLength(255);
+            modelBuilder.Entity<PessoaPortfolio>().Property(x => x.Sobrenome).IsRequired().HasMaxLength(255);
+
+            modelBuilder.Entity<Habilidade>().HasKey(x => x.Id);
+            modelBuilder.Entity<Habilidade>().Property(x => x.Nome);
+            modelBuilder.Entity<Habilidade>().Property(x => x.Descricao);
+            modelBuilder.Entity<Habilidade>().Property(x => x.Nivel);
+            modelBuilder.Entity<Habilidade>().HasOne(x => x.Pessoa).WithMany(x => x.Habilidades).HasForeignKey(x => x.PessoaId).IsRequired();
+
 
             base.OnModelCreating(modelBuilder);
 

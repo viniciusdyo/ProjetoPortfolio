@@ -57,6 +57,7 @@ namespace ProjetoPortfolio.API
             builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
             builder.Services.AddScoped<ILoginRepository, LoginRepository>();
             builder.Services.AddScoped<IRegistroRepository, RegistroRepository>();
+            builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
             builder.Services.AddTransient<ITokenService, TokenService>();
 
 
