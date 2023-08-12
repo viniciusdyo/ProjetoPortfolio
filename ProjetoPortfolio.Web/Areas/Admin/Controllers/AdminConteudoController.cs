@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using NuGet.Protocol;
 using ProjetoPortfolio.Entities.Enums;
 using ProjetoPortfolio.Web.Domain;
 using ProjetoPortfolio.Web.Models;
@@ -71,6 +72,25 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
             }
         }
 
+        public async Task<IActionResult> Listar()
+        {
+            try
+            {
+                var request = new Request<ConteudoModel>();
+                var response = await request.Listar("Conteudo/Conteudos");
+                if(response.Errors.Count() == 0)
+                {
+                    return new JsonResult(response.Results);
+                }
+
+                throw new Exception(response.Errors[0]);
+            }
+            catch (Exception e)
+            {
+                ViewData["Erro"] = e;
+                return RedirectToAction("Index", "Admin");
+            }
+        }
         public async Task<IActionResult> Adicionar(ConteudoViewModel conteudoView)
         {
             try

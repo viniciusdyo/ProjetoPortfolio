@@ -23,40 +23,10 @@
                     classeCard = "col-4";
                     colClasse = "";
                 }
-                <div class="row @colClasse g-3">
-                    @foreach (var item in Model)
-                    {
-                    <div class="@classeCard">
-                        <div class="card bg-dark-darker text-white border-primary">
-                            <h5 class="card-header border-primary text-primary"> @item.Conteudo.Titulo</h5>
-                            <div class="card-body">
-                                <h5 class="card-title">@item.Conteudo.Nome</h5>
-                                <p class="card-text">@item.Conteudo.Conteudo</p>
-                                <div class="d-flex align-content-center">
-
-                                    <p class="card-text me-2">
-                                        Categoria:
-
-                                    </p> <a class="text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        @item.CategoriaConteudo.Nome
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-dark py-3">
-                                        <li>
-                                            <p class="px-2 py-0 my-0 text-secondary">Descrição</p>
-                                            <p class="px-2 py-0 my-0 text-white">@item.CategoriaConteudo.Descricao</p>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                            </div>
-                            <div class="card-footer border-primary">
-                                <a class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#@item.Conteudo.NomeNormalizado-modal">Editar</a>
-                                <a class="btn btn-danger text-white">Excluir</a>
-                            </div>
-                        </div>
-                    </div>
-                    @await Html.PartialAsync("_EditarConteudoModal", item)
-                    }
+                <div id="conteudos" class="row @colClasse g-3">
+                    
+                    
+                    
                 </div>
             }
             else
@@ -74,3 +44,4 @@
     Categorias = ViewBag.Categorias,
 })
 
+<script src="~/js/build/adminConteudo.min.js"></script>

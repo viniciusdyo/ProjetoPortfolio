@@ -11,6 +11,7 @@ namespace ProjetoPortfolio.Web.Models
         public Guid CategoriaId { get; set; }
         public CategoriaConteudo CategoriaConteudoModel { get; set; }
 
+
         public string NomeNormalizado { get => NormalizarNome(Nome, Id); set { } }
 
         private static string NormalizarNome(string nome, Guid id)
