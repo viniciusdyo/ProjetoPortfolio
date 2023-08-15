@@ -11,22 +11,20 @@
 <section class="container">
     <div class="row g-3">
         <a class="btn btn-primary col-4 text-white" data-bs-toggle="modal" data-bs-target="#modal-adicionar-conteudo">Adicionar Conteúdo</a>
-        <article id="conteudo">
+        <h1 class="h1 text-white">Conteúdo</h1>
+        <hr class="border-primary" />
+        <article id="conteudo" class="animacao-pagina">
 
             @if (Model.Any())
             {
-                <h1 class="h1 text-white">Conteúdo</h1>
-                <hr class="border-primary" />
+                
 
-                @if (Model.Any() || Model.Count() > 0)
+                if (Model.Any() || Model.Count() > 0)
                 {
                     classeCard = "col-4";
                     colClasse = "";
                 }
                 <div id="conteudos" class="row @colClasse g-3">
-                    
-                    
-                    
                 </div>
             }
             else
@@ -44,12 +42,8 @@
     Categorias = ViewBag.Categorias,
 })
 
-<div class="modal fade" id="editar-conteudo-modal" tabindex="-1" aria-labelledby="editar-conteudo" aria-hidden="true">
-    <div class="modal-dialog">
-        <div id="editar-root" class="modal-content">
-            
-        </div>
-    </div>
-</div>
+
 
 <script src="~/js/build/adminConteudo.min.js"></script>
+
+

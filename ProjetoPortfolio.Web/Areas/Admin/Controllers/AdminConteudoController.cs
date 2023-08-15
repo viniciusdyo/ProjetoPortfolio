@@ -78,7 +78,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
             {
                 var request = new Request<ConteudoModel>();
                 var response = await request.Listar("Conteudo/Conteudos");
-                if(response.Errors.Count() == 0)
+                if (response.Errors.Count() == 0)
                 {
                     return new JsonResult(response.Results);
                 }
@@ -91,6 +91,42 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Admin");
             }
         }
+
+        public async Task<IActionResult> ListarConteudoAdmin()
+        {
+            try
+            {
+                var requestConteudo = new Request<ConteudoModel>();
+                var responseConteudo = await requestConteudo.Listar("Conteudo/Conteudos");
+                if (responseConteudo.Errors.Count() == 0)
+                {
+                    var requestCategoria = new Request<CategoriaConteudo>();
+                    var responseCategoria = await requestCategoria.Listar("CategoriaConteudo/Categorias");
+
+                    if (responseCategoria.Errors.Count() == 0)
+                    {
+                        var conteudo = responseConteudo.Results.FirstOrDefault();
+
+                        if (conteudo == null) throw new Exception("Conteúdo não encontrado");
+
+                        var conteudoViewModel = new ConteudoViewModel
+                        {
+                            Categorias = new List<CategoriaConteudo>(responseCategoria.Results),
+                            Conteudos = new List<ConteudoModel>(responseConteudo.Results)
+                        };
+
+                        return new JsonResult(conteudoViewModel);
+                    }
+                    throw new Exception(responseCategoria.Errors.FirstOrDefault());
+                }
+                throw new Exception(responseConteudo.Errors.FirstOrDefault());
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(e);
+            }
+        }
+
         public async Task<IActionResult> Adicionar(ConteudoViewModel conteudoView)
         {
             try
@@ -105,6 +141,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                     Titulo = conteudoView.Conteudo.Titulo,
                     Conteudo = conteudoView.Conteudo.Conteudo,
                     CategoriaId = conteudoView.Conteudo.CategoriaId,
+                    AtivosConteudo = conteudoView.Conteudo.AtivosConteudo,
                     CategoriaConteudoModel = new CategoriaConteudo()
                     {
                         CategoriaId = conteudoView.Conteudo.CategoriaId,
