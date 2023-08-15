@@ -5,7 +5,7 @@ namespace ProjetoPortfolio.Web.Models
     public class AtivoConteudo
     {
         public Guid AtivoId { get; set; }
-        public string Nome { get; set; }
+        public string NomeAtivo { get; set; }
         public string Descricao { get; set; }
         public string Valor { get; set; }
         public TipoAtivo TipoAtivo { get; set; }

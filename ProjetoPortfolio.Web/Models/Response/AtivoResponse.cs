@@ -1,8 +1,8 @@
 ﻿using ProjetoPortfolio.Entities.Enums;
 
-namespace ProjetoPortfolio.API.Models.DTOs
+namespace ProjetoPortfolio.Web.Models.Response
 {
-    public class AtivoConteudoDto
+    public class AtivoResponse
     {
         public Guid AtivoId { get; set; }
         public string NomeAtivo { get; set; }

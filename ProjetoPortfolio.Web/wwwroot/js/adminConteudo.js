@@ -1,4 +1,4 @@
-﻿import { fetchGet } from './fetchHelper';
+﻿import { fetchGet, fetchPost } from './fetchHelper';
 
 const adminConteudo = () => {
 
@@ -8,7 +8,7 @@ const adminConteudo = () => {
         const categorias = conteudoViewModel.categorias;
         const conteudoRoot = document.querySelector('#conteudos');
         const main = document.querySelector('main');
-        console.log(conteudos)
+        console.log(conteudos);
 
         conteudos.forEach(i => {
             const card = `<div class="col-4">
@@ -51,11 +51,11 @@ const adminConteudo = () => {
             conteudoRoot.innerHTML += card;
             i.ativosConteudo.forEach(e => {
                 var ativoNome = document.createElement('p');
-                ativoNome.innerHTML = `<b>Nome:</b> ${e.nome}`
+                ativoNome.innerHTML = `<b>Nome:</b> ${e.nomeAtivo}`;
                 var ativoTipo = document.createElement('p');
-                ativoTipo.innerHTML = `<b>Tipo:</b> ${e.tipoAtivo}`
+                ativoTipo.innerHTML = `<b>Tipo:</b> ${e.tipoAtivo}`;
                 var ativoDescricao = document.createElement('p');
-                ativoDescricao.innerHTML = `<b>Descricao:</b> ${e.descricao}`
+                ativoDescricao.innerHTML = `<b>Descricao:</b> ${e.descricao}`;
                 var ativosDiv = conteudoRoot.querySelector(`#${i.nomeNormalizado}-ativos`);
                 ativosDiv.appendChild(ativoNome);
                 ativosDiv.appendChild(ativoDescricao);
@@ -67,7 +67,7 @@ const adminConteudo = () => {
         conteudos.forEach(c => {
             var modal = criarModalEditar(c);
             main.innerHTML += modal;
-            var modalForm = document.querySelector(`#${c.nomeNormalizado}-form`);
+            var modalForm = document.querySelector(`.${c.nomeNormalizado}-form`);
             var formSelect = document.querySelector(`#${c.nomeNormalizado}-select`);
             var divInputAtivos = modalForm.querySelector(`#${c.nomeNormalizado}-inputs-ativos`);
 
@@ -76,20 +76,21 @@ const adminConteudo = () => {
                 var optSelect = document.createElement('option');
 
                 optSelect.value = `${o.categoriaId}`;
-                optSelect.innerText = `${o.nome}`
+                optSelect.innerText = `${o.nome}`;
                 if (c.categoriaId == o.categoriaId) {
                     optSelect.selected = true;
                 }
-                formSelect.appendChild(optSelect)
+                formSelect.appendChild(optSelect);
             });
 
             c.ativosConteudo.forEach(e => {
                 var ativos = `
                 <div id="${e.nome}-div" class="form-ativo col-12">
                         <a class="btn btn-danger btn-remover-ativo text-white my-3">Remover</a>
+                        <input type="hidden" class="form-control text-white" name="ativoId" value="${e.ativoId}" />
                         <div class="col-12 mb-3">
                             <div class="form-floating">
-                                <input type="text"  placeholder="Nome Ativo" class="form-control text-white" name="nome" value="${e.nome}" />
+                                <input type="text"  placeholder="Nome Ativo" class="form-control text-white" name="nomeAtivo" value="${e.nomeAtivo}" />
                                 <label class="control-label text-white">Nome Ativo</label>
                                 <span class="text-danger"></span>
                             </div>
@@ -103,13 +104,13 @@ const adminConteudo = () => {
                         </div>
                         <div class="col-12 mb-3">
                             <div class="form-floating">
-                                <input type="text"  placeholder="Valor" class="form-control text-white" name="nome" value="${e.valor}" />
+                                <input type="text"  placeholder="Valor" class="form-control text-white" name="valor" value="${e.valor}" />
                                 <label class="control-label text-white">Valor</label>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-12 mb-3">
-                            <select class="form-select mb-3" name="tipoAtivo">
+                            <select class="form-select mb-3"  name="tipoAtivo">
                                 <option value="1">Link</option>
                                 <option value="2">Imagem</option>
                             </select>
@@ -122,37 +123,41 @@ const adminConteudo = () => {
 
             })
             c.ativosConteudo.forEach(a => {
-                adicionarAtivo()
-                removerAtivo()
+                adicionarAtivo(c);
+                removerAtivo();
             })
 
 
-            modalForm.addEventListener('submit', e => {
-                e.preventDefault()
-                editarSubmit(modalForm)
-            });
+            // modalForm.addEventListener('submit', e => {
+            //     e.preventDefault();
+            //     editarSubmit(modalForm);
+            // });
         });
+
+        modalEditarSubmit();
     }
 
     const removerAtivo = () => {
         var btnRemover = document.querySelectorAll('.btn-remover-ativo');
         btnRemover.forEach(b => {
             b.addEventListener('click', e => {
-                console.log(b.closest('.form-ativo').remove())
+                e.preventDefault();
+                b.closest('.form-ativo').remove();
             })
         })
     }
 
-    const adicionarAtivo = () => {
+    const adicionarAtivo = (conteudo) => {
         var btnAdicionar = document.querySelectorAll('.btn-adicionar-ativo');
 
         btnAdicionar.forEach(b => {
             var ativo = `
                 <div class="form-ativo col-12">
                         <a class="btn btn-danger btn-remover-ativo text-white my-3">Remover</a>
+                        <input type="hidden" class="form-control text-white" name="ativoId" value="00000000-0000-0000-0000-000000000000"/>
                         <div class="col-12 mb-3">
                             <div class="form-floating">
-                                <input type="text"  placeholder="Nome Ativo" class="form-control text-white" name="nome" />
+                                <input type="text"  placeholder="Nome Ativo" class="form-control text-white" name="nomeAtivo" />
                                 <label class="control-label text-white">Nome Ativo</label>
                                 <span class="text-danger"></span>
                             </div>
@@ -166,13 +171,13 @@ const adminConteudo = () => {
                         </div>
                         <div class="col-12 mb-3">
                             <div class="form-floating">
-                                <input type="text"  placeholder="Valor" class="form-control text-white" name="nome" />
+                                <input type="text"  placeholder="Valor" class="form-control text-white" name="valor" />
                                 <label class="control-label text-white">Valor</label>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-12 mb-3">
-                            <select class="form-select mb-3" name="tipoAtivo">
+                            <select class="form-select mb-3"  name="tipoAtivo">
                                 <option value="1">Link</option>
                                 <option value="2">Imagem</option>
                             </select>
@@ -181,22 +186,63 @@ const adminConteudo = () => {
                     `;
             var btnParent = b.parentElement;
             var formBtn = btnParent.parentElement;
-            var divAtivos = formBtn.querySelector('.ativo-div-inputs')
+            var divAtivos = formBtn.querySelector('.ativo-div-inputs');
             b.addEventListener('click', e => {
-                e.preventDefault()
+                e.preventDefault();
                 divAtivos.innerHTML += ativo;
-                removerAtivo()
+                removerAtivo();
             })
 
         });
     }
 
-    const editarSubmit = (form) => {
-        var formData = new FormData(form);
-        console.log(formData)
-        for (const [k, v] of formData) {
-            console.log(k, v)
-        }
+    const modalEditarSubmit = () => {
+        var formEditar = document.querySelectorAll('.form-editar-conteudo');
+
+        formEditar.forEach(form => {
+            var formParent = form.parentElement;
+            var btnSalvar = formParent.parentElement.lastElementChild.lastElementChild;
+
+
+            btnSalvar.addEventListener('click', e => {
+                e.preventDefault()
+                var ativos = form.querySelectorAll('.form-ativo');
+                var ativosArr = []
+                var count = 0
+                ativos.forEach(a => {
+
+                    var ativo = {}
+                    a.querySelectorAll('input').forEach(i => {
+                        ativo[i.name] = i.value
+                        console.log(i.name + ' ' + i.value)
+                    });
+                    var selectTipoAtivo = a.querySelector('select');
+                    ativo[selectTipoAtivo.name] = parseInt(selectTipoAtivo.value)
+                    //console.log(ativo)
+                    ativosArr[count] = ativo
+                    //console.log(ativosArr)
+                    count += 1
+                });
+
+                var formData = new FormData(form);
+                var object = {}
+                formData.forEach((value, key) => {
+
+                    object[key] = value
+                })
+                object['ativosConteudo'] = ativosArr;
+                delete object.ativoId;
+                delete object.descricao;
+                delete object.valor;
+                delete object.nomeAtivo;
+                delete object.tipoAtivo;
+                console.log(object)
+                fetchPost('AdminConteudo/Editar', object)
+                form.submit()
+            })
+        });
+
+
     }
 
 
@@ -209,7 +255,7 @@ const adminConteudo = () => {
                     <button type="button" class="btn-fechar" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="${conteudo.nomeNormalizado}-form" data-bs-theme="portfolio-dark" class="row row-cols-1 g-3" autocomplete="off">
+                    <form id="editar-conteudo-form" data-bs-theme="portfolio-dark" class="row row-cols-1 g-3 form-editar-conteudo ${conteudo.nomeNormalizado}-form" autocomplete="off">
                         <div class="text-danger"></div>
                         <input name="id" value="${conteudo.id}" type="hidden" />
                         <div class="col">
@@ -234,7 +280,7 @@ const adminConteudo = () => {
                             </div>
                         </div>
                         <div class="col">
-                            <select id="${conteudo.nomeNormalizado}-select" class="form-select mb-3" name="categoria">
+                            <select id="${conteudo.nomeNormalizado}-select" class="form-select mb-3" name="categoriaId">
                                 
                             </select>
                         </div>
@@ -252,11 +298,11 @@ const adminConteudo = () => {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Fechar</button>
-                    <button type="submit" form="${conteudo.nomeNormalizado}-form" class="btn btn-success text-white">Salvar Alterações</button>
+                    <a class="btn btn-success text-white btn-salvar">Salvar Alterações</a>
                 </div>
             </div>
         </div>
-    </div>`
+    </div>`;
 
 
         return modal;
@@ -264,13 +310,13 @@ const adminConteudo = () => {
 
     const init = () => {
         window.addEventListener('DOMContentLoaded', (e) => {
-            e.preventDefault()
-            listarConteudos()
+            e.preventDefault();
+            listarConteudos();
         });
     }
 
-    init()
+    init();
 }
 
-adminConteudo()
+adminConteudo();
 

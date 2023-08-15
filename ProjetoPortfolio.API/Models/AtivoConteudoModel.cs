@@ -6,7 +6,7 @@ namespace ProjetoPortfolio.API.Models
     public class AtivoConteudoModel
     {
         public Guid AtivoId { get; set; }
-        public string Nome { get; set; }
+        public string NomeAtivo { get; set; }
         public string Descricao { get; set; }
         public string Valor { get; set; }
         public TipoAtivo TipoAtivo { get; set; }

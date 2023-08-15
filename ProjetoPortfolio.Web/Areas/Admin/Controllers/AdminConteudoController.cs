@@ -6,6 +6,7 @@ using NuGet.Protocol;
 using ProjetoPortfolio.Entities.Enums;
 using ProjetoPortfolio.Web.Domain;
 using ProjetoPortfolio.Web.Models;
+using ProjetoPortfolio.Web.Models.Response;
 using ProjetoPortfolio.Web.Models.ViewModels;
 
 namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
@@ -155,7 +156,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                     Conteudo = conteudoModel,
                     Ativos = new List<AtivoConteudo> { new AtivoConteudo
                     {
-                        Nome = "eae",
+                        NomeAtivo = "eae",
                         Descricao = "eaeae",
                         Valor = "eaeaeae",
                         TipoAtivo = TipoAtivo.Link,
@@ -182,30 +183,46 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
             }
         }
 
-        public async Task<IActionResult> Editar(ConteudoViewModel conteudoView)
+        [HttpPost]
+        public async Task<IActionResult> Editar([FromBody] ConteudoResponse data)
         {
             try
-            {
+            { 
+                if (data == null) throw new Exception("Conteúdo inválido");
 
-                if (conteudoView.Conteudo == null) throw new Exception("Conteúdo inválido");
-                ConteudoModel conteudoModel = new()
+                List<AtivoResponse> listAtivos = new();
+                foreach (var item in data.AtivosConteudo)
                 {
-                    Id = conteudoView.Conteudo.Id,
-                    Nome = conteudoView.Conteudo.Nome,
-                    Titulo = conteudoView.Conteudo.Titulo,
-                    Conteudo = conteudoView.Conteudo.Conteudo,
-                    CategoriaId = conteudoView.Conteudo.CategoriaId,
-                    CategoriaConteudoModel = new CategoriaConteudo()
+                    var ativo = new AtivoResponse()
                     {
-                        CategoriaId = conteudoView.Conteudo.CategoriaId,
-                        Descricao = string.Empty,
-                        Nome = string.Empty
-                    },
+                        AtivoId = item.AtivoId,
+                        ConteudoModelId = item.ConteudoModelId,
+                        Descricao = item.Descricao,
+                        NomeAtivo = item.NomeAtivo,
+                        TipoAtivo = item.TipoAtivo,
+                        Valor = item.Valor
+                    };
+                    listAtivos.Add(ativo);
+                }
+
+                ConteudoResponse conteudo = new()
+                {
+                    Id= data.Id,
+                    Nome=data.Nome,
+                    CategoriaId=data.CategoriaId,
+                    AtivosConteudo = listAtivos.AsEnumerable(),
+                    Conteudo = data.Conteudo,
+                    Titulo = data.Titulo,
+                    CategoriaConteudoModel = string.Empty,
                 };
 
+                var request = new Request<ConteudoResponse>();
+                var response = await request.Editar("Conteudo/Editar", conteudo);
 
+                if (response.Errors.Count == 0)
+                    return RedirectToAction("Index");
 
-                return RedirectToAction("Index");
+                throw new Exception(response.Errors.FirstOrDefault()?.ToString());
             }
             catch (Exception e)
             {

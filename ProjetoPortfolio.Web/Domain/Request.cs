@@ -58,5 +58,25 @@ namespace ProjetoPortfolio.Web.Domain
                 return erro;
             }
         }
+
+        public async Task<PorfolioResponse<T>> Editar(string requestUri, T conteudo)
+        {
+            try
+            {
+                var request = await _httpClient.PutAsJsonAsync($"{ENDPOINT}/{requestUri}", conteudo);
+                var readTask = await request.Content.ReadAsStringAsync();
+                var response = JsonConvert.DeserializeObject<PorfolioResponse<T>>(readTask);
+
+                if (response == null) throw new Exception("Erro no servidor");
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                var erro = new PorfolioResponse<T>();
+                erro.Errors = new() { e.Message };
+                return erro;
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace ProjetoPortfolio.API.Repositories.Interfaces;
     {
     Task<PorfolioResponse<ConteudoResponse>> BuscarPorId(Guid id);
     Task<PorfolioResponse<ConteudoResponse>> Listar();
-    Task<PorfolioResponse<ConteudoResponse>> Adicionar(ConteudoDto conteudo, List<AtivoConteudoDto> ativos);
+    Task<PorfolioResponse<ConteudoResponse>> Adicionar(ConteudoDto conteudo, List<AtivoConteudoDto>? ativos = null);
     Task<PorfolioResponse<ConteudoResponse>> Atualizar(ConteudoDto conteudo, List<AtivoConteudoDto> ativos);
     Task<PorfolioResponse<ConteudoResponse>> Excluir(Guid id);
 }

@@ -43,7 +43,7 @@ namespace ProjetoPortfolio.API.Data
 
 
             modelBuilder.Entity<AtivoConteudoModel>().HasKey(x => x.AtivoId);
-            modelBuilder.Entity<AtivoConteudoModel>().Property(x => x.Nome).IsRequired().HasMaxLength(255);
+            modelBuilder.Entity<AtivoConteudoModel>().Property(x => x.NomeAtivo).IsRequired().HasMaxLength(255);
             modelBuilder.Entity<AtivoConteudoModel>().Property(x => x.Descricao).IsRequired().HasMaxLength(2000);
             modelBuilder.Entity<AtivoConteudoModel>().Property(x => x.Valor).IsRequired().HasMaxLength(2000);
             modelBuilder.Entity<AtivoConteudoModel>().Property(x => x.TipoAtivo).IsRequired();

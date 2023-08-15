@@ -12,10 +12,12 @@ export const fetchGet = async (url) => {
 export const fetchPost = async (url, body) => {
     var response = await fetch(url, {
         method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            "Content-type": "application/json",
+        },
         body: JSON.stringify(body)
-    })
+    }).then(result => result)
 
-    var result = await response.json();
-
-    return result;
+    return response;
 }

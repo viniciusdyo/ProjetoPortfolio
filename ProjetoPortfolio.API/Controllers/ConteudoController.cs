@@ -66,7 +66,7 @@ namespace ProjetoPortfolio.API.Controllers
         }
 
         [HttpPost("CadastrarConteudo")]
-        public async Task<ActionResult> Cadastrar([FromBody] ConteudoAtivosViewModel conteudo)
+        public async Task<ActionResult> Cadastrar([FromBody] ConteudoAtivosViewModel conteudo = null)
         {
             PorfolioResponse<ConteudoResponse> erros = new();
             try
@@ -83,7 +83,7 @@ namespace ProjetoPortfolio.API.Controllers
                 };
 
                 List<AtivoConteudoDto> ativosRequest = new();
-
+                PorfolioResponse<ConteudoResponse> conteudoResponse = new();
                 if (conteudo.Ativos != null && conteudo.Ativos.Count > 0)
                 {
                     foreach (var item in conteudo.Ativos)
@@ -91,7 +91,7 @@ namespace ProjetoPortfolio.API.Controllers
                         var ativo = new AtivoConteudoDto()
                         {
                             AtivoId = Guid.NewGuid(),
-                            Nome = item.Nome,
+                            NomeAtivo = item.NomeAtivo,
                             Descricao = item.Descricao,
                             TipoAtivo = item.TipoAtivo,
                             Valor = item.Valor,
@@ -99,9 +99,10 @@ namespace ProjetoPortfolio.API.Controllers
                         };
                         ativosRequest.Add(ativo);
                     }
+                 conteudoResponse = await _conteudoRepository.Adicionar(conteudoRequest, ativosRequest);
                 }
 
-                var conteudoResponse = await _conteudoRepository.Adicionar(conteudoRequest, ativosRequest);
+                 conteudoResponse = await _conteudoRepository.Adicionar(conteudoRequest);
 
                 if (conteudoResponse.Errors.Any()) throw new Exception(conteudoResponse.Errors.ToString());
 
@@ -114,17 +115,38 @@ namespace ProjetoPortfolio.API.Controllers
             }
         }
 
-        [HttpPut("Editar/{id}")]
-        public async Task<ActionResult<ConteudoModel>> Editar(Guid id, [FromBody] ConteudoAtivosViewModel conteudo)
+        [HttpPut("Editar")]
+        public async Task<ActionResult> Editar([FromBody] ConteudoResponse conteudo)
         {
             PorfolioResponse<ConteudoResponse> erros = new();
             try
             {
                 if (conteudo == null) throw new Exception("Conteúdo inválido");
 
-                if (Guid.Empty == id) throw new Exception("Id inválido");
-
-                PorfolioResponse<ConteudoResponse> conteudoResponse = await _conteudoRepository.Atualizar(conteudo.Conteudo, conteudo.Ativos);
+                List<AtivoConteudoDto> ativos = new ();
+                foreach (var item in conteudo.AtivosConteudo)
+                {
+                    AtivoConteudoDto ativo = new()
+                    {
+                        AtivoId = item.AtivoId,
+                        NomeAtivo= item.NomeAtivo,
+                        Descricao=item.Descricao,
+                        ConteudoModelId= item.ConteudoModelId,
+                        TipoAtivo= item.TipoAtivo,
+                        Valor = item.Valor
+                    };
+                    ativos.Add(ativo);
+                }
+                ConteudoDto conteudoDto= new()
+                {
+                   Id = conteudo.Id,
+                   Nome = conteudo.Nome,
+                   CategoriaId = conteudo.CategoriaId,
+                   Conteudo = conteudo.Conteudo,
+                   Titulo= conteudo.Titulo,
+                };
+                
+                PorfolioResponse<ConteudoResponse> conteudoResponse = await _conteudoRepository.Atualizar(conteudoDto, ativos);
 
                 if (conteudoResponse.Errors.Any()) throw new Exception(conteudoResponse.Errors.ToString());
 

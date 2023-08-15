@@ -42,7 +42,7 @@ namespace ProjetoPortfolio.API.Repositories
                     AtivoId = e.AtivoId,
                     Descricao = e.Descricao,
                     ConteudoModelId = e.ConteudoModelId,
-                    Nome = e.Nome,
+                    NomeAtivo = e.NomeAtivo,
                     TipoAtivo = e.TipoAtivo,
                     Valor = e.Valor,
                 })
@@ -74,12 +74,12 @@ namespace ProjetoPortfolio.API.Repositories
                     Conteudo = x.Conteudo,
                     CategoriaConteudoModel = x.CategoriaConteudoModel,
                     CategoriaId = x.CategoriaId,
-                    AtivosConteudo = x.AtivoConteudoModels.Select(e => new AtivoResponse
+                    AtivosConteudo = x.AtivoConteudoModels.Where(a => a.ConteudoModelId == x.Id).Select(e => new AtivoResponse
                     {
                         AtivoId = e.AtivoId,
                         Descricao = e.Descricao,
                         ConteudoModelId = e.ConteudoModelId,
-                        Nome = e.Nome,
+                        NomeAtivo = e.NomeAtivo,
                         TipoAtivo = e.TipoAtivo,
                         Valor = e.Valor,
                     })
@@ -99,7 +99,7 @@ namespace ProjetoPortfolio.API.Repositories
             }
         }
 
-        public async Task<PorfolioResponse<ConteudoResponse>> Adicionar(ConteudoDto conteudo, List<AtivoConteudoDto> ativos)
+        public async Task<PorfolioResponse<ConteudoResponse>> Adicionar(ConteudoDto conteudo, List<AtivoConteudoDto>? ativos)
         {
             PorfolioResponse<ConteudoResponse> erros = new();
             try
@@ -126,6 +126,8 @@ namespace ProjetoPortfolio.API.Repositories
                     Conteudo = conteudo.Conteudo,
                     CategoriaId = conteudo.CategoriaId,
                 };
+                if(ativos != null)
+                {
 
                 List<AtivoConteudoModel> ativosResponse = new();
                 foreach (var item in ativos)
@@ -133,7 +135,7 @@ namespace ProjetoPortfolio.API.Repositories
                     var ativo = new AtivoConteudoModel
                     {
                         AtivoId = Guid.NewGuid(),
-                        Nome = item.Nome,
+                        NomeAtivo = item.NomeAtivo,
                         Valor = item.Valor,
                         Descricao = item.Descricao,
                         TipoAtivo = item.TipoAtivo,
@@ -144,6 +146,7 @@ namespace ProjetoPortfolio.API.Repositories
 
                 if (ativosResponse.Count > 0)
                     conteudoResponse.AtivoConteudoModels = ativosResponse;
+                }
 
                 if (conteudoResponse == null)
                 {
@@ -223,7 +226,7 @@ namespace ProjetoPortfolio.API.Repositories
                                 if (ativoModel != null)
                                 {
                                     ativoModel.AtivoId = ativoModel.AtivoId;
-                                    ativoModel.Nome = item.Nome;
+                                    ativoModel.NomeAtivo = item.NomeAtivo;
                                     ativoModel.TipoAtivo = item.TipoAtivo;
                                     ativoModel.Valor = item.Valor;
                                     ativoModel.ConteudoModelId = conteudoResponse.Id;
@@ -235,7 +238,7 @@ namespace ProjetoPortfolio.API.Repositories
                                     {
                                         AtivoId = Guid.NewGuid(),
                                         Valor = item.Valor,
-                                        Nome = item.Nome,
+                                        NomeAtivo = item.NomeAtivo,
                                         TipoAtivo = item.TipoAtivo,
                                         ConteudoModelId = conteudoResponse.Id,
                                         Descricao = item.Descricao
