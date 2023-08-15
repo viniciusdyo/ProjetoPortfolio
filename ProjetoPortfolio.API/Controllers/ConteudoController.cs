@@ -66,7 +66,7 @@ namespace ProjetoPortfolio.API.Controllers
         }
 
         [HttpPost("CadastrarConteudo")]
-        public async Task<ActionResult> Cadastrar([FromBody] ConteudoAtivosViewModel conteudo = null)
+        public async Task<ActionResult> Cadastrar([FromBody] ConteudoAtivosViewModel conteudo)
         {
             PorfolioResponse<ConteudoResponse> erros = new();
             try

@@ -8,6 +8,6 @@
         public string Nome { get; set; }
         public Guid CategoriaId { get; set; }
         public object CategoriaConteudoModel { get; set; }
-        public IEnumerable<AtivoResponse> AtivosConteudo { get; set; }
+        public IEnumerable<AtivoResponse>? AtivosConteudo { get; set; } = null;
     }
 }

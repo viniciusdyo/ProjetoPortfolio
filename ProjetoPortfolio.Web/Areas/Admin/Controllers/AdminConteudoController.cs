@@ -127,49 +127,61 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                 return new JsonResult(e);
             }
         }
-
-        public async Task<IActionResult> Adicionar(ConteudoViewModel conteudoView)
+        [HttpPost]
+        public async Task<IActionResult> Adicionar([FromBody] ConteudoResponse data)
         {
             try
             {
-                if (conteudoView.Conteudo == null)
+                if (data == null)
                     throw new Exception("Conteúdo inválido");
+                List<AtivoConteudo> ativos = new();
+                if (data.AtivosConteudo != null)
+                {
+                    foreach (var item in data.AtivosConteudo)
+                    {
+                        var ativo = new AtivoConteudo
+                        {
+                            AtivoId = Guid.NewGuid(),
+                            NomeAtivo = item.NomeAtivo,
+                            TipoAtivo = item.TipoAtivo,
+                            Descricao = item.Descricao,
+                            ConteudoModelId = item.ConteudoModelId,
+                            Valor = item.Valor,
+                        };
+                        ativos.Add(ativo);
+                    }
+                }
+                else
+                {
+                    ativos = null;
+                }
 
                 ConteudoModel conteudoModel = new()
                 {
-                    Id = Guid.Empty,
-                    Nome = conteudoView.Conteudo.Nome,
-                    Titulo = conteudoView.Conteudo.Titulo,
-                    Conteudo = conteudoView.Conteudo.Conteudo,
-                    CategoriaId = conteudoView.Conteudo.CategoriaId,
-                    AtivosConteudo = conteudoView.Conteudo.AtivosConteudo,
+                    Id = Guid.NewGuid(),
+                    Nome = data.Nome,
+                    Titulo = data.Titulo,
+                    Conteudo = data.Conteudo,
+                    CategoriaId = data.CategoriaId,
+                    AtivosConteudo = ativos,
                     CategoriaConteudoModel = new CategoriaConteudo()
                     {
-                        CategoriaId = conteudoView.Conteudo.CategoriaId,
+                        CategoriaId = data.CategoriaId,
                         Descricao = string.Empty,
                         Nome = string.Empty
                     },
                 };
-
-                var content = new ConteudoAtivosViewModel()
+                ConteudoAtivosViewModel conteudoView = new()
                 {
                     Conteudo = conteudoModel,
-                    Ativos = new List<AtivoConteudo> { new AtivoConteudo
-                    {
-                        NomeAtivo = "eae",
-                        Descricao = "eaeae",
-                        Valor = "eaeaeae",
-                        TipoAtivo = TipoAtivo.Link,
-                    } }
+                    Ativos = ativos,
                 };
-
-
 
                 if (conteudoModel == null)
                     throw new Exception("Conteúdo inválido");
 
                 var request = new Request<ConteudoAtivosViewModel>();
-                var response = await request.Cadastrar("Conteudo/CadastrarConteudo", content);
+                var response = await request.Cadastrar("Conteudo/CadastrarConteudo", conteudoView);
 
                 if (response.Errors.Count == 0)
                     return RedirectToAction("Index");
@@ -187,7 +199,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Editar([FromBody] ConteudoResponse data)
         {
             try
-            { 
+            {
                 if (data == null) throw new Exception("Conteúdo inválido");
 
                 List<AtivoResponse> listAtivos = new();
@@ -196,7 +208,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                     var ativo = new AtivoResponse()
                     {
                         AtivoId = item.AtivoId,
-                        ConteudoModelId = item.ConteudoModelId,
+                        ConteudoModelId = data.Id,
                         Descricao = item.Descricao,
                         NomeAtivo = item.NomeAtivo,
                         TipoAtivo = item.TipoAtivo,
@@ -207,9 +219,9 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
 
                 ConteudoResponse conteudo = new()
                 {
-                    Id= data.Id,
-                    Nome=data.Nome,
-                    CategoriaId=data.CategoriaId,
+                    Id = data.Id,
+                    Nome = data.Nome,
+                    CategoriaId = data.CategoriaId,
                     AtivosConteudo = listAtivos.AsEnumerable(),
                     Conteudo = data.Conteudo,
                     Titulo = data.Titulo,

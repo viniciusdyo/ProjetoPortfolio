@@ -2,6 +2,8 @@
 
 const adminConteudo = () => {
 
+
+
     const listarConteudos = async () => {
         const conteudoViewModel = await fetchGet('AdminConteudo/ListarConteudoAdmin');
         const conteudos = conteudoViewModel.conteudos;
@@ -123,15 +125,9 @@ const adminConteudo = () => {
 
             })
             c.ativosConteudo.forEach(a => {
-                adicionarAtivo(c);
+                adicionarAtivo();
                 removerAtivo();
             })
-
-
-            // modalForm.addEventListener('submit', e => {
-            //     e.preventDefault();
-            //     editarSubmit(modalForm);
-            // });
         });
 
         modalEditarSubmit();
@@ -147,7 +143,7 @@ const adminConteudo = () => {
         })
     }
 
-    const adicionarAtivo = (conteudo) => {
+    const adicionarAtivo = () => {
         var btnAdicionar = document.querySelectorAll('.btn-adicionar-ativo');
 
         btnAdicionar.forEach(b => {
@@ -307,11 +303,128 @@ const adminConteudo = () => {
 
         return modal;
     }
+    const adicionarConteudo = async () => {
+        const conteudoViewModel = await fetchGet('AdminConteudo/ListarConteudoAdmin');
+        const categorias = conteudoViewModel.categorias;
+        mainContent.innerHTML += criarModalAdicionar();
+        const modalAdicionar = mainContent.querySelector('#adicionar-conteudo-modal');
+        const formAdicionar = modalAdicionar.querySelector('#adicionar-conteudo-form');
+        const selectCategoriaConteudo = formAdicionar.querySelector('#categoria-conteudo-select');
+        adicionarAtivo()
+        categorias.forEach(c => {
+            console.log(c)
+            var option = document.createElement('option');
+            option.value = c.categoriaId;
+            option.text = c.nome;
+            console.log(option)
+            selectCategoriaConteudo.appendChild(option)
+            console.log(selectCategoriaConteudo)
+        });
+        const btnAdicionar = modalAdicionar.querySelector('.btn-adicionar-conteudo');
+        btnAdicionar.addEventListener('click', e => {
+            const formsAtivo = modalAdicionar.querySelectorAll('.form-ativo');
+            const formData = new FormData(formAdicionar);
+            const obj = {};
+            const ativosArr = []
+            var count = 0;
+            if (formsAtivo != null) {
+                formsAtivo.forEach(f => {
+                    f.querySelectorAll('input').forEach(i => {
+                        obj[i.name] = i.value;
+                    });
+                    var select = f.querySelector('select');
+                    obj[select.name] = parseInt(select.value);
+                    ativosArr[count] = obj;
+                    count += 1;
+                });
+                console.log(obj);
+                console.log(ativosArr);
+            };
+            var object = {}
+            formData.forEach((value, key) => {
+
+                object[key] = value
+            })
+            if (ativosArr.length > 0) {
+                object['ativosConteudo'] = ativosArr;
+            } else {
+                object['ativosConteudo'] = ""
+            }
+            delete object.ativoId;
+            delete object.descricao;
+            delete object.valor;
+            delete object.nomeAtivo;
+            delete object.tipoAtivo;
+            console.log(object)
+            fetchPost('AdminConteudo/Adicionar', object);
+        })
+    }
+
+    const criarModalAdicionar = () => {
+        var modal = `<div class="modal-editar modal fade" id="adicionar-conteudo-modal" tabindex="-1" aria-labelledby="adicionar-conteudo-modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div id="editar-root" class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Adicionar conteúdo</h1>
+                    <button type="button" class="btn-fechar" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="adicionar-conteudo-form" data-bs-theme="portfolio-dark" class="row row-cols-1 g-3 form-editar-conteudo " autocomplete="off">
+                        <div class="text-danger"></div>
+                        <input name="id" value="00000000-0000-0000-0000-000000000000" type="hidden" />
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="text"  placeholder="Título" class="form-control text-white" name="titulo" value="" />
+                                <label class="control-label text-white">Título</label>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="text" placeholder="Nome" class="form-control text-white" name="nome" value="" />
+                                <span class="text-danger"></span>
+                                <label class="control-label text-white">Nome</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating">
+                                <textarea type="text" maxlength="2500" placeholder="Conteúdo" class="form-control text-white" name="conteudo"></textarea>
+                                <label class="control-label text-white">Conteúdo</label>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <select id="categoria-conteudo-select" class="form-select mb-3" name="categoriaId">
+                                
+                            </select>
+                        </div>
+
+                        <div class="col">
+                            <p class="text-white fw-bold">
+                                Ativos
+                            </p>
+                            <a id="adicionar-btn-add-ativo" class="btn btn-success btn-adicionar-ativo text-white">Adicionar ativo</a>
+                        </div>
+
+                        <div id="adicionar-inputs-ativos" class="ativo-div-inputs" name="ativosConteudo">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Fechar</button>
+                    <a class="btn btn-success text-white btn-adicionar-conteudo">Adicionar</a>
+                </div>
+            </div>
+        </div>
+    </div>`;
+        return modal;
+    };
 
     const init = () => {
         window.addEventListener('DOMContentLoaded', (e) => {
             e.preventDefault();
             listarConteudos();
+            adicionarConteudo();
         });
     }
 

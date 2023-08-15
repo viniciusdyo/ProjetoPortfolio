@@ -10,7 +10,7 @@
 
 <section class="container">
     <div class="row g-3">
-        <a class="btn btn-primary col-4 text-white" data-bs-toggle="modal" data-bs-target="#modal-adicionar-conteudo">Adicionar Conteúdo</a>
+        <a class="btn btn-primary col-4 text-white" data-bs-toggle="modal" data-bs-target="#adicionar-conteudo-modal">Adicionar Conteúdo</a>
         <h1 class="h1 text-white">Conteúdo</h1>
         <hr class="border-primary" />
         <article id="conteudo" class="animacao-pagina">
@@ -35,14 +35,6 @@
         </article>
     </div>
 </section>
-
-@await Html.PartialAsync("_AdicionarConteudoModal", new ConteudoViewModel(){
-    Conteudo = new ConteudoModel(),
-    CategoriaConteudo = new CategoriaConteudo(),
-    Categorias = ViewBag.Categorias,
-})
-
-
 
 <script src="~/js/build/adminConteudo.min.js"></script>
 
