@@ -134,7 +134,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
             {
                 if (data == null)
                     throw new Exception("Conteúdo inválido");
-                List<AtivoConteudo> ativos = new();
+                List<AtivoConteudo>?  ativos = new();
                 if (data.AtivosConteudo != null)
                 {
                     foreach (var item in data.AtivosConteudo)
@@ -151,10 +151,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                         ativos.Add(ativo);
                     }
                 }
-                else
-                {
-                    ativos = null;
-                }
+                
 
                 ConteudoModel conteudoModel = new()
                 {

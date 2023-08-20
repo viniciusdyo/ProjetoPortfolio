@@ -10,7 +10,7 @@ const adminConteudo = () => {
         const categorias = conteudoViewModel.categorias;
         const conteudoRoot = document.querySelector('#conteudos');
         const main = document.querySelector('main');
-        console.log(conteudos);
+        //console.log(conteudos);
 
         conteudos.forEach(i => {
             const card = `<div class="col-4">
@@ -232,7 +232,6 @@ const adminConteudo = () => {
                 delete object.valor;
                 delete object.nomeAtivo;
                 delete object.tipoAtivo;
-                console.log(object)
                 fetchPost('AdminConteudo/Editar', object)
                 form.submit()
             })
@@ -312,13 +311,10 @@ const adminConteudo = () => {
         const selectCategoriaConteudo = formAdicionar.querySelector('#categoria-conteudo-select');
         adicionarAtivo()
         categorias.forEach(c => {
-            console.log(c)
             var option = document.createElement('option');
             option.value = c.categoriaId;
             option.text = c.nome;
-            console.log(option)
             selectCategoriaConteudo.appendChild(option)
-            console.log(selectCategoriaConteudo)
         });
         const btnAdicionar = modalAdicionar.querySelector('.btn-adicionar-conteudo');
         btnAdicionar.addEventListener('click', e => {
@@ -347,16 +343,15 @@ const adminConteudo = () => {
             })
             if (ativosArr.length > 0) {
                 object['ativosConteudo'] = ativosArr;
-            } else {
-                object['ativosConteudo'] = ""
             }
+
             delete object.ativoId;
             delete object.descricao;
             delete object.valor;
             delete object.nomeAtivo;
             delete object.tipoAtivo;
-            console.log(object)
             fetchPost('AdminConteudo/Adicionar', object);
+            formAdicionar.submit();
         })
     }
 
@@ -425,6 +420,7 @@ const adminConteudo = () => {
             e.preventDefault();
             listarConteudos();
             adicionarConteudo();
+            removerAtivo()
         });
     }
 

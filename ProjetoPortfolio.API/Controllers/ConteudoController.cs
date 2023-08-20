@@ -99,10 +99,12 @@ namespace ProjetoPortfolio.API.Controllers
                         };
                         ativosRequest.Add(ativo);
                     }
-                 conteudoResponse = await _conteudoRepository.Adicionar(conteudoRequest, ativosRequest);
+                    conteudoResponse = await _conteudoRepository.Adicionar(conteudoRequest, ativosRequest);
                 }
-
-                 conteudoResponse = await _conteudoRepository.Adicionar(conteudoRequest);
+                else
+                {
+                    conteudoResponse = await _conteudoRepository.Adicionar(conteudoRequest);
+                }
 
                 if (conteudoResponse.Errors.Any()) throw new Exception(conteudoResponse.Errors.ToString());
 
@@ -123,36 +125,36 @@ namespace ProjetoPortfolio.API.Controllers
             {
                 if (conteudo == null) throw new Exception("Conteúdo inválido");
 
-                List<AtivoConteudoDto> ativos = new ();
+                List<AtivoConteudoDto> ativos = new();
                 foreach (var item in conteudo.AtivosConteudo)
                 {
                     AtivoConteudoDto ativo = new()
                     {
                         AtivoId = item.AtivoId,
-                        NomeAtivo= item.NomeAtivo,
-                        Descricao=item.Descricao,
-                        ConteudoModelId= item.ConteudoModelId,
-                        TipoAtivo= item.TipoAtivo,
+                        NomeAtivo = item.NomeAtivo,
+                        Descricao = item.Descricao,
+                        ConteudoModelId = item.ConteudoModelId,
+                        TipoAtivo = item.TipoAtivo,
                         Valor = item.Valor
                     };
                     ativos.Add(ativo);
                 }
-                ConteudoDto conteudoDto= new()
+                ConteudoDto conteudoDto = new()
                 {
-                   Id = conteudo.Id,
-                   Nome = conteudo.Nome,
-                   CategoriaId = conteudo.CategoriaId,
-                   Conteudo = conteudo.Conteudo,
-                   Titulo= conteudo.Titulo,
+                    Id = conteudo.Id,
+                    Nome = conteudo.Nome,
+                    CategoriaId = conteudo.CategoriaId,
+                    Conteudo = conteudo.Conteudo,
+                    Titulo = conteudo.Titulo,
                 };
-                
+
                 PorfolioResponse<ConteudoResponse> conteudoResponse = await _conteudoRepository.Atualizar(conteudoDto, ativos);
 
                 if (conteudoResponse.Errors.Any()) throw new Exception(conteudoResponse.Errors.ToString());
 
                 if (conteudoResponse == null) throw new Exception("Erro ao atualizar");
 
-                
+
 
                 return Ok(conteudoResponse);
 
