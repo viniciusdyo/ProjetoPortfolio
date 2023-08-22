@@ -248,7 +248,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                 if (id == Guid.Empty) throw new Exception("Id inválido");
 
                 var request = new Request<ConteudoResponse>();
-                var response = await request.Excluir("Remover", id);
+                var response = await request.Excluir("Conteudo/Remover", id);
 
                 if (response.Errors.Any()) throw new Exception(response.Errors.FirstOrDefault()?.ToString());
                 return RedirectToAction("Index");

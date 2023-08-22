@@ -10,7 +10,7 @@ const adminConteudo = () => {
         const categorias = conteudoViewModel.categorias;
         const conteudoRoot = document.querySelector('#conteudos');
         const main = document.querySelector('main');
-        //console.log(conteudos);
+        console.log(conteudos);
 
         conteudos.forEach(i => {
             const card = `<div class="col-4">
@@ -45,12 +45,13 @@ const adminConteudo = () => {
                 </div>
                 <div id="card-footer-${i.nomeNormalizado}" class="card-footer border-primary">
                     <a id="btn-editar-${i.nomeNormalizado}" data-bs-toggle="modal" data-bs-target="#editar-${i.nomeNormalizado}-modal" class="btn btn-primary text-white">Editar</a>
-                   
+                    <a class="btn btn-danger text-white btn-excluir-conteudo" data-bs-toggle="modal" data-bs-target="#${i.nomeNormalizado}-modal-remover-conteudo" >Excluir</a>
                 </div>
             </div>
         </div>`;
 
             conteudoRoot.innerHTML += card;
+
             i.ativosConteudo.forEach(e => {
                 var ativoNome = document.createElement('p');
                 ativoNome.innerHTML = `<b>Nome:</b> ${e.nomeAtivo}`;
@@ -73,7 +74,6 @@ const adminConteudo = () => {
             var formSelect = document.querySelector(`#${c.nomeNormalizado}-select`);
             var divInputAtivos = modalForm.querySelector(`#${c.nomeNormalizado}-inputs-ativos`);
 
-
             categorias.forEach(o => {
                 var optSelect = document.createElement('option');
 
@@ -84,6 +84,8 @@ const adminConteudo = () => {
                 }
                 formSelect.appendChild(optSelect);
             });
+
+            main.innerHTML += criarModalRemover(c);
 
             c.ativosConteudo.forEach(e => {
                 var ativos = `
@@ -119,9 +121,8 @@ const adminConteudo = () => {
                         </div>
                     </div>
                     `;
-
-
                 divInputAtivos.innerHTML += ativos;
+
 
             })
             c.ativosConteudo.forEach(a => {
@@ -131,6 +132,7 @@ const adminConteudo = () => {
         });
 
         modalEditarSubmit();
+        excluirConteudoForm()
     }
 
     const removerAtivo = () => {
@@ -414,6 +416,51 @@ const adminConteudo = () => {
     </div>`;
         return modal;
     };
+
+    const criarModalRemover = (conteudo) => {
+        var modal = `<div class="modal fade modal-remover-conteudo" id="${conteudo.nomeNormalizado}-modal-remover-conteudo" tabindex="-1" aria-labelledby="${conteudo.nomeNormalizado}-modal-remover-conteudo-label" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="${conteudo.nomeNormalizado}-modal-remover-conteudo-label">Excluir ${conteudo.nome}</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="${conteudo.nomeNormalizado}-form-remover-conteudo">
+                    <p  class="text-white">
+                        Deseja mesmo excluir o conteúdo ${conteudo.nome} ?
+                    </p>
+                    <input type="hidden" name="id" value="${conteudo.id}"/>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+              <input  type="button" form="${conteudo.nomeNormalizado}-form-remover-conteudo" id="${conteudo.nomeNormalizado}-remover-submit" class="btn btn-danger text-white btn-remover-conteudo" value="Excluir"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      `
+        return modal
+    }
+
+    const excluirConteudoForm = () => {
+        const modals = document.querySelectorAll('.modal-remover-conteudo');
+        modals.forEach(modal => {
+            var form = modal.querySelector('form');
+            var btn = modal.querySelector('.btn-remover-conteudo')
+            btn.addEventListener('click', e => {
+
+                var formData = new FormData(form);
+                formData.forEach((value, key) => {
+                    console.log(value)
+                    console.log(key)
+                });
+                fetchPost('AdminConteudo/Excluir', formData.get('id'));
+                form.submit();
+            })
+        });
+    }
 
     const init = () => {
         window.addEventListener('DOMContentLoaded', (e) => {

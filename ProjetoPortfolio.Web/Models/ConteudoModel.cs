@@ -14,15 +14,22 @@ namespace ProjetoPortfolio.Web.Models
         public string NomeNormalizado { get => NormalizarNome(Nome, Id); set { } }
         private static string NormalizarNome(string nome, Guid id)
         {
-            if(Guid.Empty == id) return null;
+            if (Guid.Empty == id) return null;
             var idString = id.ToString();
             if (nome.Length > 0)
             {
                 string n = nome.Trim().Replace(" ", "").ToLower();
                 Regex.Replace(n, "[^0-9a-zA-Z]+", "");
+                if (n.Length > 4)
+                {
+                    int nlg = n.Length;
+                    n = n.Remove(3);
+                }
                 return n + idString[0] + idString[1] + idString[2];
             }
-            return nome;
+
+
+            return nome + id.ToString()[0] + id.ToString()[1] + id.ToString()[3];
         }
     }
 }
