@@ -168,7 +168,7 @@ namespace ProjetoPortfolio.API.Controllers
             }
         }
 
-        [HttpDelete("Remover")]
+        [HttpDelete("Remover/{id}")]
         public async Task<ActionResult<ConteudoModel>> Remover(Guid id)
         {
             PorfolioResponse<ConteudoResponse> erros = new();

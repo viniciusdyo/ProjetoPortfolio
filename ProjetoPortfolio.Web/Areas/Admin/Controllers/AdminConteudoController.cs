@@ -134,7 +134,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
             {
                 if (data == null)
                     throw new Exception("Conteúdo inválido");
-                List<AtivoConteudo>?  ativos = new();
+                List<AtivoConteudo>? ativos = new();
                 if (data.AtivosConteudo != null)
                 {
                     foreach (var item in data.AtivosConteudo)
@@ -151,7 +151,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                         ativos.Add(ativo);
                     }
                 }
-                
+
 
                 ConteudoModel conteudoModel = new()
                 {
@@ -236,6 +236,25 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
             catch (Exception e)
             {
 
+                return RedirectToAction("Index", e);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Excluir([FromBody] Guid id)
+        {
+            try
+            {
+                if (id == Guid.Empty) throw new Exception("Id inválido");
+
+                var request = new Request<ConteudoResponse>();
+                var response = await request.Excluir("Remover", id);
+
+                if (response.Errors.Any()) throw new Exception(response.Errors.FirstOrDefault()?.ToString());
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
                 return RedirectToAction("Index", e);
             }
         }
