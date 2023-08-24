@@ -126,26 +126,26 @@ namespace ProjetoPortfolio.API.Repositories
                     Conteudo = conteudo.Conteudo,
                     CategoriaId = conteudo.CategoriaId,
                 };
-                if(ativos != null)
+                if (ativos != null)
                 {
 
-                List<AtivoConteudoModel> ativosResponse = new();
-                foreach (var item in ativos)
-                {
-                    var ativo = new AtivoConteudoModel
+                    List<AtivoConteudoModel> ativosResponse = new();
+                    foreach (var item in ativos)
                     {
-                        AtivoId = Guid.NewGuid(),
-                        NomeAtivo = item.NomeAtivo,
-                        Valor = item.Valor,
-                        Descricao = item.Descricao,
-                        TipoAtivo = item.TipoAtivo,
-                        ConteudoModelId = conteudoResponse.Id,
-                    };
-                    ativosResponse.Add(ativo);
-                }
+                        var ativo = new AtivoConteudoModel
+                        {
+                            AtivoId = Guid.NewGuid(),
+                            NomeAtivo = item.NomeAtivo,
+                            Valor = item.Valor,
+                            Descricao = item.Descricao,
+                            TipoAtivo = item.TipoAtivo,
+                            ConteudoModelId = conteudoResponse.Id,
+                        };
+                        ativosResponse.Add(ativo);
+                    }
 
-                if (ativosResponse.Count > 0)
-                    conteudoResponse.AtivoConteudoModels = ativosResponse;
+                    if (ativosResponse.Count > 0)
+                        conteudoResponse.AtivoConteudoModels = ativosResponse;
                 }
 
                 if (conteudoResponse == null)
@@ -178,7 +178,7 @@ namespace ProjetoPortfolio.API.Repositories
             }
         }
 
-        public async Task<PorfolioResponse<ConteudoResponse>> Atualizar(ConteudoDto conteudoRequest, List<AtivoConteudoDto> ativos)
+        public async Task<PorfolioResponse<ConteudoResponse>> Atualizar(ConteudoDto conteudoRequest, List<AtivoConteudoDto>? ativos)
         {
             PorfolioResponse<ConteudoResponse> erros = new();
             try
@@ -201,52 +201,65 @@ namespace ProjetoPortfolio.API.Repositories
                             List<AtivoConteudoModel> ativosList = new();
 
                             List<AtivoConteudoModel> ativoResponseList = new();
-
-                            foreach (var i in conteudoResponse.AtivosConteudo)
+                            if (conteudoResponse.AtivosConteudo.Any())
                             {
-                                var ativoConsultaResponse = await _dbContext.Ativos.FirstOrDefaultAsync(x => x.AtivoId == i.AtivoId);
-                                if (ativoConsultaResponse != null)
-                                    ativoResponseList.Add(ativoConsultaResponse);
-                            }
-
-                            foreach (var a in ativoResponseList)
-                            {
-                                var ativoConsultaDto = ativos.Select(x => x.AtivoId == a.AtivoId).FirstOrDefault();
-                                if (!ativoConsultaDto)
+                                foreach (var i in conteudoResponse.AtivosConteudo)
                                 {
-                                    _dbContext.Ativos.Remove(a);
-                                    await _dbContext.SaveChangesAsync();
+                                    var ativoConsultaResponse = await _dbContext.Ativos.FirstOrDefaultAsync(x => x.AtivoId == i.AtivoId);
+                                    if (ativoConsultaResponse != null)
+                                        ativoResponseList.Add(ativoConsultaResponse);
                                 }
                             }
 
-                            foreach (var item in ativos)
+                            if (ativoResponseList.Any())
                             {
-                                var ativoModel = _dbContext.Ativos.FirstOrDefault(x => x.AtivoId == item.AtivoId);
-
-                                if (ativoModel != null)
+                                foreach (var a in ativoResponseList)
                                 {
-                                    ativoModel.AtivoId = ativoModel.AtivoId;
-                                    ativoModel.NomeAtivo = item.NomeAtivo;
-                                    ativoModel.TipoAtivo = item.TipoAtivo;
-                                    ativoModel.Valor = item.Valor;
-                                    ativoModel.ConteudoModelId = conteudoResponse.Id;
-                                    ativoModel.Descricao = item.Descricao;
-                                }
-                                else
-                                {
-                                    ativoModel = new AtivoConteudoModel
+                                    var ativoConsultaDto = false;
+                                    if (ativos != null && ativos.Any())
                                     {
-                                        AtivoId = Guid.NewGuid(),
-                                        Valor = item.Valor,
-                                        NomeAtivo = item.NomeAtivo,
-                                        TipoAtivo = item.TipoAtivo,
-                                        ConteudoModelId = conteudoResponse.Id,
-                                        Descricao = item.Descricao
-                                    };
-                                    _dbContext.Ativos.Add(ativoModel);
-                                    await _dbContext.SaveChangesAsync();
+                                        ativoConsultaDto = ativos.Select(x => x.AtivoId == a.AtivoId).FirstOrDefault();
+                                    }
+
+                                    if (!ativoConsultaDto)
+                                    {
+                                        _dbContext.Ativos.Remove(a);
+                                        await _dbContext.SaveChangesAsync();
+                                    }
                                 }
-                                ativosList.Add(ativoModel);
+                            }
+
+                            if (ativos != null && ativos.Any())
+                            {
+                                foreach (var item in ativos)
+                                {
+                                    var ativoModel = _dbContext.Ativos.FirstOrDefault(x => x.AtivoId == item.AtivoId);
+
+                                    if (ativoModel != null)
+                                    {
+                                        ativoModel.AtivoId = ativoModel.AtivoId;
+                                        ativoModel.NomeAtivo = item.NomeAtivo;
+                                        ativoModel.TipoAtivo = item.TipoAtivo;
+                                        ativoModel.Valor = item.Valor;
+                                        ativoModel.ConteudoModelId = conteudoResponse.Id;
+                                        ativoModel.Descricao = item.Descricao;
+                                    }
+                                    else
+                                    {
+                                        ativoModel = new AtivoConteudoModel
+                                        {
+                                            AtivoId = Guid.NewGuid(),
+                                            Valor = item.Valor,
+                                            NomeAtivo = item.NomeAtivo,
+                                            TipoAtivo = item.TipoAtivo,
+                                            ConteudoModelId = conteudoResponse.Id,
+                                            Descricao = item.Descricao
+                                        };
+                                        _dbContext.Ativos.Add(ativoModel);
+                                        await _dbContext.SaveChangesAsync();
+                                    }
+                                    ativosList.Add(ativoModel);
+                                }
                             }
 
                             ConteudoModel conteudo = new()
@@ -302,7 +315,7 @@ namespace ProjetoPortfolio.API.Repositories
                 _dbContext.Conteudo.Remove(new ConteudoModel()
                 {
                     Id = conteudo.Id,
-                    Nome= conteudo.Nome,
+                    Nome = conteudo.Nome,
                     Conteudo = conteudo.Conteudo,
                     CategoriaId = conteudo.CategoriaId,
                     Titulo = conteudo.Titulo

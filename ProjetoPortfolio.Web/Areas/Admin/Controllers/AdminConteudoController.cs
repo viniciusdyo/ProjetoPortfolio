@@ -200,18 +200,22 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                 if (data == null) throw new Exception("Conteúdo inválido");
 
                 List<AtivoResponse> listAtivos = new();
-                foreach (var item in data.AtivosConteudo)
+                if (data.AtivosConteudo != null)
                 {
-                    var ativo = new AtivoResponse()
+
+                    foreach (var item in data.AtivosConteudo)
                     {
-                        AtivoId = item.AtivoId,
-                        ConteudoModelId = data.Id,
-                        Descricao = item.Descricao,
-                        NomeAtivo = item.NomeAtivo,
-                        TipoAtivo = item.TipoAtivo,
-                        Valor = item.Valor
-                    };
-                    listAtivos.Add(ativo);
+                        var ativo = new AtivoResponse()
+                        {
+                            AtivoId = item.AtivoId,
+                            ConteudoModelId = data.Id,
+                            Descricao = item.Descricao,
+                            NomeAtivo = item.NomeAtivo,
+                            TipoAtivo = item.TipoAtivo,
+                            Valor = item.Valor
+                        };
+                        listAtivos.Add(ativo);
+                    }
                 }
 
                 ConteudoResponse conteudo = new()
@@ -251,7 +255,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                 var response = await request.Excluir("Conteudo/Remover", id);
 
                 if (response.Errors.Any()) throw new Exception(response.Errors.FirstOrDefault()?.ToString());
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Admin");
             }
             catch (Exception e)
             {

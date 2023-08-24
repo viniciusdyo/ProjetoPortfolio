@@ -126,19 +126,23 @@ namespace ProjetoPortfolio.API.Controllers
                 if (conteudo == null) throw new Exception("Conteúdo inválido");
 
                 List<AtivoConteudoDto> ativos = new();
-                foreach (var item in conteudo.AtivosConteudo)
+                if (conteudo.AtivosConteudo != null && conteudo.AtivosConteudo.Any())
                 {
-                    AtivoConteudoDto ativo = new()
+                    foreach (var item in conteudo.AtivosConteudo)
                     {
-                        AtivoId = item.AtivoId,
-                        NomeAtivo = item.NomeAtivo,
-                        Descricao = item.Descricao,
-                        ConteudoModelId = item.ConteudoModelId,
-                        TipoAtivo = item.TipoAtivo,
-                        Valor = item.Valor
-                    };
-                    ativos.Add(ativo);
+                        AtivoConteudoDto ativo = new()
+                        {
+                            AtivoId = item.AtivoId,
+                            NomeAtivo = item.NomeAtivo,
+                            Descricao = item.Descricao,
+                            ConteudoModelId = item.ConteudoModelId,
+                            TipoAtivo = item.TipoAtivo,
+                            Valor = item.Valor
+                        };
+                        ativos.Add(ativo);
+                    }
                 }
+
                 ConteudoDto conteudoDto = new()
                 {
                     Id = conteudo.Id,

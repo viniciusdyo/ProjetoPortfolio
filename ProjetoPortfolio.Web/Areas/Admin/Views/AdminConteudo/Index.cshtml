@@ -15,23 +15,10 @@
         <hr class="border-primary" />
         <article id="conteudo" class="animacao-pagina">
 
-            @if (Model.Any())
-            {
-                
-
-                if (Model.Any() || Model.Count() > 0)
-                {
-                    classeCard = "col-4";
-                    colClasse = "";
-                }
-                <div id="conteudos" class="row @colClasse g-3">
+            
+                <div id="conteudos-root" class="row col-12 col-md-4 g-3">
                 </div>
-            }
-            else
-            {
-                <hr class="border-primary" />
-                <h1 class="h1 text-white">Nenhum conteúdo encontrado</h1>
-            }
+            
         </article>
     </div>
 </section>
