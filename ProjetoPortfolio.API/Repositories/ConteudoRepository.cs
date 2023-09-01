@@ -306,7 +306,7 @@ namespace ProjetoPortfolio.API.Repositories
 
                 var consulta = await BuscarPorId(id);
 
-                if (consulta == null || consulta.Results.Count() == 0 || consulta.Errors.Count() > 0)
+                if (consulta == null || consulta.Errors.Any())
                     throw new Exception("Conteúdo não encontrado");
 
                 var conteudo = consulta.Results.FirstOrDefault();

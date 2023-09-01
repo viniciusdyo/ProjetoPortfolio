@@ -12,7 +12,7 @@ namespace ProjetoPortfolio.API.Controllers
         private readonly IPessoaRepository _pessoaRepository;
         public PessoaController(IPessoaRepository pessoaRepository)
         {
-            _pessoaRepository= pessoaRepository;
+            _pessoaRepository = pessoaRepository;
         }
 
         [HttpGet("Pessoas")]

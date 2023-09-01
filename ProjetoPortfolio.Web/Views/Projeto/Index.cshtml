@@ -1,8 +1,4 @@
-﻿@model IEnumerable<ProjetoPortfolio.Web.Models.ProjetoViewModel>
-
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
     ViewData["Title"] = "Index";
 }
@@ -23,22 +19,17 @@
     <hr class="border-secondary mb-3" />
 
     <div class="row row-cols-md-2 row-cols-1 g-3">
-        @if (Model.Any())
-        {
 
-
-            @foreach (var item in Model)
-            {
                 <div class="col">
                     <div class="card card-custom_bshadow bg-dark-darker ">
                         <div class="row g-0">
                             <div class="col-xl-5 col-md-12">
-                                <img src="@item.UrlImagem" class="img-fluid rounded-start" alt="@item.Titulo">
+                                <img src="" class="img-fluid rounded-start" alt="">
                             </div>
                             <div class="col-xl-7 col-md-12">
                                 <div class="card-body">
-                                    <h3 class="card-title text-primary">@Html.DisplayFor(projetos => item.Titulo)</h3>
-                                    <p class="card-text text-white">@Html.DisplayFor(projetos => item.Descricao)</p>
+                                    <h3 class="card-title text-primary"></h3>
+                                    <p class="card-text text-white"></p>
                                     @*<p class="card-text text-white">@Html.DisplayFor(projetos => item.Status)</p>*@
                                     <a href="#" class="btn btn-primary text-white">Acessar</a>
                                 </div>
@@ -46,10 +37,5 @@
                         </div>
                     </div>
                 </div>
-                @*<div>
-        <h3>@Html.DisplayFor(projetos => item.Excluido)</h3>
-        </div>*@
-            }
-        }
     </div>
 </section>

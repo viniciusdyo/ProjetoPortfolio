@@ -24,5 +24,22 @@ namespace ProjetoPortfolio.API.Models
             return t;
 
         }
+
+        public ProjetoModel()
+        {
+
+        }
+
+        public ProjetoModel(ProjetoModel projeto)
+        {
+            Id = projeto.Id;
+            Titulo = projeto.Titulo;
+            Descricao = projeto.Descricao;
+            UrlImagem = projeto.UrlImagem;
+            UrlRedirecionar = projeto.UrlRedirecionar;
+            Status = projeto.Status;
+            Excluido = projeto.Excluido;
+            TituloNormalizado = NormalizarTitulo(projeto.Titulo);
+        }
     }
 }

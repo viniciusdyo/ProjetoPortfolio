@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjetoPortfolio.API.Models;
+using ProjetoPortfolio.API.Models.DTOs.Response;
 using ProjetoPortfolio.API.Repositories.Interfaces;
 
 namespace ProjetoPortfolio.API.Controllers
@@ -16,39 +17,79 @@ namespace ProjetoPortfolio.API.Controllers
             _projetoRepository = projetoRepository;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<ProjetoModel>>> ListarTodosProjetos()
-        { 
-            try
-            {
-                List<ProjetoModel> projetos = await _projetoRepository.BuscarTodosProjetos();
-                return Ok(projetos);
-            } catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ProjetoModel>> BuscarPorId(Guid id)
+        [HttpGet("Projetos")]
+        public async Task<ActionResult> ListarTodosProjetos()
         {
             try
             {
-                ProjetoModel projeto = await _projetoRepository.BuscarPorId(id);
-                return Ok(projeto);
+                PorfolioResponse<ProjetoResponse> portfolioResponse = await _projetoRepository.BuscarTodosProjetos();
+
+                if (portfolioResponse == null)
+                    throw new Exception("Response inválida");
+
+
+                if (!portfolioResponse.Results.Any())
+                    throw new Exception("Nenhum projeto encontrado");
+
+
+                if (portfolioResponse.Errors.Any())
+                    throw new Exception(portfolioResponse.Errors.First());
+
+                    return Ok(portfolioResponse);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("Cadastrar")]
-        public async Task<ActionResult<ProjetoModel>> Cadastrar([FromBody] ProjetoModel projeto)
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> BuscarPorId(Guid id)
         {
             try
             {
+                PorfolioResponse<ProjetoResponse> portfolioResponse = await _projetoRepository.BuscarPorId(id);
+                if (portfolioResponse == null)
+                    throw new Exception("Response inválida");
+
+
+                if (!portfolioResponse.Results.Any())
+                    throw new Exception("Nenhum projeto encontrado");
+
+
+                if (portfolioResponse.Errors.Any())
+                    throw new Exception(portfolioResponse.Errors.First());
+
+                if (portfolioResponse.Results.First() == null)
+                    throw new Exception("Erro no servidor");
+
+                return Ok(portfolioResponse);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPost("Cadastrar")]
+        public async Task<ActionResult> Cadastrar([FromBody] ProjetoModel projeto )
+        {
+            try
+            {
+                if (projeto == null)
+                    throw new Exception("Projeto inválido");
+
                 Guid id = new Guid();
                 projeto.Id = id;
-                ProjetoModel projetoAdicionado = await _projetoRepository.Adicionar(projeto);
+                projeto.Excluido = false;
+
+                PorfolioResponse<ProjetoResponse> projetoAdicionado = await _projetoRepository.Adicionar(projeto);
+                if (projetoAdicionado == null)
+                    throw new Exception("Erro no servidor");
+
+                if (projetoAdicionado.Errors.Any())
+                    throw new Exception(projetoAdicionado.Errors.First());
+
+                
                 return Ok(projeto);
             }
             catch (Exception ex)
@@ -60,15 +101,21 @@ namespace ProjetoPortfolio.API.Controllers
 
         [HttpPut("Atualizar")]
 
-        public async Task<ActionResult<ProjetoModel>> Atualizar([FromBody] ProjetoModel projetoModel)
+        public async Task<ActionResult> Atualizar([FromBody] ProjetoModel projetoModel)
         {
             try
             {
-                if(projetoModel != null && projetoModel.Id != Guid.Empty)
+                if (projetoModel != null && projetoModel.Id != Guid.Empty)
                 {
 
-                ProjetoModel projeto = await _projetoRepository.Atualizar(projetoModel, projetoModel.Id);
-                return Ok(projeto);
+                    PorfolioResponse<ProjetoResponse> portfolioResponse = await _projetoRepository.Atualizar(projetoModel, projetoModel.Id);
+                    if (portfolioResponse == null)
+                        throw new Exception("Erro no servidor.");
+
+                    if(portfolioResponse.Errors.Any())
+                        throw new Exception(portfolioResponse.Errors.First());
+
+                    return Ok(portfolioResponse);
                 }
                 throw new Exception("Erro no servidor");
             }
@@ -80,12 +127,18 @@ namespace ProjetoPortfolio.API.Controllers
 
         [HttpPut("Apagar")]
 
-        public async Task<ActionResult<ProjetoModel>> Apagar([FromBody] Guid id)
+        public async Task<ActionResult> Apagar([FromBody] Guid id)
         {
             try
             {
-                bool excluido = await _projetoRepository.Apagar(id);
-                return Ok(excluido);
+                PorfolioResponse<ProjetoResponse> portfolioResponse = await _projetoRepository.Apagar(id);
+                if (portfolioResponse == null)
+                    throw new Exception("Erro no servidor.");
+
+                if (portfolioResponse.Errors.Any())
+                    throw new Exception(portfolioResponse.Errors.First());
+
+                return Ok(portfolioResponse);
             }
             catch (Exception ex)
             {

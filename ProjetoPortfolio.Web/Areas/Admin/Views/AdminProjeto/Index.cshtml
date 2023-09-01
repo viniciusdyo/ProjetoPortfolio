@@ -1,62 +1,16 @@
-﻿@using ProjetoPortfolio.Web.Models
-@model IEnumerable<ProjetoPortfolio.Web.Models.ProjetoViewModel>
+﻿
 
-
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
 <link href="~/css/adminProjeto.min.css" type="text/css" rel="stylesheet" />
 
 <section class="container-fluid">
     <div class="container">
         <div class="row g-3">
             <a class="btn btn-primary text-white col-4" data-bs-toggle="modal" data-bs-target="#modal-adicionar-projeto">Adicionar novo projeto</a>
-            <article>
-                @if (Model.Any())
-                {
-
-                    <table class="table table-dark">
-                        <thead>
-                            <tr>
-                                <th scope="col">Titulo</th>
-                                <th scope="col">Descricao</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Excluido</th>
-                                <th scope="col">Normalizado</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td scope="row">@item.Titulo</td>
-                                    <td>@item.Descricao</td>
-                                    <td>@item.Status</td>
-                                    <td>@item.Excluido</td>
-                                    <td>@item.TituloNormalizado</td>
-                                    <td><a class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado.ToLower()">Editar</a></td>
-                                    <td><a class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#@item.TituloNormalizado-modal-excluir">Excluir</a></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-                <hr class="border-primary" />
-                <h1 class="h1 text-white">Nenhum projeto encontrado</h1>
+            <article id="projetoRoot">
+               
             </article>
         </div>
     </div>
 </section>
 
-@foreach (var item in Model)
-{
-    @await Html.PartialAsync("_EditarProjetoModal", item)
-    ;
-}
-
-@await Html.PartialAsync("_AdicionarProjetoModal", new ProjetoViewModel())
+<script src="~/js/build/adminProjeto.min.js"></script>

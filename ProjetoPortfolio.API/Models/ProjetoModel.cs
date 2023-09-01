@@ -1,4 +1,5 @@
-﻿using ProjetoPortfolio.Entities.Enums;
+﻿using ProjetoPortfolio.API.Models.DTOs.Response;
+using ProjetoPortfolio.Entities.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 
@@ -23,6 +24,21 @@ namespace ProjetoPortfolio.API.Models
             Regex.Replace(t, "[^0-9a-zA-Z]+", "");
             return t;
 
+        }
+        public ProjetoModel()
+        {
+
+        }
+
+        public ProjetoModel(ProjetoResponse projetoResponse)
+        {
+            Id= projetoResponse.Id;
+            Titulo= projetoResponse.Titulo;
+            Descricao= projetoResponse.Descricao;
+            UrlImagem= projetoResponse.UrlImagem;
+            UrlRedirecionar = projetoResponse.UrlRedirecionar;
+            Status = projetoResponse.Status;
+            Excluido = projetoResponse.Excluido;
         }
     }
 }

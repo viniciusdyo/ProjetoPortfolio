@@ -10,18 +10,95 @@
 
 <section class="container">
     <div class="row g-3">
-        <a class="btn btn-primary col-4 text-white" data-bs-toggle="modal" data-bs-target="#adicionar-conteudo-modal">Adicionar Conteúdo</a>
+        <a id="btn-modal-adicionar-conteudo" class="btn btn-primary col-4 text-white" data-bs-toggle="modal" data-bs-target="#modal-adicionar-conteudo">Adicionar Conteúdo</a>
         <h1 class="h1 text-white">Conteúdo</h1>
         <hr class="border-primary" />
         <article id="conteudo" class="animacao-pagina">
 
-            
-                <div id="conteudos-root" class="row col-12 col-md-4 g-3">
-                </div>
-            
+
+            <div id="conteudos-root" class="row row-cols-4 g-3">
+            </div>
+
         </article>
     </div>
 </section>
+
+<div class="modal-editar modal fade" id="modal-adicionar-conteudo" tabindex="-1" aria-labelledby="modal-adicionar-conteudo" aria-hidden="true">
+    <div class="modal-dialog">
+        <div id="editar-root" class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Adicionar conteúdo</h1>
+                <button type="button" class="btn-fechar" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-adicionar-conteudo" data-bs-theme="portfolio-dark" class="row row-cols-1 g-3" autocomplete="off">
+                    <div class="text-danger"></div>
+                    <input name="id" value="00000000-0000-0000-0000-000000000000" type="hidden" />
+                    <div class="col">
+                        <div class="form-floating">
+                            <input type="text" placeholder="Título" class="form-control text-white" name="titulo" value="" />
+                            <label class="control-label text-white">Título</label>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input type="text" placeholder="Nome" class="form-control text-white" name="nome" value="" />
+                            <span class="text-danger"></span>
+                            <label class="control-label text-white">Nome</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <textarea type="text" maxlength="2500" placeholder="Conteúdo" class="form-control text-white" name="conteudo"></textarea>
+                            <label class="control-label text-white">Conteúdo</label>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <select id="categoria-conteudo-select" class="form-select mb-3" name="categoriaId">
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <p class="text-white fw-bold">
+                            Ativos
+                        </p>
+                        <a id="btn-adicionar-conteudo-ativos" class="btn btn-success btn-adicionar-ativo text-white">Adicionar ativo</a>
+                    </div>
+
+                    <div id="ativos-adicionar-conteudo" class="ativo-div-inputs" name="ativosConteudo">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Fechar</button>
+                <a id="btn-adicionar-conteudo" class="btn btn-success text-white">Adicionar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade modal-remover-conteudo" id="modal-excluir-conteudo" tabindex="-1" aria-labelledby="modal-excluir-conteudo-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modal-excluir-conteudo-label">Excluir </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                    <p id="modal-descricao-excluir" class="text-white">
+                        Deseja mesmo excluir este conteúdo  ?
+                    </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <a id="btn-submit-excluir" class="btn btn-danger text-white btn-remover-conteudo"> Excluir</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="~/js/build/adminConteudo.min.js"></script>
 
