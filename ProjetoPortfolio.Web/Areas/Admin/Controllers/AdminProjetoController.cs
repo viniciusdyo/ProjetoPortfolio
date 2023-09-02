@@ -37,15 +37,21 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                 if (projeto != null)
                 {
                     var request = new Request<ProjetoModel>();
-                    var response = await request.Cadastrar("Projeto/Cadastrar", projeto);
+                    var response = await request.Editar("Projeto/Atualizar", projeto);
 
                     if (response.Errors.Any())
                         throw new Exception(response.Errors.First());
-                    var projetoResponse = response.Results.FirstOrDefault();
 
+                    var projetoResponse = response.Results.FirstOrDefault();
+                    if (projetoResponse == null)
+                        throw new Exception("Erro no servidor.");
+
+                    List<ProjetoModel> result = new();
+                    result.Add(projetoResponse);
                     return new ProjetoViewModel()
                     {
-                        Projetos = { response.Results.First() }
+                        Projetos = result,
+                        Erros = new List<string>()
                     };
                 }
                 throw new Exception("Projeto inválido");
@@ -87,7 +93,8 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
             }
         }
 
-        public async Task<ProjetoViewModel> Excluir(ProjetoModel projeto)
+        [HttpPost]
+        public async Task<ProjetoViewModel> Excluir([FromBody] ProjetoModel projeto)
         {
             try
             {
@@ -97,17 +104,16 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                     throw new Exception("Projeto inválido");
 
                 var request = new Request<ProjetoModel>();
-                var response = await request.Excluir("Projeto/Apagar", projeto.Id);
+                var response = await request.Excluir("Projeto/Apagar", projeto.Id, true);
 
                 if (response.Errors.Any())
                     throw new Exception(response.Errors.First());
 
-                if (!response.Results.Any())
-                    throw new Exception("Projeto não encontrado");
 
                 return new ProjetoViewModel()
                 {
-                    Projetos = { response.Results.First() }
+                    Projetos = new List<ProjetoModel>(),
+                    Erros = new List<string>(), 
                 };
             }
             catch (Exception e)
@@ -118,8 +124,8 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                 };
             }
         }
-
-        public async Task<ProjetoViewModel> Adicionar(ProjetoModel projeto)
+        [HttpPost]
+        public async Task<ProjetoViewModel> Adicionar([FromBody] ProjetoModel projeto)
         {
             try
             {
@@ -137,14 +143,19 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
 
                 return new ProjetoViewModel()
                 {
-                    Projetos = { response.Results.First() }
+                    Projetos = new List<ProjetoModel>(),
+                    Erros = new List<string>(),
                 };
             }
             catch (Exception e)
             {
                 return new ProjetoViewModel()
                 {
-                    Erros = { e.Message }
+                    Projetos = new List<ProjetoModel>(),
+                    Erros = new List<string>()
+                    {
+                        e.Message
+                    },
                 };
             }
         }

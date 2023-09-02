@@ -69,16 +69,15 @@ $dark: $low-pure;
     --bs-tertiary-bg: #{$low-pure};
 
     $input-color: var(--bs-body-color) !default;
-    $input-border-color: var(--bs-border-color) !default;
+    $input-border-color: $primary !default;
     $input-box-shadow: $box-shadow-inset !default;
     $input-focus-bg: $input-bg !default;
     $input-focus-border-color: tint-color($low-pure, 50%) !default;
     $input-focus-color: $low-pure !default;
 
+    $form-select-bg: red !important;
+
     input:-internal-autofill-selected {
         background-color: $low-pure;
     }
 }
-
-
-

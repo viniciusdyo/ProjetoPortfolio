@@ -12,6 +12,7 @@ const home = function () {
             arrows: false,
             fixedWidth: '100vw',
             gap: '1em',
+            interval: 3000
         });
 
         var progressBar = bvCarousel.root.querySelector('.bv-carousel-progress-bar');

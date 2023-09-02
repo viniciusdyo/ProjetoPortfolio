@@ -79,12 +79,14 @@ namespace ProjetoPortfolio.Web.Domain
             }
         }
 
-        public async Task<PorfolioResponse<T>> Excluir(string requestUri, Guid id)
+        public async Task<PorfolioResponse<T>> Excluir(string requestUri, Guid id, bool logic)
         {
             try
             {
-                var request = await _httpClient.DeleteAsync($"{ENDPOINT}/{requestUri}/{id}");
+                var request = logic ? await _httpClient.PutAsJsonAsync($"{ENDPOINT}/{requestUri}", id) : await _httpClient.DeleteAsync($"{ENDPOINT}/{requestUri}/{id}");
                 var readTask = await request.Content.ReadAsStringAsync();
+
+                //var readTask = await request.Content.ReadAsStringAsync();
                 var response = JsonConvert.DeserializeObject<PorfolioResponse<T>>(readTask);
 
                 if (response == null) throw new Exception("Erro no servidor");

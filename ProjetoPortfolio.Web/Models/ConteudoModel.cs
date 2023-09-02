@@ -29,7 +29,7 @@ namespace ProjetoPortfolio.Web.Models
             }
 
 
-            return nome + id.ToString()[0] + id.ToString()[1] + id.ToString()[3];
+            return nome + idString[0] + idString[1] + idString[2];
         }
     }
 }

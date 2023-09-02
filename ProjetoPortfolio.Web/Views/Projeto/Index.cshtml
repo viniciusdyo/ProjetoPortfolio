@@ -3,6 +3,7 @@
     ViewData["Title"] = "Index";
 }
 <link rel="stylesheet" href="~/css/projeto.min.css" />
+
 <section class="container">
 
     <h1 class="text-white py-5">Projetos</h1>
@@ -18,24 +19,9 @@
 
     <hr class="border-secondary mb-3" />
 
-    <div class="row row-cols-md-2 row-cols-1 g-3">
+    <article id="projetosRoot" class="row row-cols-md-2 row-cols-1 g-3">
 
-                <div class="col">
-                    <div class="card card-custom_bshadow bg-dark-darker ">
-                        <div class="row g-0">
-                            <div class="col-xl-5 col-md-12">
-                                <img src="" class="img-fluid rounded-start" alt="">
-                            </div>
-                            <div class="col-xl-7 col-md-12">
-                                <div class="card-body">
-                                    <h3 class="card-title text-primary"></h3>
-                                    <p class="card-text text-white"></p>
-                                    @*<p class="card-text text-white">@Html.DisplayFor(projetos => item.Status)</p>*@
-                                    <a href="#" class="btn btn-primary text-white">Acessar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    </div>
+               
+    </article>
 </section>
+<script src="~/js/build/projetos.min.js"></script>

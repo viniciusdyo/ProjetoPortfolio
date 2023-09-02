@@ -78,7 +78,7 @@ namespace ProjetoPortfolio.API.Controllers
                 if (projeto == null)
                     throw new Exception("Projeto inválido");
 
-                Guid id = new Guid();
+                Guid id =  Guid.NewGuid();
                 projeto.Id = id;
                 projeto.Excluido = false;
 
@@ -107,8 +107,14 @@ namespace ProjetoPortfolio.API.Controllers
             {
                 if (projetoModel != null && projetoModel.Id != Guid.Empty)
                 {
+                    PorfolioResponse<ProjetoResponse> buscaPorId = await _projetoRepository.BuscarPorId(projetoModel.Id);
+                    if (buscaPorId == null)
+                        throw new Exception("Erro no servidor");
 
-                    PorfolioResponse<ProjetoResponse> portfolioResponse = await _projetoRepository.Atualizar(projetoModel, projetoModel.Id);
+                    if(buscaPorId.Errors.Any())
+                        throw new Exception(buscaPorId.Errors.First());
+
+                    PorfolioResponse<ProjetoResponse> portfolioResponse = await _projetoRepository.Atualizar(projetoModel);
                     if (portfolioResponse == null)
                         throw new Exception("Erro no servidor.");
 

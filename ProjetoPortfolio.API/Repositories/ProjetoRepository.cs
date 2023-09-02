@@ -21,7 +21,7 @@ namespace ProjetoPortfolio.API.Repositories
                 if (id != Guid.Empty)
                 {
 
-                    ProjetoModel projetoModel = await _dbContext.Projetos.FirstOrDefaultAsync(x => x.Id == id);
+                    ProjetoModel? projetoModel = await _dbContext.Projetos.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
                     if (projetoModel == null)
                     {
                         throw new Exception("Projeto não encontrado");
@@ -109,22 +109,11 @@ namespace ProjetoPortfolio.API.Repositories
 
         }
 
-        public async Task<PorfolioResponse<ProjetoResponse>> Atualizar(ProjetoModel projetoModel, Guid id)
+        public async Task<PorfolioResponse<ProjetoResponse>> Atualizar(ProjetoModel projetoModel)
         {
             try
             {
-                PorfolioResponse<ProjetoResponse> porfolioResponse = await BuscarPorId(id);
-
-                if (porfolioResponse == null)
-                {
-                    throw new Exception($"Projeto não encontrado.");
-                }
-
-                ProjetoResponse projetoResponse = porfolioResponse.Results.First();
-
-
-
-                if (projetoModel.Id == projetoResponse.Id)
+                if (projetoModel != null)
                 {
                     _dbContext.Projetos.Update(projetoModel);
                     await _dbContext.SaveChangesAsync();

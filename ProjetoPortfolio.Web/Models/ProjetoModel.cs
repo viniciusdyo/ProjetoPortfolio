@@ -7,7 +7,7 @@ namespace ProjetoPortfolio.API.Models
     public class ProjetoModel
     {
         public Guid Id { get; set; }
-        public string? Titulo { get; set; }
+        public string Titulo { get; set; }
         public string? Descricao { get; set; }
         public string? UrlImagem { get; set; }
         public string? UrlRedirecionar { get; set; }
@@ -15,13 +15,27 @@ namespace ProjetoPortfolio.API.Models
         public bool Excluido { get; set; }
 
         [NotMapped]
-        public string TituloNormalizado { get { return NormalizarTitulo(Titulo); } set { } }
+        public string TituloNormalizado { get { return NormalizarTitulo(Titulo, Id); } set { } }
 
-        public static string NormalizarTitulo(string titulo)
+        public static string NormalizarTitulo(string titulo, Guid id)
         {
-            string t = titulo.Trim().Replace(" ", "").ToLower();
-            Regex.Replace(t, "[^0-9a-zA-Z]+", "");
-            return t;
+
+            string idString = id.ToString();
+
+            if (titulo.Length > 0)
+            {
+                string t = titulo.Trim().Replace(" ", "").ToLower();
+                Regex.Replace(t, "[^0-9a-zA-Z]+", "");
+                string tn = t;
+                if (tn.Length > 4)
+                {
+                    tn = t.Remove(3);
+                }
+
+                return tn + idString[0] + idString[1] + idString[2];
+
+            }
+            throw new Exception("titulo inválido");
 
         }
 
@@ -39,7 +53,7 @@ namespace ProjetoPortfolio.API.Models
             UrlRedirecionar = projeto.UrlRedirecionar;
             Status = projeto.Status;
             Excluido = projeto.Excluido;
-            TituloNormalizado = NormalizarTitulo(projeto.Titulo);
+            TituloNormalizado = NormalizarTitulo(projeto.Titulo, projeto.Id);
         }
     }
 }

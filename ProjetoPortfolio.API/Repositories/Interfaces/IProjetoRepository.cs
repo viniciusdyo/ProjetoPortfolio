@@ -8,7 +8,7 @@ namespace ProjetoPortfolio.API.Repositories.Interfaces
         Task<PorfolioResponse<ProjetoResponse>> BuscarTodosProjetos();
         Task<PorfolioResponse<ProjetoResponse>> BuscarPorId(Guid id);
         Task<PorfolioResponse<ProjetoResponse>> Adicionar(ProjetoModel projeto);
-        Task<PorfolioResponse<ProjetoResponse>> Atualizar(ProjetoModel projeto, Guid id);
+        Task<PorfolioResponse<ProjetoResponse>> Atualizar(ProjetoModel projeto);
         Task<PorfolioResponse<ProjetoResponse>> Apagar(Guid id);
     }
 }
