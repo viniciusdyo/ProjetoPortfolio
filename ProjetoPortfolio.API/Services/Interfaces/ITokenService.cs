@@ -6,6 +6,8 @@ namespace ProjetoPortfolio.API.Services.Interfaces
 {
     public interface ITokenService
     {
-        AutenticacaoResult GenerateToken(IdentityUser user);
+        Task<AutenticacaoResult> GenerateToken(IdentityUser user);
+        Task<AutenticacaoResult> VerificaEGeraToken(TokenRequest request);
+        
     }
 }

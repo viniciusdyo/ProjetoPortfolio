@@ -18,41 +18,39 @@ namespace ProjetoPortfolio.API.Repositories
 
         public async Task<AutenticacaoResult> Login(UsuarioLoginRequestDto request)
         {
-            IdentityUser user = await _userManager.FindByNameAsync(request.UserName);
-            if (user == null)
+
+            try
             {
-                return new AutenticacaoResult()
+
+                IdentityUser user = await _userManager.FindByNameAsync(request.UserName);
+                if (user == null)
                 {
-                    Result= false,
-                    Errors = new List<string>()
-                    {
-                        "Credenciais inválidas."
-                    }
-                };
+                    throw new Exception("Credenciais inválidas");
+                }
+
+                var verificaSenha = await _userManager.CheckPasswordAsync(user, request.Password);
+
+                if (!verificaSenha)
+                {
+                    throw new Exception("Credenciais inválidas");
+                }
+
+                var result = await _tokenService.GenerateToken(user);
+
+                return result;
             }
-
-            var verificaSenha = await _userManager.CheckPasswordAsync(user, request.Password);
-
-            if(!verificaSenha)
+            catch (Exception e)
             {
                 return new AutenticacaoResult()
                 {
                     Result = false,
                     Errors = new List<string>()
                     {
-                        "Credenciais inválidas."
+                        e.Message
                     }
                 };
             }
 
-            var result = _tokenService.GenerateToken(user);
-
-            return new AutenticacaoResult()
-            {
-                Result = true,
-                Token = result.Token,
-                ExpireDate = result.ExpireDate
-            };
         }
     }
 }

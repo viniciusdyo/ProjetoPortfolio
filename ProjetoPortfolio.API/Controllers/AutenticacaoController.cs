@@ -50,6 +50,7 @@ namespace ProjetoPortfolio.API.Controllers
             }
 
         }
+
         [HttpPost]
 
         public async Task<IActionResult> Login([FromBody] UsuarioLoginRequestDto request)
