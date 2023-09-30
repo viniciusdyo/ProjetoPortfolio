@@ -36,10 +36,11 @@ const home = function () {
         const conteudosHome = await fetchGet('Conteudo/ListaConteudoHome');
         if (conteudosHome != null && conteudosHome != undefined) {
             conteudosHome.forEach(conteudo => {
-                switch (conteudo.nome) {
+                var conteudoNome = conteudo.nome.toLowerCase();
+
+                switch (conteudoNome) {
                     case 'slide':
                         populaCarousel(conteudo);
-
                         break;
                     default:
                         return;

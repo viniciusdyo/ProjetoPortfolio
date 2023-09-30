@@ -11,11 +11,36 @@ const projetos = () => {
     async function projetosInit() {
         const response = await fetchGet('Projeto/Listar');
         console.log(response)
-        const projetos = response.results;
-        projetos.forEach(projeto => {
-            var card = criaCardProjeto(projeto);
-            projetosRoot.appendChild(card)
-        });
+        if (response.results != null) {
+            const projetos = response.results;
+            projetos.forEach(projeto => {
+                var card = criaCardProjeto(projeto);
+                projetosRoot.appendChild(card)
+            });
+        } else {
+            var div = document.createElement('div');
+            var divNaoEncontrado = document.createElement('div');
+            var h1 = document.createElement('h1');
+            var p = document.createElement('p');
+            var icone = document.createElement('i');
+            var divText = document.createElement('div');
+
+            icone.classList.add('text-primary', 'display-1', 'bi', 'bi-cone-striped', 'me-3',);
+
+            div.classList.add('text-white', 'py-5', 'px-3', 'w-100', 'bg-principal-escura', 'rounded-2')
+            divNaoEncontrado.classList.add('d-flex');
+            h1.classList.add('px-2', 'mb-3');
+            p.classList.add('px-2', 'm-0');
+            divText.classList.add('d-flex', 'flex-column');
+            p.innerHTML = `Os projetos estão em construção, logo serão adicionados aqui. Acesse a página <a href="/Home/Privacy">Sobre Mim</a> para mais informações.`;
+            h1.innerText = `Área em contrução`;
+            divText.appendChild(h1)
+            divText.appendChild(p)
+            divNaoEncontrado.appendChild(icone)
+            divNaoEncontrado.appendChild(divText)
+            div.appendChild(divNaoEncontrado);
+            projetosRoot.appendChild(div);
+        }
     }
 
     function criaCardProjeto(projeto) {

@@ -12,8 +12,8 @@ namespace ProjetoPortfolio.Web.Controllers
 {
     public class AutenticacaoController : Controller
     {
-        private readonly string ENDPOINT = "https://localhost:44318/api";
-        private readonly HttpClient httpClient = null;
+        private readonly string ENDPOINT = "https://localhost:7130/api";
+        private readonly HttpClient httpClient;
         public AutenticacaoController()
         {
             httpClient = new HttpClient();
@@ -28,7 +28,18 @@ namespace ProjetoPortfolio.Web.Controllers
         {
             try
             {
-                var response = await httpClient.PostAsJsonAsync($"{ENDPOINT}/Autenticacao/Registrar", registro);
+                if (registro == null)
+                    throw new Exception("Dados inválidos");
+
+                if (registro.ConfirmPassword != registro.Password)
+                    throw new Exception("Senha e senha de confirmação não são iguais.");
+
+                var novoUsuario = new RegistroDto
+                {
+                    UserName = registro.UserName, Password = registro.Password, Email = registro.Email
+                };
+                
+                var response = await httpClient.PostAsJsonAsync($"{ENDPOINT}/Autenticacao/Registrar", novoUsuario);
 
                 if (response != null)
                 {

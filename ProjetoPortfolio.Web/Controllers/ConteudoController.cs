@@ -30,7 +30,7 @@ namespace ProjetoPortfolio.Web.Controllers
                     throw new Exception(response.Errors.FirstOrDefault());
                 }
 
-                var conteudosHome = response.Results.Where(x => x.CategoriaConteudoModel.Nome == "home").ToList();
+                var conteudosHome = response.Results.Where(x => x.CategoriaConteudoModel.Nome.ToLower() == "home").ToList();
 
                 if(conteudosHome != null)
                     return new JsonResult(conteudosHome);

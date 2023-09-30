@@ -1,4 +1,5 @@
-﻿@import './modules/_bootStrapConfig.scss';
+﻿@import './modules/_bootstrapConfig.scss';
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 
 body {
     background: $low-pure;
@@ -28,4 +29,16 @@ footer {
     to {
         opacity: 100%;
     }
+}
+
+.bg-cor-escura-neutra {
+    background-color: $cor-neutra-escura;
+}
+
+.bg-low-pure {
+    background-color: $low-pure;
+}
+
+.bg-principal-escura {
+    background-color: $cor-principal-escura;
 }

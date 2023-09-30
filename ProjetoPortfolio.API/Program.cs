@@ -33,6 +33,16 @@ namespace ProjetoPortfolio.API
             var jwtIssuer = builder.Configuration.GetSection("JwtConfigs:Issuer").Value;
             var jwtKey = builder.Configuration.GetSection("JwtConfigs:Audience").Value;
 
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidIssuer = jwtIssuer,
+                ValidAudience = jwtAudience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+            };
             builder.Services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -40,19 +50,11 @@ namespace ProjetoPortfolio.API
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(x =>
             {
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = jwtIssuer,
-                    ValidAudience = jwtAudience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                };
+                x.TokenValidationParameters = tokenValidationParameters;
             });
 
             builder.Services.AddScoped<ICategoriaConteudoRepository, CategoriaConteudoRepository>();
+            builder.Services.AddSingleton(tokenValidationParameters);
             builder.Services.AddScoped<IConteudoRepository, ConteudoRepository>();
             builder.Services.AddScoped<IProjetoRepository, ProjetoRepository>();
             builder.Services.AddScoped<ILoginRepository, LoginRepository>();

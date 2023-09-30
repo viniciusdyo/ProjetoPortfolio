@@ -99,28 +99,34 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
             {
                 var requestConteudo = new Request<ConteudoModel>();
                 var responseConteudo = await requestConteudo.Listar("Conteudo/Conteudos");
-                if (responseConteudo.Errors.Count() == 0)
+
+                var conteudoViewModel = new ConteudoViewModel();
+
+                if (responseConteudo.Errors.Count() > 0)
                 {
-                    var requestCategoria = new Request<CategoriaConteudo>();
-                    var responseCategoria = await requestCategoria.Listar("CategoriaConteudo/Categorias");
 
-                    if (responseCategoria.Errors.Count() == 0)
-                    {
-                        var conteudo = responseConteudo.Results.FirstOrDefault();
-
-                        if (conteudo == null) throw new Exception("Conteúdo não encontrado");
-
-                        var conteudoViewModel = new ConteudoViewModel
-                        {
-                            Categorias = new List<CategoriaConteudo>(responseCategoria.Results),
-                            Conteudos = new List<ConteudoModel>(responseConteudo.Results)
-                        };
-
-                        return new JsonResult(conteudoViewModel);
-                    }
-                    throw new Exception(responseCategoria.Errors.FirstOrDefault());
+                    conteudoViewModel.Conteudos = new List<ConteudoModel>();
                 }
-                throw new Exception(responseConteudo.Errors.FirstOrDefault());
+                else
+                {
+                    conteudoViewModel.Conteudos = new List<ConteudoModel>(responseConteudo.Results);
+                }
+
+
+                var requestCategoria = new Request<CategoriaConteudo>();
+                var responseCategoria = await requestCategoria.Listar("CategoriaConteudo/Categorias");
+
+                if (responseCategoria.Errors.Count() > 0)
+                {
+                    conteudoViewModel.Categorias = new List<CategoriaConteudo>();
+                }
+                else
+                {
+                    conteudoViewModel.Categorias = new List<CategoriaConteudo>(responseCategoria.Results);
+                }
+
+
+                return new JsonResult(conteudoViewModel);
             }
             catch (Exception e)
             {

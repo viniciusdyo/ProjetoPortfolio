@@ -11,10 +11,13 @@ const adminConteudo = function () {
         const data = await fetchGet('AdminConteudo/ListarConteudoAdmin');
 
         if (data != null || data != undefined || data.length > 0) {
+
             const conteudos = data.conteudos;
             const categorias = data.categorias;
             listarConteudos(conteudos, categorias);
+            console.log(data)
         } else {
+            console.log('nao encotnrado')
             nenhumEncontrado();
         }
     }
@@ -28,26 +31,29 @@ const adminConteudo = function () {
     }
 
     function listarConteudos(conteudos, categorias) {
-        conteudos.forEach(conteudo => {
-            const card = criaCardLista(conteudo);
-            const modalEditar = criaModalEditar(conteudo, categorias);
-            const modalExcluir = criaModalExcluirConteudo(conteudo);
-            mainContent.appendChild(modalExcluir);
-            mainContent.appendChild(modalEditar);
-            conteudosRoot.appendChild(card);
+        if (conteudos.length > 0) {
+            conteudos.forEach(conteudo => {
+                const card = criaCardLista(conteudo);
+                const modalEditar = criaModalEditar(conteudo, categorias);
+                const modalExcluir = criaModalExcluirConteudo(conteudo);
+                mainContent.appendChild(modalExcluir);
+                mainContent.appendChild(modalEditar);
+                conteudosRoot.appendChild(card);
 
-            const btnSalvarAlteracoes = modalEditar.querySelector('.btn-salvar');
-            btnSalvarAlteracoes.addEventListener('click', function () {
-                salvarConteudo(modalEditar, 'editar');
+                const btnSalvarAlteracoes = modalEditar.querySelector('.btn-salvar');
+                btnSalvarAlteracoes.addEventListener('click', function () {
+                    salvarConteudo(modalEditar, 'editar');
+                });
+
+                const btnExcluir = card.querySelector('.btn-excluir-conteudo');
+                btnExcluir.addEventListener('click', function () {
+                    criaModalExcluirConteudo(conteudo);
+                });
+
             });
-
-            const btnExcluir = card.querySelector('.btn-excluir-conteudo');
-            btnExcluir.addEventListener('click', function () {
-                criaModalExcluirConteudo(conteudo);
-            });
-
-        });
-
+        } else {
+            nenhumEncontrado()
+        }
         const modalAdicionarConteudo = criaModalAdicionarConteudo(categorias);
         const btnAdicionarConteudo = modalAdicionarConteudo.querySelector('#btn-adicionar-conteudo');
         btnAdicionarConteudo.addEventListener('click', function () {

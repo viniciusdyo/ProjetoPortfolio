@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjetoPortfolio.API.Data;
 
@@ -11,9 +12,11 @@ using ProjetoPortfolio.API.Data;
 namespace ProjetoPortfolio.API.Migrations
 {
     [DbContext(typeof(PortfolioDbContext))]
-    partial class PortfolioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230928200105_RefreshTokenFix")]
+    partial class RefreshTokenFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -402,8 +405,9 @@ namespace ProjetoPortfolio.API.Migrations
                     b.Property<DateTime>("AdicionadoData")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("JwtId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("JwtId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Revogado")
                         .HasColumnType("bit");
@@ -418,8 +422,9 @@ namespace ProjetoPortfolio.API.Migrations
                     b.Property<bool>("Usado")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UsuarioId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

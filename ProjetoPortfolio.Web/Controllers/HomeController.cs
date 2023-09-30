@@ -23,9 +23,12 @@ namespace ProjetoPortfolio.Web.Controllers
                 var request = new Request<ConteudoModel>();
                 var response = await request.Listar("Conteudo/Conteudos");
                 var result = response.Results;
-                var conteudos = new List<ConteudoModel>(result);
-                return View(new List<ConteudoModel>());
-
+                if (result != null)
+                {
+                    var conteudos = new List<ConteudoModel>(result);
+                    return View(conteudos);
+                }
+                return View();
             }
             catch (Exception ex)
             {

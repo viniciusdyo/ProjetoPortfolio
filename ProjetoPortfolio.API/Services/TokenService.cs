@@ -31,7 +31,7 @@ namespace ProjetoPortfolio.API.Services
 
             var key = Encoding.UTF8.GetBytes(_configuration.GetSection("JwtConfigs:Key").Value);
 
-            var expireDate = DateTime.UtcNow.AddHours(1);
+            var expireDate = DateTime.UtcNow.AddMinutes(30);
 
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
