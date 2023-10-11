@@ -1,8 +1,19 @@
 ﻿@import './modules/_bootstrapConfig.scss';
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
 body {
     background: $low-pure;
+
 }
 
 footer {
@@ -36,9 +47,14 @@ footer {
 }
 
 .bg-low-pure {
-    background-color: $low-pure;
+    background-color: $low-pure !important;
 }
 
 .bg-principal-escura {
     background-color: $cor-principal-escura;
+}
+
+.footer-portfolio {
+    position: relative;
+    bottom: 0;
 }

@@ -34,7 +34,8 @@
                     </ul>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @await Html.PartialAsync("_LogoutPartial");
+                        @await Html.PartialAsync("_LogoutPartial")
+                        ;
                     }
                     else
                     {
@@ -50,14 +51,38 @@
     </main>
 
 
-    <footer class="border-top  text-primary bg-dark container-fluid">
-        <div class="container">
-            <div class="row">
+    <footer class="footer-portfolio border-top  text-primary bg-principal-escura container-fluid">
+        <div class="py-5">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-4 d-flex my-auto flex-column">
+                        <p class="text-start text-white">
+                            <img src="https://media.discordapp.net/attachments/1100512643548205227/1134975584095703181/Ativo_6ae.png" width="30">
+                            Desenvolvido por <a class="text-decoration-none text-primary" href="https://github.com/viniciusdyo" target=”_blank”>Vinicius Dyonisio</a> - Para mais informações acesse  <a class="text-decoration-none text-primary" asp-area="" asp-controller="Home" asp-action="Privacy">Sobre Mim</a>
+                        </p>
+                        <p class="text-start">
+                            Todos os direitos reservados &copy; 2023 - Vinidy Portfólio
+                        </p>
 
-                <p class="text-center">
-                    &copy; 2023 - ViniDyo Portfólio - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </p>
+                    </div>
+                    <div class="col-4 d-flex flex-column">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item bg-principal-escura">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">HOME</a>
+                            </li>
+                            <li class="list-group-item bg-principal-escura">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Projeto" asp-action="Index">PROJETOS</a>
+                            </li>
+                            <li class="list-group-item  bg-principal-escura">
+                                <a class="nav-link  text-light" asp-area="" asp-controller="Home" asp-action="Privacy">SERVIÇOS</a>
+                            </li>
+                            <li class="list-group-item bg-principal-escura">
+                                <a class="nav-link  text-light" asp-area="" asp-controller="Home" asp-action="Privacy">SOBRE MIM</a>
+                            </li>
+                        </ul>
+                    </div>
 
+                </div>
             </div>
         </div>
     </footer>
