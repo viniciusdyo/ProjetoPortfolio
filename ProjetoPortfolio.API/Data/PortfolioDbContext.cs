@@ -18,7 +18,7 @@ namespace ProjetoPortfolio.API.Data
         public DbSet<AtivoConteudoModel> Ativos { get; set; }
 
         public DbSet<PessoaPortfolio> Pessoas { get; set; }
-        public DbSet<Habilidade> Habilidades { get; set; }
+        public DbSet<HabilidadeModel> Habilidades { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,11 +56,26 @@ namespace ProjetoPortfolio.API.Data
             modelBuilder.Entity<PessoaPortfolio>().Property(x => x.Nome).IsRequired().HasMaxLength(255);
             modelBuilder.Entity<PessoaPortfolio>().Property(x => x.Sobrenome).IsRequired().HasMaxLength(255);
 
-            modelBuilder.Entity<Habilidade>().HasKey(x => x.Id);
-            modelBuilder.Entity<Habilidade>().Property(x => x.Nome);
-            modelBuilder.Entity<Habilidade>().Property(x => x.Descricao);
-            modelBuilder.Entity<Habilidade>().Property(x => x.Nivel);
-            modelBuilder.Entity<Habilidade>().HasOne(x => x.Pessoa).WithMany(x => x.Habilidades).HasForeignKey(x => x.PessoaId).IsRequired();
+            modelBuilder.Entity<PerfilModel>().HasKey(x => x.Id);
+            modelBuilder.Entity<PerfilModel>().Property(x => x.Nome);
+            modelBuilder.Entity<PerfilModel>().Property(x => x.Descricao);
+            modelBuilder.Entity<PerfilModel>().Property(x => x.Sobre);
+
+            modelBuilder.Entity<RedeModel>().HasKey(x => x.Id);
+            modelBuilder.Entity<RedeModel>().Property(x => x.Descricao);
+            modelBuilder.Entity<RedeModel>().Property(x => x.Rede);
+            modelBuilder.Entity<RedeModel>().Property(x => x.Url);
+            modelBuilder.Entity<RedeModel>().HasOne(x => x.Pessoa).WithMany(x => x.RedesSociais).HasForeignKey(x => x.Id);
+            modelBuilder.Entity<RedeModel>().HasOne(x => x.Perfil).WithMany(x => x.RedesSociais).HasForeignKey(x => x.Id);
+
+            
+
+            modelBuilder.Entity<HabilidadeModel>().HasKey(x => x.Id);
+            modelBuilder.Entity<HabilidadeModel>().Property(x => x.Nome);
+            modelBuilder.Entity<HabilidadeModel>().Property(x => x.Descricao);
+            modelBuilder.Entity<HabilidadeModel>().Property(x => x.Nivel);
+            modelBuilder.Entity<HabilidadeModel>().HasOne(x => x.Pessoa).WithMany(x => x.Habilidades).HasForeignKey(x => x.PessoaId).IsRequired();
+            modelBuilder.Entity<HabilidadeModel>().HasOne(x => x.Perfil).WithMany(x => x.Habilidades).HasForeignKey(x => x.Id).IsRequired();
 
 
             base.OnModelCreating(modelBuilder);

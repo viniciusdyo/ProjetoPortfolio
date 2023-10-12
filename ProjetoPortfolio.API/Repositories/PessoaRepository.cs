@@ -96,8 +96,8 @@ namespace ProjetoPortfolio.API.Repositories
                     var pessoaResponse = buscarPessoa.Results.FirstOrDefault();
                     if (pessoaResponse != null)
                     {
-                        var habilidades = new List<Habilidade>();
-                        List<Habilidade> habilidadesResponse = new();
+                        var habilidades = new List<HabilidadeModel>();
+                        List<HabilidadeModel> habilidadesResponse = new();
 
                         foreach (var item in pessoaResponse.Habilidades)
                         {
@@ -131,7 +131,7 @@ namespace ProjetoPortfolio.API.Repositories
                                 habilidade.PessoaId = id;
                             } else
                             {
-                                habilidade = new Habilidade
+                                habilidade = new HabilidadeModel
                                 {
                                     Id = Guid.NewGuid(),
                                     Nome = item.Nome,
@@ -180,12 +180,12 @@ namespace ProjetoPortfolio.API.Repositories
                     Sobrenome = pessoa.Sobrenome,
                 };
 
-                List<Habilidade> habilidades = new();
+                List<HabilidadeModel> habilidades = new();
                 
 
                 foreach (var item in pessoa.Habilidades)
                 {
-                    var habiidade = new Habilidade
+                    var habiidade = new HabilidadeModel
                     {
                         Id = Guid.NewGuid(),
                         Nome = item.Nome,
