@@ -20,6 +20,8 @@ namespace ProjetoPortfolio.API.Data
         public DbSet<PessoaPortfolio> Pessoas { get; set; }
         public DbSet<HabilidadeModel> Habilidades { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<PerfilModel> Perfis { get; set; }
+        public DbSet<RedeModel> Redes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProjetoModel>().HasKey(x => x.Id);

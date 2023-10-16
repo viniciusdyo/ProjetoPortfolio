@@ -133,7 +133,7 @@ module.exports = {
             }),
         ]
     },
-    devtool: 'eval', //comentar em producao
+    // devtool: 'eval', //comentar em producao
     stats: {
         assets: true,
         assetsSpace: 100,

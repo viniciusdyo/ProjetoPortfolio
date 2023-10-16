@@ -209,10 +209,12 @@ const adminProjeto = () => {
             formData.append(select.name, select.value);
             formData.append('excluido', false);
             formData.append('tituloNormalizado', "");
-            if (salvarProjeto(formData, 'salvar')) {
+            var salvado = salvarProjeto(formData, 'salvar');
+            if (salvado) {
+                console.log(salvado)
                 modalEditar.hide();
-                projetoInit();
-                location.reload();
+                //projetoInit();
+                //location.reload();
             }
         }
 
@@ -228,14 +230,20 @@ const adminProjeto = () => {
         data.forEach((value, key) => {
             obj[key] = value;
         });
-        var status = parseInt(obj.status)
+        var status = parseInt(obj.status);
+        var excluido = eval(obj.excluido);
+        if (typeof excluido == typeof true) {
+            obj['excluido'] = excluido;
+        } else {
+            return false
+        }
         if (typeof status == typeof 0) {
             obj['status'] = status;
 
         } else {
             return false;
         }
-
+        console.log(obj)
         switch (tipo) {
             case 'salvar':
                 var response = await fetchPost('AdminProjeto/Editar', obj);

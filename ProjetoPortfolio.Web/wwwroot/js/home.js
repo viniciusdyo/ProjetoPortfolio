@@ -34,6 +34,24 @@ const home = function () {
 
     async function homeInit() {
         const conteudosHome = await fetchGet('Conteudo/ListaConteudoHome');
+        const projetosHome = await fetchGet('Home/ListarProjetos');
+        const rootProjetos = document.querySelector("#projetos-home");
+        if (projetosHome != null && projetosHome != undefined) {
+            if (projetosHome.errors.length < 1) {
+                if (projetosHome.results.length > 0) {
+                    projetos(rootProjetos, projetosHome.results);
+                } else {
+                    rootProjetos.innerHTML = '';
+                    var div = divMensagem('Em desenvolvimento...')
+                    rootProjetos.appendChild(div);
+                }
+            }
+        } else {
+            rootProjetos.innerHTML = '';
+            var div = divMensagem('Em manutenção...')
+            rootProjetos.appendChild(div);
+        }
+
         if (conteudosHome != null && conteudosHome != undefined) {
             conteudosHome.forEach(conteudo => {
                 var conteudoNome = conteudo.nome.toLowerCase();
@@ -51,6 +69,16 @@ const home = function () {
         } else {
             alert('Erro no servidor');
         }
+    }
+
+    function divMensagem(mensagem) {
+        var div = document.createElement('div');
+        var h1 = document.createElement('h1');
+        h1.innerText = mensagem;
+        h1.classList.add('h1');
+        div.classList.add('col-12', 'p-3');
+        div.appendChild(h1);
+        return div
     }
 
     function populaCarousel(conteudo) {
@@ -93,6 +121,62 @@ const home = function () {
         li.appendChild(div);
         return li;
     };
+
+
+    function projetos(root, projetos) {
+
+        root.innerHTML = '';
+        console.log(projetos);
+        console.log(root);
+        projetos.forEach(projeto => {
+            console.log(projeto)
+            const card = cardProjeto(
+                projeto.urlImagem,
+                projeto.titulo,
+                projeto.urlRedirecionar,
+                projeto.descricao,
+                projeto.titulo
+            );
+            root.appendChild(card);
+        })
+    }
+    function cardProjeto(srcImagem, nome, url, descricao, titulo) {
+        var divCol = document.createElement('div');
+        divCol.classList.add('col');
+
+        var card = document.createElement('div');
+        card.classList.add('card', 'border-primary');
+
+        var img = document.createElement('img');
+        img.src = srcImagem;
+        img.alt = nome;
+        img.classList.add('card-img-top')
+
+        var h5 = document.createElement('h5');
+        h5.classList.add('card-title');
+        h5.innerText = titulo;
+
+        var p = document.createElement('p');
+        p.classList.add('card-text', 'text-primary');
+        p.innerText = descricao;
+
+        var a = document.createElement('a');
+        a.classList.add('btn', 'btn-primary', 'text-white');
+        a.href = url;
+        a.innerText = "Acessar projeto";
+
+        var cardBody = document.createElement('div');
+        cardBody.classList.add('card-body', 'bg-dark-darker', 'border', 'border-primary', 'text-white');
+
+        card.appendChild(img);
+        cardBody.appendChild(h5);
+        cardBody.appendChild(p);
+        cardBody.appendChild(a);
+        card.appendChild(cardBody);
+        divCol.appendChild(card);
+
+        return divCol;
+    }
 
     function init() {
         homeInit();

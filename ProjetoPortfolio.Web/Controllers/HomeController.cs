@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using ProjetoPortfolio.API.Models;
 using ProjetoPortfolio.Web.Domain;
 using ProjetoPortfolio.Web.Models;
+using ProjetoPortfolio.Web.Models.Response;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
@@ -33,6 +35,38 @@ namespace ProjetoPortfolio.Web.Controllers
             catch (Exception ex)
             {
                 return View(ex);
+            }
+        }
+
+        public async Task<PorfolioResponse<ProjetoModel>> ListarProjetos()
+        {
+            try
+            {
+                var request = new Request<ProjetoModel>();
+                var response = await request.Listar("Projeto/Projetos");
+                if (response == null)
+                    throw new Exception("Erro no servidor");
+                var projetos = response.Results;
+                
+                PorfolioResponse<ProjetoModel> result = new()
+                {
+                    Results = projetos.Take(5),
+                    Errors = response.Errors
+                };
+                
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+                return new PorfolioResponse<ProjetoModel>()
+                {
+                    Results = new List<ProjetoModel>(),
+                    Errors = new List<string>()
+                    {
+                        ex.Message,
+                    }
+                };
             }
         }
 
