@@ -6,10 +6,12 @@
 
 <link rel="stylesheet" href="~/css/home.min.css">
 
-<section id="home-carousel-bemvindo" class="splide container d-flex py-5 my-5">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+
+
+<section id="home-carousel-bemvindo" class="splide container d-flex my-5">
     <div class="splide__track">
         <ul class="splide__list">
-          
         </ul>
     </div>
     <div class="bv-carousel-progress">
@@ -26,39 +28,52 @@
         </div>
 
         <div class="col-12 col-md-8 d-flex flex-column">
-            <h3 class="display-5 text-light pb-2 mb-3 border-bottom border-1 border-secondary">
-                Sobre Mim
-            </h3>
-            <p class="text-light mb-3 col-10">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris augue elit, dictum venenatis velit non, pulvinar luctus enim.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris augue elit, dictum venenatis velit non, pulvinar luctus enim.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris augue elit, dictum venenatis velit non, pulvinar luctus enim.
-            </p>
-            <div class="p-5 w-100 border border-1 border-primary rounded-2">
-                <ul class="d-flex flex-column flex-md-row flex-wrap justify-content-start align-content-center align-items-center list-unstyled ">
-                    <li class="d-flex flex-column justify-content-center col-md-4 col-12 mb-3 px-3">
-                        <p class="text-light">C#, .NET</p>
-                        <div class="skill-progress">
-                            <div class="skill-progress-bar">
-                            </div>
-                        </div>
-                    </li>
-                    <li class="d-flex flex-column justify-content-center col-md-4 col-12 mb-3 px-3">
-                        <p class="text-light">C#, .NET</p>
-                        <div class="skill-progress">
-                            <div class="skill-progress-bar">
-                            </div>
-                        </div>
-                    </li>
-                    <li class="d-flex flex-column justify-content-center col-md-4 col-12 mb-3 px-3">
-                        <p class="text-light">C#, .NET</p>
-                        <div class="skill-progress">
-                            <div class="skill-progress-bar">
-                            </div>
-                        </div>
-                    </li>
+            <div class="w-100 mb-3">
+                <h3 class="display-5 text-light pb-2 mb-3 border-bottom border-1 border-secondary">
+                    Sobre Mim
+                </h3>
+                <p class="text-light mb-3 col-12">
+                    &nbsp; Aficionado por tecnologia, estudo sobre a área desde a minha adolescência. Já atuei na área de suporte helpdesk, manutenção de desktop e notebook, suporte em infraestrutura de TI e desenvolvimento web. Sou formado em Análise e Desenvolvimento de Sistemas
+                    pela Universidade Santa Cecília e meu foco é desenvolvimento de sistemas web. Veja abaixo algumas das tecnologias que utilizo na produção dos aplicativos.
+                </p>
+            </div>
+            <div class="row row-cols-3 row-cols-sm-4 row-cols-md-5 pt-3 g-3 p-3 border border-1 border-primary rounded-2">
+                <div class="col d-flex flex-column justify-content-center align-content-center align-items-center">
+                    <i class="devicon-csharp-line colored fs-1 me-2"></i>
+                    <p class="text-light">C#</p>
+                </div>
+                <div class="col d-flex flex-column justify-content-center align-content-center align-items-center">
+                    <i class="devicon-dotnetcore-plain colored fs-1"></i>
+                    <p class="text-light">.NET</p>
+                </div>
+                <div class="col d-flex flex-column justify-content-center align-content-center align-items-center">
+                    <i class="devicon-javascript-plain colored fs-1"></i>
+                    <p class="text-light">JavaScript</p>
+                </div>
+                <div class="col d-flex flex-column justify-content-center align-content-center align-items-center">
+                    <i class="devicon-nodejs-plain-wordmark colored fs-1"></i>
+                    <p class="text-light">Node.JS</p>
+                </div>
+                <div class="col d-flex flex-column justify-content-center align-content-center align-items-center">
+                    <i class="devicon-webpack-plain colored fs-1"></i>
+                    <p class="text-light">Webpack</p>
+                </div>
+                <div class="col d-flex flex-column justify-content-center align-content-center align-items-center">
+                    <i class="devicon-sass-original colored fs-1"></i>
+                    <p class="text-light">SASS</p>
+                </div>
+                <div class="col d-flex flex-column justify-content-center align-content-center align-items-center">
+                    <i class="devicon-css3-plain-wordmark colored fs-1"></i>
+                    <p class="text-light">CSS3</p>
+                </div>
+                <div class="col d-flex flex-column justify-content-center align-content-center align-items-center">
+                    <i class="devicon-bootstrap-plain-wordmark colored fs-1"></i>
+                    <p class="text-light">Bootstrap</p>
+                </div>
+            </div>
 
-                </ul>
+            <div class="d-flex justify-content-end mt-3">
+                <a class="col-4 btn btn-primary text-white" href="/Projeto">Saiba mais</a>
             </div>
         </div>
     </article>
@@ -67,7 +82,7 @@
     <h3 class="display-5 pb-3 mb-5 text-light border-bottom border-1 border-secondary">
         Projetos
     </h3>
-    <article id="projetos-home" class="row row-cols-1 row-cols-md-3">
+    <article id="projetos-home" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 mb-5">
         <div class="col">
             <div class="card" style="width: 18rem;">
                 <img src="..." class="card-img-top" alt="...">
@@ -81,7 +96,9 @@
 
     </article>
     <div class="row d-flex justify-content-end">
-        <a href="/Projeto" class="col-4 btn btn-primary text-white">Ver todos os projetos</a>
+        <div class="col-6 col-md-4 col-lg-3 col-xxl-2">
+            <a class="col-12 btn btn-primary text-white" href="/Projeto">Ver todos os projetos</a>
+        </div>
     </div>
 </section>
 

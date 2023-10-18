@@ -31,7 +31,6 @@ const adminProjeto = () => {
                     excluirProjeto(projeto);
                 };
                 btnEditar.onclick = function () { ativaModalEditar(projeto) };
-                console.log(projeto)
             });
         }
 
@@ -57,10 +56,10 @@ const adminProjeto = () => {
             formData.forEach((value, key) => {
                 obj[key] = value
             });
-            console.log(obj);
             var response = await salvarProjeto(formData, 'adicionar');
             if (!response || response == null || response == undefined)
                 return;
+
             modalAdicionar.hide();
             projetoInit();
             location.reload()
@@ -141,7 +140,6 @@ const adminProjeto = () => {
     }
 
     async function excluirProjeto(projeto) {
-        console.log('foi excluir ' + projeto.id)
         const modal = criaModalExcluir(projeto);
         mainContent.appendChild(modal);
         const elementoModal = mainContent.querySelector(`#modal-excluir-${projeto.tituloNormalizado}`);
@@ -212,9 +210,10 @@ const adminProjeto = () => {
             var salvado = salvarProjeto(formData, 'salvar');
             if (salvado) {
                 console.log(salvado)
+                console.log('foi salvar')
                 modalEditar.hide();
-                //projetoInit();
-                //location.reload();
+                projetoInit();
+                location.reload();
             }
         }
 
@@ -230,22 +229,28 @@ const adminProjeto = () => {
         data.forEach((value, key) => {
             obj[key] = value;
         });
-        var status = parseInt(obj.status);
-        var excluido = eval(obj.excluido);
-        if (typeof excluido == typeof true) {
+        var status = Number(obj.status);
+        var excluido = false;
+        console.log(obj)
+        if (typeof excluido === 'boolean') {
             obj['excluido'] = excluido;
         } else {
+            console.log('nao foi excluido ' + status)
             return false
         }
-        if (typeof status == typeof 0) {
+
+        if (!isNaN(status)) {
             obj['status'] = status;
 
         } else {
+            console.log('nao foi status')
             return false;
         }
+
         console.log(obj)
+        console.log(tipo)
         switch (tipo) {
-            case 'salvar':
+            case "salvar":
                 var response = await fetchPost('AdminProjeto/Editar', obj);
                 if (response) {
                     return true;
@@ -253,16 +258,15 @@ const adminProjeto = () => {
 
                 return false;
 
-            case 'adicionar':
+            case "adicionar":
                 obj['id'] = '00000000-0000-0000-0000-000000000000';
                 obj['tituloNormalizado'] = '';
-                console.log(obj);
                 var response = await fetchPost('AdminProjeto/Adicionar', obj);
                 if (response) {
                     return true;
                 }
                 return false
-            case 'excluir':
+            case "excluir":
                 var response = await fetchPost('AdminProjeto/Excluir', obj)
                 if (response) {
                     return true;

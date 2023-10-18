@@ -11,6 +11,7 @@ const home = function () {
             pagination: false,
             arrows: false,
             fixedWidth: '100vw',
+            height: '100%',
             gap: '1em',
             interval: 3000
         });
@@ -142,10 +143,10 @@ const home = function () {
     }
     function cardProjeto(srcImagem, nome, url, descricao, titulo) {
         var divCol = document.createElement('div');
-        divCol.classList.add('col');
+        divCol.classList.add('col', 'card-fix', 'mb-3', 'mb-md-0');
 
         var card = document.createElement('div');
-        card.classList.add('card', 'border-primary');
+        card.classList.add('card', 'border-primary', 'sombra-cards', 'bg-transparent', 'h-100');
 
         var img = document.createElement('img');
         img.src = srcImagem;
@@ -161,12 +162,12 @@ const home = function () {
         p.innerText = descricao;
 
         var a = document.createElement('a');
-        a.classList.add('btn', 'btn-primary', 'text-white');
+        a.classList.add('col-6', 'btn', 'btn-primary', 'text-white', 'mt-auto');
         a.href = url;
         a.innerText = "Acessar projeto";
 
         var cardBody = document.createElement('div');
-        cardBody.classList.add('card-body', 'bg-dark-darker', 'border', 'border-primary', 'text-white');
+        cardBody.classList.add('card-body', 'bg-dark-darker', 'text-white', 'rounded-bottom-2', 'd-flex', 'flex-column');
 
         card.appendChild(img);
         cardBody.appendChild(h5);
