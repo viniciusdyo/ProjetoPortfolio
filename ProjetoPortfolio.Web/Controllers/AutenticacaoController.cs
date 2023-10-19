@@ -12,7 +12,7 @@ namespace ProjetoPortfolio.Web.Controllers
 {
     public class AutenticacaoController : Controller
     {
-        private readonly string ENDPOINT = "https://localhost:7130/api";
+        private readonly string ENDPOINT = "https://api.viniciusdyonisio.targetbr.biz/api";
         private readonly HttpClient httpClient;
         public AutenticacaoController()
         {
