@@ -232,7 +232,7 @@ namespace ProjetoPortfolio.Web.Areas.Admin.Controllers
                     AtivosConteudo = listAtivos.AsEnumerable(),
                     Conteudo = data.Conteudo,
                     Titulo = data.Titulo,
-                    CategoriaConteudoModel = string.Empty,
+                    CategoriaConteudoModel = new ConteudoModel(),
                 };
 
                 var request = new Request<ConteudoResponse>();
