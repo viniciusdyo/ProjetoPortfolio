@@ -37,7 +37,8 @@ const home = function () {
         const conteudosHome = await fetchGet('Conteudo/ListaConteudoHome');
         const projetosHome = await fetchGet('Home/ListarProjetos');
         const rootProjetos = document.querySelector("#projetos-home");
-        if (projetosHome != null && projetosHome != undefined) {
+
+        if (projetosHome != null && projetosHome != undefined && typeof projetosHome != "string") {
             if (projetosHome.errors.length < 1) {
                 if (projetosHome.results.length > 0) {
                     projetos(rootProjetos, projetosHome.results);
@@ -53,7 +54,7 @@ const home = function () {
             rootProjetos.appendChild(div);
         }
 
-        if (conteudosHome != null && conteudosHome != undefined) {
+        if (conteudosHome != null && conteudosHome != undefined && typeof conteudosHome != "string") {
             conteudosHome.forEach(conteudo => {
                 var conteudoNome = conteudo.nome.toLowerCase();
 
@@ -68,7 +69,7 @@ const home = function () {
 
             splideCarousel();
         } else {
-            alert('Erro no servidor');
+            console.log('erro no servidor');
         }
     }
 
