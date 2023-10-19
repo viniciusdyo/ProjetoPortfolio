@@ -96,7 +96,7 @@ const home = function () {
         const hr = document.createElement('hr');
         const p = document.createElement('p');
         li.classList.add('splide__slide');
-        div.classList.add('col-9');
+        div.classList.add('col-9', 'col-md-9', 'col-sm-8', 'col-11');
         h3.classList.add('display-5', 'text-white', 'mb-3');
         hr.classList.add('border', 'border-primary', 'border-1', 'opaticy-25', 'mb-3');
         p.classList.add('text-white', 'opacity-75', 'col-9', 'mb-4');

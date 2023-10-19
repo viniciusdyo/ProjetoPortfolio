@@ -10,12 +10,12 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark mb-3">
+        <nav class="navbar navbar-primary navbar-expand-sm navbar-toggleable-sm  bg-dark mb-3" data-bs-theme="portfolio-dark">
             <div class="container">
-                <a class="navbar-brand text-primary fs-1" asp-area="" asp-controller="Home" asp-action="Index"><img src="https://media.discordapp.net/attachments/1100512643548205227/1134975584095703181/Ativo_6ae.png" width="120" /></a>
+                <a class="navbar-brand text-primary fs-1 col-md-1 col-2" asp-area="" asp-controller="Home" asp-action="Index"><img class="col-12" src="https://media.discordapp.net/attachments/1100512643548205227/1134975584095703181/Ativo_6ae.png" aria-label="Logo do portfólio" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <i class="text-primary bi bi-list fs-1"></i>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 justify-content-center">
@@ -34,8 +34,7 @@
                     </ul>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @await Html.PartialAsync("_LogoutPartial")
-                        ;
+                        @await Html.PartialAsync("_LogoutPartial");
                     }
                     else
                     {
