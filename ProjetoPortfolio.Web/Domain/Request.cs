@@ -9,7 +9,7 @@ namespace ProjetoPortfolio.Web.Domain
     public class Request<T>
     {
         private readonly HttpClient _httpClient = null;
-        private readonly string ENDPOINT = "https://api.viniciusdyonisio.targetbr.biz/";
+        private readonly string ENDPOINT = "https://api.viniciusdyonisio.targetbr.biz/api";
         public Request()
         {
             _httpClient = new HttpClient();
