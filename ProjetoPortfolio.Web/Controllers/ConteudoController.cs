@@ -40,7 +40,7 @@ namespace ProjetoPortfolio.Web.Controllers
             }
             catch (Exception e)
             {
-                return new JsonResult(e);
+                return new JsonResult(new List<ConteudoModel>());
             }
         }
     }

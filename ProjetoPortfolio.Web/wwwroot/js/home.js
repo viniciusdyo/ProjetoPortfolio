@@ -4,6 +4,7 @@ import { fetchGet, fetchPost } from './fetchHelper';
 const home = function () {
     const mainContent = document.querySelector('#mainContent');
 
+
     function splideCarousel() {
         var bvCarousel = new Splide('#home-carousel-bemvindo', {
             type: 'loop',
@@ -38,6 +39,7 @@ const home = function () {
         const projetosHome = await fetchGet('Home/ListarProjetos');
         const rootProjetos = document.querySelector("#projetos-home");
 
+
         if (projetosHome != null && projetosHome != undefined && typeof projetosHome != "string") {
             if (projetosHome.errors.length < 1) {
                 if (projetosHome.results.length > 0) {
@@ -71,6 +73,8 @@ const home = function () {
         } else {
             console.log('erro no servidor');
         }
+
+        sombraEfeito()
     }
 
     function divMensagem(mensagem) {
@@ -147,7 +151,7 @@ const home = function () {
         divCol.classList.add('col', 'card-fix', 'mb-3', 'mb-md-0');
 
         var card = document.createElement('div');
-        card.classList.add('card', 'border-primary', 'sombra-cards', 'bg-transparent', 'h-100');
+        card.classList.add('card', 'border-primary', 'sombra-cards', 'sombra-efeito', 'bg-transparent', 'h-100');
 
         var img = document.createElement('img');
         img.src = srcImagem;
@@ -178,6 +182,46 @@ const home = function () {
         divCol.appendChild(card);
 
         return divCol;
+    }
+
+    function sombraEfeito() {
+        const sombraElementos = document.querySelectorAll('.sombra-efeito');
+        const clamp = (a, m, n) => {
+            const max = Math.max(m, n);
+            const min = Math.min(m, n);
+
+            return Math.max(min, Math.min(max, a));
+        };
+        const criaSombra = (elemento, clientX, clientY) => {
+            const rect = elemento.getBoundingClientRect();
+            const o = Math.min(rect.width, rect.height, 300);
+
+            const mx = clamp(clientX, rect.left - o, rect.right + o);
+            const my = clamp(clientY, rect.top - o, rect.bottom + o);
+            const tx = rect.right - rect.width / 2;
+            const ty = rect.bottom - rect.height / 2;
+            const x = (mx - tx) / (rect.right - rect.left + 2 * o);
+            const y = (my - ty) / (rect.bottom - rect.top + 2 * o);
+            return `${x * o}px ${y * o}px 100px -80px #51ACC5`;
+        }
+
+        sombraElementos.forEach(elemento => {
+
+            const height = elemento.clientHeight;
+            const width = elemento.clientWidth;
+            console.log(height + " height");
+            console.log(width + " width");
+
+            elemento.addEventListener('mousemove', (e) => {
+                const sombra = criaSombra(elemento, e.clientX, e.clientY);
+                elemento.style.boxShadow = sombra;
+            });
+            elemento.addEventListener('mouseleave', e => {
+
+                elemento.style.boxShadow = `0px 16px 26px 2px rgba(0, 0, 0, 0.45)`;
+            })
+
+        });
     }
 
     function init() {
