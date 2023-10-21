@@ -28,11 +28,11 @@ namespace ProjetoPortfolio.API.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    AutenticacaoResult result = await _registroRepository.Registrar(request);
-                    if (result.Result)
-                        return Ok(result);
+                    //AutenticacaoResult result = await _registroRepository.Registrar(request);
+                    //if (result.Result)
+                        return Ok();
 
-                    return BadRequest(result);
+                   // return BadRequest(result);
                 }
                 return BadRequest(new AutenticacaoResult()
                 {
