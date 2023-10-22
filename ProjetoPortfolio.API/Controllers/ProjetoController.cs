@@ -19,7 +19,7 @@ namespace ProjetoPortfolio.API.Controllers
 
         [HttpGet("Projetos")]
         public async Task<ActionResult> ListarTodosProjetos()
-        {
+         {
             try
             {
                 PorfolioResponse<ProjetoResponse> portfolioResponse = await _projetoRepository.BuscarTodosProjetos();
