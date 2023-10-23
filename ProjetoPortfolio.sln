@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjetoPortfolio.Web", "Pro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjetoPortfolio.Entities", "ProjetoPortfolio.Entities\ProjetoPortfolio.Entities.csproj", "{C67E8F19-165A-41A9-B92A-53D003067979}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoPortfolio.Domain", "ProjetoPortfolio.Domain\ProjetoPortfolio.Domain.csproj", "{D7FC4FB7-EBDF-4FA9-BC0B-896EFCCB118B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C67E8F19-165A-41A9-B92A-53D003067979}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C67E8F19-165A-41A9-B92A-53D003067979}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C67E8F19-165A-41A9-B92A-53D003067979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7FC4FB7-EBDF-4FA9-BC0B-896EFCCB118B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7FC4FB7-EBDF-4FA9-BC0B-896EFCCB118B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7FC4FB7-EBDF-4FA9-BC0B-896EFCCB118B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7FC4FB7-EBDF-4FA9-BC0B-896EFCCB118B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
