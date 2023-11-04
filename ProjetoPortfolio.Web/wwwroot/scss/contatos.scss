@@ -1,0 +1,27 @@
+@import './site.scss';
+
+#contato-section {
+    position: relative;
+
+    .background-contato {
+        background-color: $cor-principal-escura;
+        position: absolute;
+        height: 100%;
+        width: 52vw;
+        top: 0;
+        left: 0;
+    }
+
+
+    .linkedin-pill {
+        background-color: #0072b1;
+    }
+
+    .github-pill {
+        background-color: #000;
+    }
+
+    .whatsapp-pill {
+        background-color: #25D366;
+    }
+}

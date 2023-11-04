@@ -11,13 +11,6 @@ var pathName = window.location.pathname;
 
 const site = () => {
 
-    const sombraBotoes = () => {
-        const btns = document.querySelectorAll('.btn');
-        btns.forEach(btn => {
-            btn.classList.add('sombra-cards');
-        });
-    }
-
     const init = () => {
         const mainContent = document.querySelector('#mainContent');
         sombraBotoes();
