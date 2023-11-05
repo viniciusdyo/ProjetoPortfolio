@@ -60,6 +60,8 @@ namespace ProjetoPortfolio.API
             builder.Services.AddScoped<ILoginRepository, LoginRepository>();
             builder.Services.AddScoped<IRegistroRepository, RegistroRepository>();
             builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<IEmailConfigRepository, EmailConfigRepository>();
             builder.Services.AddTransient<ITokenService, TokenService>();
 
 

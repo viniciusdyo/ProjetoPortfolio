@@ -22,6 +22,7 @@ namespace ProjetoPortfolio.API.Data
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<PerfilModel> Perfis { get; set; }
         public DbSet<RedeModel> Redes { get; set; }
+        public DbSet<EmailConfigModel> EmailConfig { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProjetoModel>().HasKey(x => x.Id);
@@ -79,6 +80,12 @@ namespace ProjetoPortfolio.API.Data
             modelBuilder.Entity<HabilidadeModel>().HasOne(x => x.Pessoa).WithMany(x => x.Habilidades).HasForeignKey(x => x.PessoaId).IsRequired();
             modelBuilder.Entity<HabilidadeModel>().HasOne(x => x.Perfil).WithMany(x => x.Habilidades).HasForeignKey(x => x.Id).IsRequired();
 
+            modelBuilder.Entity<EmailConfigModel>().HasKey(x => x.Id);
+            modelBuilder.Entity<EmailConfigModel>().Property(x => x.Nome);
+            modelBuilder.Entity<EmailConfigModel>().Property(x => x.Email);
+            modelBuilder.Entity<EmailConfigModel>().Property(x => x.Porta);
+            modelBuilder.Entity<EmailConfigModel>().Property(x => x.Servidor);
+            modelBuilder.Entity<EmailConfigModel>().Property(x => x.Senha);
 
             base.OnModelCreating(modelBuilder);
 
