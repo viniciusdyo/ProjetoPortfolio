@@ -23,23 +23,23 @@
                 </div>
                 <div class="col-12">
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="email-input" placeholder="Email" aria-label="Email" aria-describedby="E-mail do remetente">
-                        <label for="email-input">
-                            <i class="bi bi-envelope-arrow-up-fill me-3"></i> Remetente
-                        </label>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="assunto-input" placeholder="Assunto" aria-label="Assunto" aria-describedby="Assunto" maxlength="50">
+                        <input type="text" class="form-control" id="assunto-input" name="assunto" placeholder="Assunto" aria-label="Assunto" aria-describedby="Assunto" maxlength="50">
                         <label for="assunto-input">
                             <i class="bi bi-journal-minus me-3"></i> Assunto
                         </label>
                     </div>
                 </div>
                 <div class="col-12">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="email-input" name="remetente" placeholder="Email" aria-label="Email" aria-describedby="E-mail do remetente">
+                        <label for="email-input">
+                            <i class="bi bi-envelope-arrow-up-fill me-3"></i> Remetente
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12">
                     <div class="form-floating">
-                        <textarea class="form-control" id="mensagem-textarea" placeholder="Digite sua mensagem..." maxlength="500"></textarea>
+                        <textarea class="form-control" id="mensagem-textarea" name="mensagem" placeholder="Digite sua mensagem..." maxlength="500"></textarea>
                         <label for="mensagem-textarea">
                             <i class="bi bi-envelope-paper me-3"></i> Mensagem
                         </label>
@@ -78,4 +78,4 @@
 </section>
 <div class="my-3"></div>
 
-<script src="~/js/build/contato.min.js"></script>
+<script src="~/js/build/contatos.min.js"></script>

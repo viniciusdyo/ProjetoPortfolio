@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using ProjetoPortfolio.API.Models;
 using ProjetoPortfolio.API.Models.DTOs;
 using ProjetoPortfolio.API.Models.DTOs.Response;
@@ -131,16 +132,18 @@ namespace ProjetoPortfolio.API.Controllers
 
         [HttpPost("EnviarEmail")]
 
-        public async Task<IActionResult> EnviarEmail(string assunto, string html, string de = null)
+        public async Task<IActionResult> EnviarEmail([FromBody] EmailMessageDto mensagem)
         {
             try
             {
-                if (assunto == null)
+                if (mensagem == null)
+                    throw new ArgumentNullException("Dto");
+                if (mensagem.Assunto.IsNullOrEmpty())
                     throw new ArgumentNullException("Assunto");
-                if (html == null)
-                    throw new ArgumentNullException("Html");
-                if (de == null)
-                    throw new ArgumentNullException("De");
+                if (mensagem.Mensagem.IsNullOrEmpty())
+                    throw new ArgumentNullException("Mensagem");
+                if (mensagem.Remetente.IsNullOrEmpty())
+                    throw new ArgumentNullException("Remetente");
 
                 PorfolioResponse<EmailConfigDto> response = await _emailConfigRepository.BuscarPorId(3);
 
@@ -153,14 +156,14 @@ namespace ProjetoPortfolio.API.Controllers
                 if(response.Results == null || !response.Results.Any())
                     throw new ArgumentNullException("results");
 
-                EmailConfigDto emailConfig = response.Results.FirstOrDefault();
+                EmailConfigDto emailConfig = response.Results.First();
 
                 if(emailConfig == null)
                     throw new ArgumentNullException("emailConfig");
                     
-                _emailService.Enviar(emailConfig,assunto, html, de);
+                PorfolioResponse<EmailMessageDto> email = _emailService.Enviar(emailConfig, mensagem);
 
-                return Ok();
+                return Ok(email);
             }
             catch (Exception ex)
             {

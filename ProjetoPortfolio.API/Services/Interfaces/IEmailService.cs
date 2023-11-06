@@ -1,9 +1,11 @@
-﻿using ProjetoPortfolio.API.Models.DTOs;
+﻿using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
+using ProjetoPortfolio.API.Models.DTOs;
+using ProjetoPortfolio.API.Models.DTOs.Response;
 
 namespace ProjetoPortfolio.API.Services.Interfaces
 {
     public interface IEmailService
     {
-        void Enviar(EmailConfigDto emailConfig, string assunto, string html, string de = null);
+        PorfolioResponse<EmailMessageDto> Enviar(EmailConfigDto emailConfig, EmailMessageDto mensagem);
     }
 }

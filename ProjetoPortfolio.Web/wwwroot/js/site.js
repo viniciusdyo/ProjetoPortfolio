@@ -10,15 +10,12 @@ var pathName = window.location.pathname;
 
 
 const site = () => {
-
     const init = () => {
         const mainContent = document.querySelector('#mainContent');
-        sombraBotoes();
         mainContent.addEventListener('change', () => {
             mainContent.classList.add('animacao-pagina')
         });
     };
-
     init();
 }
 site();
